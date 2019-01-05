@@ -31,34 +31,55 @@ function play(e) {
       e.target.innerHTML = 'O';
       count.O++;
     }
+    console.log(count);
     check();
   }
 }
 
 //check function
 //every time <td> is clicked
-//1) check if there are 3 X or O in a row/col/diag
-//2) check if count.X + count.O is 9
-//if yes, call end() to end game
+//check if there are 3 X or O in a row/col/diag
+//if yes, call win() to end game
+//check if count.X + count.O is 9
+//if yes, call draw() to end game
 function check() {
-  if (count.X + count.O === 9) {
-    end();
+  if (count.X + count.O >= 5) {
+    win();
+  } else if (count.X + count.O === 9) {
+    draw();
   }
 }
 
-//end game function
-//when there are 3 X or O in a row/col/diag, serve end game msg html
-function end() {
+//win function
+//when there are 3 X or O in a row/col/diag, serve up winning msg
+function win() {
+  if (count.X === 3) {
+    message.innerHTML = 'WINNER IS OOO! GAME OVER!';
+  }
+  if (count.O === 3) {
+    message.innerHTML = 'WINNER IS XXX! GAME OVER!';
+  }
+}
+
+//draw function
+//when there are 9 placements on the board, serve up draw msg
+function draw() {
   message.innerHTML = 'DRAW! GAME OVER!';
 }
 
 //reset game function
-//when <button> is clicked, clear all X and O on the board
+//when <button> is clicked,
+//1) clear all X and O on the board
+//2) reset count hash table
+//3) clear game over message div
 function reset() {
   for (var i = 0; i < cells.length; i++) {
     if (cells[i].innerHTML) {
       cells[i].innerHTML = '';
     }
   }
+  count.X = 0;
+  count.O = 0;
+  message.innerHTML = '';
 }
 
