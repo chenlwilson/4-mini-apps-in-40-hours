@@ -1,10 +1,15 @@
 console.log('app.js loaded!');
 
-//add event listener to all cells
+// add event listener to all cells
+// var cells = document.getElementsByTagName('td');
+// for (var i = 0; i < cells.length; i++) {
+//   cells[i].addEventListener('click', play);
+// }
+
+//add single event listener
 var cells = document.getElementsByTagName('td');
-for (var i = 0; i < cells.length; i++) {
-  cells[i].addEventListener('click', play);
-}
+var board = document.getElementById('board');
+board.addEventListener('click', play)
 
 //add event listener to 'new game' button
 var button = document.getElementById('reset');
@@ -87,15 +92,17 @@ function checkGame() {
   }
   if (placement.row.indexOf(3) > -1 || placement.col.indexOf(3) > -1 || placement.diagonal.indexOf(3) > -1) {
     message.innerHTML = 'WINNER IS X! GAME OVER!';
-    for (var i = 0; i < cells.length; i++) {
-      cells[i].removeEventListener('click', play);
-    }
+    // for (var i = 0; i < cells.length; i++) {
+    //   cells[i].removeEventListener('click', play);
+    // }
+    board.removeEventListener('click', play);
   }
   if (placement.row.indexOf(-3) > -1 || placement.col.indexOf(-3) > -1 || placement.diagonal.indexOf(-3) > -1) {
     message.innerHTML = 'WINNER IS O! GAME OVER!';
-    for (var i = 0; i < cells.length; i++) {
-      cells[i].removeEventListener('click', play);
-    }
+    // for (var i = 0; i < cells.length; i++) {
+    //   cells[i].removeEventListener('click', play);
+    // }
+    board.removeEventListener('click', play);
   }
 }
 
@@ -121,9 +128,10 @@ function reset() {
     col: [0, 0, 0],
     diagonal: [0, 0]
   }
-  for (var i = 0; i < cells.length; i++) {
-    cells[i].addEventListener('click', play);
-  }
+  // for (var i = 0; i < cells.length; i++) {
+  //   cells[i].addEventListener('click', play);
+  // }
+  board.addEventListener('click', play)
 }
 
 
