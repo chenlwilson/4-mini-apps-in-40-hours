@@ -1,11 +1,5 @@
 console.log('app.js loaded!');
 
-// add event listener to all cells
-// var cells = document.getElementsByTagName('td');
-// for (var i = 0; i < cells.length; i++) {
-//   cells[i].addEventListener('click', play);
-// }
-
 //add single event listener
 var cells = document.getElementsByTagName('td');
 var board = document.getElementById('board');
@@ -28,12 +22,10 @@ var placement = {
   diagonal: [0, 0]
 }
 
-//tally of the number of times X vs. O won a game
-var tally = {
-  'X': 0,
-  'O': 0
-};
+//lastWinner to keep track of X or O goes first in next round
+var lastWinner = 'X';
 
+//tally of the number of times X vs. O won a game
 var tallyX = document.getElementById('tallyX')
 var tallyO = document.getElementById('tallyO')
 
@@ -48,7 +40,9 @@ function play(e) {
   if (!e.target.innerHTML) {
     var idRow = parseInt(e.target.id.charAt(0));
     var idCol = parseInt(e.target.id.charAt(1));
-    if (count.X === 0 || count.X === count.O) {
+    if (lastWinner === 'X' && count.X === 0
+    || lastWinner === 'X' && count.X === count.O
+    || lastWinner === 'O' && count.O - count.X === 1) {
       e.target.innerHTML = 'X';
       count.X++;
       addXToPlacement(idRow, idCol);
@@ -103,18 +97,14 @@ function checkGame() {
   }
   if (placement.row.indexOf(3) > -1 || placement.col.indexOf(3) > -1 || placement.diagonal.indexOf(3) > -1) {
     message.innerHTML = 'WINNER IS X! GAME OVER!';
+    lastWinner = 'X';
     tallyX.innerHTML++;
-    // for (var i = 0; i < cells.length; i++) {
-    //   cells[i].removeEventListener('click', play);
-    // }
     board.removeEventListener('click', play);
   }
   if (placement.row.indexOf(-3) > -1 || placement.col.indexOf(-3) > -1 || placement.diagonal.indexOf(-3) > -1) {
     message.innerHTML = 'WINNER IS O! GAME OVER!';
+    lastWinner = 'O';
     tallyO.innerHTML++;
-    // for (var i = 0; i < cells.length; i++) {
-    //   cells[i].removeEventListener('click', play);
-    // }
     board.removeEventListener('click', play);
   }
 }
@@ -142,10 +132,6 @@ function reset() {
     col: [0, 0, 0],
     diagonal: [0, 0]
   }
-  // for (var i = 0; i < cells.length; i++) {
-  //   cells[i].addEventListener('click', play);
-  // }
+
   board.addEventListener('click', play)
 }
-
-
