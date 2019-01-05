@@ -16,30 +16,40 @@ var count = {
   'O': 0
 }
 
+//gameover message div
+var message = document.getElementById('gameover');
+
 //play function
 //when click on <td>, place an X or O to the cell
+//after placement, call check()
 function play(e) {
-  if (count.X === 0 || count.X === count.O) {
-    e.target.innerHTML = 'X';
-    count.X++;
-    console.log(count);
-  } else {
-    e.target.innerHTML = 'O';
-    count.O++;
-    console.log(count);
+  if (!e.target.innerHTML) {
+    if (count.X === 0 || count.X === count.O) {
+      e.target.innerHTML = 'X';
+      count.X++;
+    } else {
+      e.target.innerHTML = 'O';
+      count.O++;
+    }
+    check();
   }
 }
 
 //check function
-//every time <td> is clicked, check if there are 3 X or O in a row/col/diag
+//every time <td> is clicked
+//1) check if there are 3 X or O in a row/col/diag
+//2) check if count.X + count.O is 9
+//if yes, call end() to end game
 function check() {
-
+  if (count.X + count.O === 9) {
+    end();
+  }
 }
 
 //end game function
 //when there are 3 X or O in a row/col/diag, serve end game msg html
 function end() {
-
+  message.innerHTML = 'DRAW! GAME OVER!';
 }
 
 //reset game function
