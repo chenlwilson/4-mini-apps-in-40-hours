@@ -28,6 +28,15 @@ var placement = {
   diagonal: [0, 0]
 }
 
+//tally of the number of times X vs. O won a game
+var tally = {
+  'X': 0,
+  'O': 0
+};
+
+var tallyX = document.getElementById('tallyX')
+var tallyO = document.getElementById('tallyO')
+
 //gameover message div
 var message = document.getElementById('gameover');
 
@@ -84,7 +93,9 @@ function addOToPlacement(rowIndex, colIndex) {
 //check if there are 9 placements
 //if yes, serve up draw message html
 //check table if there are 3 X or O in a row/col/diag
-//if yes, serve up winner message html
+//if yes,
+//1) serve up winner message html
+//2) add win count to tally
 //once game over, remove event listener on all cells
 function checkGame() {
   if (count.X + count.O === 9) {
@@ -92,6 +103,7 @@ function checkGame() {
   }
   if (placement.row.indexOf(3) > -1 || placement.col.indexOf(3) > -1 || placement.diagonal.indexOf(3) > -1) {
     message.innerHTML = 'WINNER IS X! GAME OVER!';
+    tallyX.innerHTML++;
     // for (var i = 0; i < cells.length; i++) {
     //   cells[i].removeEventListener('click', play);
     // }
@@ -99,6 +111,7 @@ function checkGame() {
   }
   if (placement.row.indexOf(-3) > -1 || placement.col.indexOf(-3) > -1 || placement.diagonal.indexOf(-3) > -1) {
     message.innerHTML = 'WINNER IS O! GAME OVER!';
+    tallyO.innerHTML++;
     // for (var i = 0; i < cells.length; i++) {
     //   cells[i].removeEventListener('click', play);
     // }
@@ -118,11 +131,12 @@ function reset() {
       cells[i].innerHTML = '';
     }
   }
+
+  count.X = 0;
+  count.O = 0;
+
   message.innerHTML = '';
-  count = {
-    'X': 0,
-    'O': 0
-  }
+
   placement = {
     row: [0, 0, 0],
     col: [0, 0, 0],
