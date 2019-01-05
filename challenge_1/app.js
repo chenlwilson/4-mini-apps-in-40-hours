@@ -43,7 +43,6 @@ function play(e) {
       count.O++;
       addOToPlacement(idRow, idCol);
     }
-    console.log(placement);
     if (count.X + count.O >= 5) {
       checkGame();
     }
@@ -88,12 +87,15 @@ function checkGame() {
   }
   if (placement.row.indexOf(3) > -1 || placement.col.indexOf(3) > -1 || placement.diagonal.indexOf(3) > -1) {
     message.innerHTML = 'WINNER IS X! GAME OVER!';
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].removeEventListener('click', play);
+    }
   }
   if (placement.row.indexOf(-3) > -1 || placement.col.indexOf(-3) > -1 || placement.diagonal.indexOf(-3) > -1) {
     message.innerHTML = 'WINNER IS O! GAME OVER!';
-  }
-  for (var i = 0; i < cells.length; i++) {
-    cells[i].removeEventListener('click', play);
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].removeEventListener('click', play);
+    }
   }
 }
 
