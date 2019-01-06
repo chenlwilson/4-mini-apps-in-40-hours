@@ -16,9 +16,7 @@ var model = {
   },
 
   //position hashtable to keep track of X/O
-  position: {
-
-  },
+  position: {},
 
   //lastWinner to keep track of X or O goes first in next round
   lastWinner:'X',
@@ -59,6 +57,14 @@ var view = {
 
   addTallyCount: function(player) {
     document.getElementById(player).innerHTML++;
+  },
+
+  crazyModeOn: function() {
+    document.getElementById('mode').style.background = 'green';
+  },
+
+  crazyModeOff: function() {
+    document.getElementById('mode').style.background = 'pink';
   }
 }
 
@@ -136,26 +142,73 @@ var controller = {
     for (var i = 0; i < cells.length; i++) {
       if (model.position[cells[i].id]) {
         cells[i].innerHTML = '';
-        switch(cells[i].id) {
-          case '00':
-            cells['02'].innerHTML = model.position[cells[i].id];
-          case '01':
-            cells['02'].innerHTML = model.position[cells[i].id];
-          case '02':
-            cells['22'].innerHTML = model.position[cells[i].id];
-          case '10':
-            cells['01'].innerHTML = model.position[cells[i].id];
-          case '12':
-            cells['21'].innerHTML = model.position[cells[i].id];
-          case '20':
-            cells['00'].innerHTML = model.position[cells[i].id];
-          case '21':
-            cells['10'].innerHTML = model.position[cells[i].id];
-          case '22':
-            cells['20'].innerHTML = model.position[cells[i].id];
-        }
+        controller.rotateCell(cells[i].id);
       }
     }
+    model.position = {};
+    controller.refreshCells();
+    controller.refreshPlacement();
+  },
+
+  rotateCell: function(id) {
+    switch(id) {
+      case '00':
+        document.getElementById('02').innerHTML = model.position['00'];
+        break;
+      case '01':
+        document.getElementById('12').innerHTML = model.position['01'];
+        break;
+      case '02':
+        document.getElementById('22').innerHTML = model.position['02'];
+        break;
+      case '10':
+        document.getElementById('01').innerHTML = model.position['10'];
+        break;
+      case '11':
+        document.getElementById('11').innerHTML = model.position['11'];
+        break;
+      case '12':
+        document.getElementById('21').innerHTML = model.position['12'];
+        break;
+      case '20':
+        document.getElementById('00').innerHTML = model.position['20'];
+        break;
+      case '21':
+        document.getElementById('10').innerHTML = model.position['21'];
+        break;
+      case '22':
+        document.getElementById('20').innerHTML = model.position['22'];
+        break;
+    }
+  },
+
+  refreshCells: function(){
+    var newCells = document.getElementsByTagName('td');
+    for (var i = 0; i < newCells.length; i++) {
+      if (newCells[i].innerHTML) {
+        model.position[newCells[i].id] = newCells[i].innerHTML;
+      }
+    }
+  },
+
+  refreshPlacement: function() {
+    model.placement = {
+      row: [0, 0, 0],
+      col: [0, 0, 0],
+      diagonal: [0, 0]
+    };
+
+    var keys = Object.keys(model.position);
+    for (var i = 0; i < keys.length; i++) {
+      if (model.position[keys[i]] === 'X') {
+        controller.addXToPlacement(keys[i].charAt(0), keys[i].charAt(1));
+      } else if (model.position[keys[i]] === 'O') {
+        controller.addOToPlacement(keys[i].charAt(0), keys[i].charAt(1));
+      }
+    }
+
+    console.log(model.position);
+
   },
 
   //checkGame function
@@ -210,6 +263,8 @@ var controller = {
       diagonal: [0, 0]
     }
 
+    model.position = {};
+
     view.resetMessage();
 
     mode.addEventListener('click', controller.toggleMode);
@@ -218,6 +273,11 @@ var controller = {
 
   toggleMode: function() {
     model.crazyMode = !model.crazyMode;
+    if (model.crazyMode === true) {
+      view.crazyModeOn();
+    } else {
+      view.crazyModeOff();
+    }
     console.log(model.crazyMode);
   }
 }
