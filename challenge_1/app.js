@@ -16,7 +16,10 @@ var model = {
   },
 
   //lastWinner to keep track of X or O goes first in next round
-  lastWinner:'X'
+  lastWinner:'X',
+
+  //mode to keep track of whether crazy mode is on/off
+  crazyMode: false
 }
 
 /////////////////////////VIEW/////////////////////////////////
@@ -59,6 +62,33 @@ var message = document.getElementById('message');
 
 //////////////////////////CONTROLLER///////////////////////////
 var controller = {
+  //play function
+  //when click on <td>, place an X or O to the cell
+  //then call addToPlacement() to add value to the placement hash table
+  //when placement is 5 or more, call checkGame()
+  play: function(e) {
+    if (!e.target.innerHTML) {
+      var idRow = parseInt(e.target.id.charAt(0));
+      var idCol = parseInt(e.target.id.charAt(1));
+      if (model.lastWinner === 'X' && model.count.X === 0
+      || model.lastWinner === 'X' && model.count.X === model.count.O
+      || model.lastWinner === 'O' && model.count.O - model.count.X === 1) {
+        view.placePiece(e, 'X');
+        model.count.X++;
+        controller.addXToPlacement(idRow, idCol);
+        view.nextMoveMessage('O');
+      } else {
+        view.placePiece(e, 'O');
+        model.count.O++;
+        controller.addOToPlacement(idRow, idCol);
+        view.nextMoveMessage('X');
+      }
+      if (model.count.X + model.count.O >= 5) {
+        controller.checkGame();
+      }
+    }
+  },
+
   //addXToPlacement function
   //when placing X, add 1 to corresponding row, col, diagonal
   addXToPlacement: function(rowIndex, colIndex) {
@@ -139,31 +169,8 @@ var controller = {
     board.addEventListener('click', controller.play);
   },
 
-  //play function
-  //when click on <td>, place an X or O to the cell
-  //then call addToPlacement() to add value to the placement hash table
-  //when placement is 5 or more, call checkGame()
-  play: function(e) {
-    if (!e.target.innerHTML) {
-      var idRow = parseInt(e.target.id.charAt(0));
-      var idCol = parseInt(e.target.id.charAt(1));
-      if (model.lastWinner === 'X' && model.count.X === 0
-      || model.lastWinner === 'X' && model.count.X === model.count.O
-      || model.lastWinner === 'O' && model.count.O - model.count.X === 1) {
-        view.placePiece(e, 'X');
-        model.count.X++;
-        controller.addXToPlacement(idRow, idCol);
-        view.nextMoveMessage('O');
-      } else {
-        view.placePiece(e, 'O');
-        model.count.O++;
-        controller.addOToPlacement(idRow, idCol);
-        view.nextMoveMessage('X');
-      }
-      if (model.count.X + model.count.O >= 5) {
-        controller.checkGame();
-      }
-    }
+  crazyOn: function() {
+    model.crazyMode = true;
   }
 }
 
@@ -174,3 +181,7 @@ board.addEventListener('click', controller.play)
 //add event listener to 'new game' button
 var button = document.getElementById('reset');
 button.addEventListener('click', controller.reset);
+
+//add event listener to 'crazy mode' button
+var mode = document.getElementById('mode');
+mode.addEventListener('click', controller.crazyOn);
