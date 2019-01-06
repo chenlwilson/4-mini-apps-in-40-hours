@@ -1,0 +1,45 @@
+body {
+  font-family: 'verdana', sans-serif;
+  background-color: grey;
+}
+h1 {
+  text-align: center;
+}
+button {
+  text-align: center;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  background-color: pink;
+  color: grey;
+  border-color: grey;
+  padding: 8px;
+  margin-left: 15px;
+  width: 150px;
+}
+table {
+  width: 210px;
+  margin: 20px;
+  table-layout: fixed;
+  margin: auto;
+  }
+tr {
+  background-color:pink;
+  border-color: black;
+  height: 70px;
+  text-align: center;
+  font-size: 25px;
+}
+#message {
+  color:hotpink;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+}
+fieldset {
+  width: 300px;
+  margin: auto;
+  border-radius: 5px;
+  text-align: left;
+}

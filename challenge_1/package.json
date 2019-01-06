@@ -1,0 +1,17 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "Tic Tac Toe Game",
+  "author": "Chen",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "scripts": {
+    "start": "nodemon --ignore node_modules server.js"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
