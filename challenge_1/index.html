@@ -2,51 +2,29 @@
 <html>
   <head>
     <title>tic tac toe</title>
-    <style type="text/css">
-      table {
-        width: 180px;
-        margin: 20px;
-        table-layout: fixed;
-        }
-      tr {
-        background-color:pink;
-        border-color: black;
-        color: white;
-        height: 60px;
-        text-align: center;
-        font-size: 20px;
-      }
-      div {
-        color: red;
-        font-size: 20px;
-      }
-      fieldset {
-        width: 200px;
-      }
-    </style>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' type='text/css' href='./main.css' />
   </head>
   <body>
     <header>
-      <h1 style="margin-left:20px;">Tic Tac Toe</h1>
+      <h1>Tic Tac Toe</h1>
     </header>
-      <p>
-        <button id='reset' style="margin-left:20px;">new game</button>
-      </p>
-      <div id='gameover'></div>
+      <h1><button id='reset'>new game</button></h1>
+      <div id='message'>Player X Starts First</div>
       <fieldset id='tally'>
         <legend>Winner Board</legend>
-        <label>Player X :
-          <input id='playerX' type='text' maxlength=15 />
-          <br />
-          <p>wins: <span id='tallyX'>0</span></p>
-        </label>
-          <br />
-        <label>Player O :
-            <input id='playerO' type='text' maxlength=15 />
-            <br />
-            <p>wins: <span id='tallyO'>0</span> </p>
+        <p>
+          <label>Player X :
+          <input id='playerX' type='text' maxlength=15 /><span>  wins: <span id='tallyX'>0</span></span>
           </label>
-      </fieldset style="width:200px;">
+        </p>
+        <p>
+          <label>Player O :
+            <input id='playerO' type='text' maxlength=15 /><span>  wins: <span id='tallyO'>0</span> </span>
+          </label>
+        </p>
+      </fieldset>
+      <br/>
       <table id='board'>
         <tr>
           <td id=00></td>

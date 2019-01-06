@@ -22,31 +22,40 @@ var model = {
 /////////////////////////VIEW/////////////////////////////////
 var view = {
   resetMessage: function() {
-    document.getElementById('gameover').innerHTML = '';
+    var lastWinner = document.getElementById('player' + model.lastWinner).value || model.lastWinner;
+    document.getElementById('message').innerHTML = lastWinner + ' Starts First';
+  },
+
+  nextMoveMessage: function(player) {
+    var nextPlayer = document.getElementById('player' + player).value || player;;
+    document.getElementById('message').innerHTML = nextPlayer + ', it\'s your turn!';
   },
 
   drawMessage: function() {
-    document.getElementById('gameover').innerHTML = 'DRAW! GAME OVER!';
+    document.getElementById('message').innerHTML = 'DRAW! GAME OVER!';
   },
 
   winMessage: function(player) {
-    var name = document.getElementById('player' + player).value;
-    document.getElementById('gameover').innerHTML = 'WINNER IS PLAYER ' + name + '! GAME OVER!';
+    var name = document.getElementById('player' + player).value || player;
+    document.getElementById('message').innerHTML = 'WINNER IS ' + name + '! GAME OVER!';
   },
 
   placePiece: function(e, player) {
     e.target.innerHTML = player;
+    if (player === 'X') {
+      e.target.style.color = "black";
+    } else {
+      e.target.style.color = "white";
+    }
   },
 
   addTallyCount: function(player) {
     document.getElementById(player).innerHTML++;
-    console.log(player);
-    console.log(document.getElementById(player).innerHTML);
   }
 }
 
 //gameover message html
-var message = document.getElementById('gameover');
+var message = document.getElementById('message');
 
 //////////////////////////CONTROLLER///////////////////////////
 var controller = {
@@ -144,17 +153,18 @@ var controller = {
         view.placePiece(e, 'X');
         model.count.X++;
         controller.addXToPlacement(idRow, idCol);
+        view.nextMoveMessage('O');
       } else {
         view.placePiece(e, 'O');
         model.count.O++;
         controller.addOToPlacement(idRow, idCol);
+        view.nextMoveMessage('X');
       }
       if (model.count.X + model.count.O >= 5) {
         controller.checkGame();
       }
     }
   }
-
 }
 
 //add event listner to the board
