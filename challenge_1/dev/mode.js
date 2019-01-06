@@ -16,7 +16,8 @@ var model = {
   },
 
   //position hashtable to keep track of X/O
-  position: {},
+  beforePosition: {},
+  afterPosition: {},
 
   //lastWinner to keep track of X or O goes first in next round
   lastWinner:'X',
@@ -79,7 +80,7 @@ var controller = {
   //when placement is 5 or more, call checkGame()
   play: function(e) {
     mode.removeEventListener('click', controller.toggleMode);
-    if (!e.target.innerHTML) {
+    // if (!e.target.innerHTML) {
       var idRow = parseInt(e.target.id.charAt(0));
       var idCol = parseInt(e.target.id.charAt(1));
       if (model.lastWinner === 'X' && model.count.X === 0
@@ -103,7 +104,7 @@ var controller = {
       if (model.crazyMode === true) {
         controller.rotateBoard();
       }
-    }
+    //}
   },
 
   //addXToPlacement function
@@ -147,7 +148,10 @@ var controller = {
     }
     model.position = {};
     controller.refreshCells();
+    controller.resetPlacement();
+    console.log(model.placement);
     controller.refreshPlacement();
+    console.log(model.placement);
   },
 
   rotateCell: function(id) {
@@ -192,12 +196,6 @@ var controller = {
   },
 
   refreshPlacement: function() {
-    model.placement = {
-      row: [0, 0, 0],
-      col: [0, 0, 0],
-      diagonal: [0, 0]
-    };
-
     var keys = Object.keys(model.position);
     for (var i = 0; i < keys.length; i++) {
       if (model.position[keys[i]] === 'X') {
@@ -206,9 +204,12 @@ var controller = {
         controller.addOToPlacement(keys[i].charAt(0), keys[i].charAt(1));
       }
     }
+  },
 
-    console.log(model.position);
-
+  resetPlacement: function() {
+    model.placement.row = [0,0,0];
+    model.placement.col = [0,0,0];
+    model.placement.diagonal = [0,0];
   },
 
   //checkGame function
