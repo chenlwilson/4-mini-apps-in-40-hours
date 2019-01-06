@@ -15,6 +15,7 @@ button {
   border-color: grey;
   padding: 8px;
   margin-left: 15px;
+  width: 150px;
 }
 table {
   width: 210px;

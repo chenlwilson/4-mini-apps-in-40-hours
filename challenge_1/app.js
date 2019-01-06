@@ -15,6 +15,11 @@ var model = {
     diagonal: [0, 0]
   },
 
+  //position hashtable to keep track of X/O
+  position: {
+
+  },
+
   //lastWinner to keep track of X or O goes first in next round
   lastWinner:'X',
 
@@ -67,6 +72,7 @@ var controller = {
   //then call addToPlacement() to add value to the placement hash table
   //when placement is 5 or more, call checkGame()
   play: function(e) {
+    mode.removeEventListener('click', controller.toggleMode);
     if (!e.target.innerHTML) {
       var idRow = parseInt(e.target.id.charAt(0));
       var idCol = parseInt(e.target.id.charAt(1));
@@ -76,15 +82,20 @@ var controller = {
         view.placePiece(e, 'X');
         model.count.X++;
         controller.addXToPlacement(idRow, idCol);
+        controller.addToPosition(e.target.id, 'X');
         view.nextMoveMessage('O');
       } else {
         view.placePiece(e, 'O');
         model.count.O++;
         controller.addOToPlacement(idRow, idCol);
+        controller.addToPosition(e.target.id, 'O');
         view.nextMoveMessage('X');
       }
       if (model.count.X + model.count.O >= 5) {
         controller.checkGame();
+      }
+      if (model.crazyMode === true) {
+        controller.rotateBoard();
       }
     }
   },
@@ -115,6 +126,38 @@ var controller = {
     }
   },
 
+  //add X or Y to potision hash table
+  addToPosition: function(coordinates, piece) {
+    model.position[coordinates] = piece;
+  },
+
+  rotateBoard: function() {
+    var cells = document.getElementsByTagName('td');
+    for (var i = 0; i < cells.length; i++) {
+      if (model.position[cells[i].id]) {
+        cells[i].innerHTML = '';
+        switch(cells[i].id) {
+          case '00':
+            cells['02'].innerHTML = model.position[cells[i].id];
+          case '01':
+            cells['02'].innerHTML = model.position[cells[i].id];
+          case '02':
+            cells['22'].innerHTML = model.position[cells[i].id];
+          case '10':
+            cells['01'].innerHTML = model.position[cells[i].id];
+          case '12':
+            cells['21'].innerHTML = model.position[cells[i].id];
+          case '20':
+            cells['00'].innerHTML = model.position[cells[i].id];
+          case '21':
+            cells['10'].innerHTML = model.position[cells[i].id];
+          case '22':
+            cells['20'].innerHTML = model.position[cells[i].id];
+        }
+      }
+    }
+  },
+
   //checkGame function
   //check if there are 9 placements
   //if yes, serve up draw message html
@@ -126,18 +169,21 @@ var controller = {
   checkGame: function() {
     if (model.count.X + model.count.O === 9) {
       view.drawMessage();
+      mode.addEventListener('click', controller.toggleMode);
     }
     if (model.placement.row.indexOf(3) > -1 || model.placement.col.indexOf(3) > -1 || model.placement.diagonal.indexOf(3) > -1) {
       view.winMessage('X');
       model.lastWinner = 'X';
       view.addTallyCount('tallyX')
       board.removeEventListener('click', controller.play);
+      mode.addEventListener('click', controller.toggleMode);
     }
     if (model.placement.row.indexOf(-3) > -1 || model.placement.col.indexOf(-3) > -1 || model.placement.diagonal.indexOf(-3) > -1) {
       view.winMessage('O');
       model.lastWinner = 'O';
       view.addTallyCount('tallyO')
       board.removeEventListener('click', controller.play);
+      mode.addEventListener('click', controller.toggleMode);
     }
   },
 
@@ -166,11 +212,13 @@ var controller = {
 
     view.resetMessage();
 
+    mode.addEventListener('click', controller.toggleMode);
     board.addEventListener('click', controller.play);
   },
 
-  crazyOn: function() {
-    model.crazyMode = true;
+  toggleMode: function() {
+    model.crazyMode = !model.crazyMode;
+    console.log(model.crazyMode);
   }
 }
 
@@ -184,4 +232,4 @@ button.addEventListener('click', controller.reset);
 
 //add event listener to 'crazy mode' button
 var mode = document.getElementById('mode');
-mode.addEventListener('click', controller.crazyOn);
+mode.addEventListener('click', controller.toggleMode);
