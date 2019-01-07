@@ -3,8 +3,18 @@ console.log('app.js loaded!');
 var getFormData = function(e) {
   e.preventDefault();
   var formData = document.getElementById('text').value;
-  console.log(formData);
   sendFile(formData);
+}
+
+var getFileData = function(e) {
+  e.preventDefault();
+  var fileInput = document.getElementById('file');
+  var file = fileInput.files.item(0);
+  var reader = new FileReader();
+  reader.onload = function() {
+    sendFile(reader.result);
+  }
+  reader.readAsText(file);
 }
 
 var display = function(data) {
@@ -25,6 +35,7 @@ var sendFile = function(file) {
     url: '/convert',
     type: 'POST',
     contentType: 'text/plain',
+    //contentType: 'application/json',
     data: file
   })
     .done(function(data) {
@@ -38,5 +49,6 @@ var sendFile = function(file) {
 }
 
 var form = document.getElementById('form');
-form.addEventListener('submit', getFormData);
+//form.addEventListener('submit', getFormData);
+form.addEventListener('submit', getFileData);
 
