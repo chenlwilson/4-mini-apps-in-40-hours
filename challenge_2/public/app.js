@@ -9,7 +9,14 @@ var getFormData = function(e) {
 
 var display = function(data) {
   var result = document.getElementById('result');
+  result.innerHTML = '';
   result.append(data);
+}
+
+var failMessage = function() {
+  var result = document.getElementById('result');
+  result.innerHTML = '';
+  result.append('Not a text file. Fail to send.');
 }
 
 var sendFile = function(file) {
@@ -17,8 +24,8 @@ var sendFile = function(file) {
   $.ajax({
     url: '/convert',
     type: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify(file)
+    contentType: 'text/plain',
+    data: file
   })
     .done(function(data) {
       console.log('send file successful!');
@@ -26,6 +33,7 @@ var sendFile = function(file) {
     })
     .fail(function() {
       console.log('fail to send file!');
+      failMessage();
     })
 }
 

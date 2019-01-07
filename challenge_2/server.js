@@ -12,23 +12,22 @@
 //property called `children`.
 
 var express = require('express');
-//var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var _ = require('underscore');
 var app = express();
 var port = 4000;
 
 app.use(express.static('public'));
-//app.use(bodyParser.json());
-
+app.use(bodyParser.text());
 app.listen(port);
 
 app.post('/convert', function(req, res) {
-  var reqBody = req.query.formData;
-  if(verifyJSON(reqBody) === false) {
+  console.log(req.body);
+  if(verifyJSON(req.body) === false) {
     //res.end(compiled({csvResult: 'THIS IS NOT A JSON FILE'}));
     res.end('THIS IS NOT A JSON FILE');
   } else {
-    var jsonData = JSON.parse(reqBody);
+    var jsonData = JSON.parse(req.body);
     //res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
     res.end(convertHeader(jsonData) + convertContent(jsonData));
   }
