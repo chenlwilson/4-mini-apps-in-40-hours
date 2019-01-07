@@ -1,2 +1,22 @@
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>json csv converter</title>
+    <meta charset='utf-8'>
+  </head>
+  <body style='text-align:center'>
+    <header>
+      <h1>JSON to CSV</h1>
+    </header>
+      <p>paste JSON file below and submit</p>
+      <form action='/convert'>
+        <textarea style='width:600px;height:300px' name='formData'></textarea>
+        <br/>
+        <input type='submit'>
+      </form>
+      <br/>
+      <div id='result'>Result will display here...</div>
+    <script src='./app.js'></script>
+  </body>
+</html>
 
