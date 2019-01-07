@@ -17,18 +17,20 @@ var _ = require('underscore');
 var app = express();
 var port = 4000;
 
-app.use(express.static('client'));
+app.use(express.static('public'));
 //app.use(bodyParser.json());
 
 app.listen(port);
 
-app.get('/convert', function(req, res) {
+app.post('/convert', function(req, res) {
   var reqBody = req.query.formData;
   if(verifyJSON(reqBody) === false) {
-    res.end(compiled({csvResult: 'THIS IS NOT A JSON FILE'}));
+    //res.end(compiled({csvResult: 'THIS IS NOT A JSON FILE'}));
+    res.end('THIS IS NOT A JSON FILE');
   } else {
     var jsonData = JSON.parse(reqBody);
-    res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
+    //res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
+    res.end(convertHeader(jsonData) + convertContent(jsonData));
   }
 });
 
@@ -77,21 +79,21 @@ var convertContent = function(formData) {
   return csv;
 }
 
-var compiled = _.template(`
-    <body style='text-align:center'>
-    <header>
-      <h1>JSON to CSV</h1>
-    </header>
-      <p>paste JSON file below and submit</p>
-      <form action='/convert'>
-        <textarea style='width:600px;height:300px' name='formData'></textarea>
-        <br/>
-        <input type='submit'>
-      </form>
-      <br/>
-      <div id='result'>Result will display here...</div>
-      <br/>
-      <div style='width:600px'><%= csvResult %></div>
-    <script src='./app.js'></script>
-    </body>
-  `);
+// var compiled = _.template(`
+//     <body style='text-align:center'>
+//     <header>
+//       <h1>JSON to CSV</h1>
+//     </header>
+//       <p>paste JSON file below and submit</p>
+//       <form action='/convert'>
+//         <textarea style='width:600px;height:300px' name='formData'></textarea>
+//         <br/>
+//         <input type='submit'>
+//       </form>
+//       <br/>
+//       <div id='result'>Result will display here...</div>
+//       <br/>
+//       <div style='width:600px'><%= csvResult %></div>
+//     <script src='./app.js'></script>
+//     </body>
+//   `);

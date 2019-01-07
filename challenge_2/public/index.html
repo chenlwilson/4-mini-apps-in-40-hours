@@ -9,14 +9,15 @@
       <h1>JSON to CSV</h1>
     </header>
       <p>paste JSON file below and submit</p>
-      <form action='/convert'>
-        <textarea style='width:600px;height:300px' name='formData'></textarea>
+      <form id='form' method='post'>
+        <textarea id='text' style='width:600px;height:300px' name='formData'></textarea>
         <br/>
         <input type='submit'>
       </form>
       <br/>
       <div id='result'>Result will display here...</div>
-    <script src='./app.js'></script>
+    <script src='jquery.js'></script>
+    <script src='app.js'></script>
   </body>
 </html>
 
