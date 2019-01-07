@@ -1,3 +1,16 @@
+//1. The server must flatten the JSON hierarchy, mapping each item/object
+//in the JSON to a single line of CSV report (see included sample output),
+//where the keys of the JSON objects will be the columns of the CSV report.
+
+//2. You may assume the JSON data has a regular structure and hierarchy
+//(see included sample file). In other words, all sibling records at a particular
+//level of the hierarchy will have the same set of properties, but child objects
+//might not contain the same properties. In all cases, every property you encounter
+//must be present in the final CSV output.
+
+//3. You may also assume that child records in the JSON will always be in a
+//property called `children`.
+
 var express = require('express');
 //var bodyParser = require('body-parser');
 var app = express();
@@ -9,7 +22,76 @@ app.use(express.static('client'));
 app.listen(port);
 
 app.get('/convert', function(req, res) {
-  console.log(req.query.formData);
-  res.end('hi');
-})
+  var reqBody = req.query.formData;
+  if (reqBody.charAt(reqBody.length-1) === ';') {
+    reqBody = reqBody.slice(0, reqBody.length-1);
+  }
+  var jsonData = JSON.parse(reqBody);
+  var csvResult = convertHeader(jsonData) + convertContent(jsonData);
+  console.log(csvResult);
+  res.end(result);
+});
 
+var convertHeader = function(formData) {
+  var header = '';
+  var cols = Object.keys(formData).filter(function(col) {
+    return col !== 'children';
+  });
+
+  for (var i = 0; i < cols.length; i++) {
+    if (i !== cols.length - 1) {
+      header = header + cols[i] + ',';
+    } else {
+      header = header + cols[i] + '\n';
+    }
+  }
+  console.log('header: ' + header);
+  return header;
+}
+
+var convertContent = function(formData) {
+  var csv = '';
+  var cols = Object.keys(formData).filter(function(col) {
+    return col !== 'children';
+  });
+
+  for (var i = 0; i < cols.length; i++) {
+    if (i !== cols.length - 1) {
+      csv = csv + formData[cols[i]] + ',';
+    } else {
+      csv = csv + formData[cols[i]] + '\n';
+    }
+  }
+  if (formData.children.length !== 0) {
+    console.log(formData.children);
+    for (var i = 0; i < formData.children.length; i++) {
+      csv += convertContent(formData.children[i]);
+    }
+  }
+  console.log('content: ' + csv);
+  return csv;
+}
+
+var result = `
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>json csv converter</title>
+      <meta charset='utf-8'>
+    </head>
+    <body style='text-align:center'>
+      <header>
+        <h1>JSON to CSV</h1>
+      </header>
+        <p>paste JSON file below and submit</p>
+        <form action='/convert'>
+          <textarea style='width:600px;height:300px' name='formData'></textarea>
+          <br/>
+          <input type='submit'>
+        </form>
+        <br/>
+        <div id='result'> RESULT IS HERE!</div>
+      <script src='./app.js'></script>
+    </body>
+</html>
+`
