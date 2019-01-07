@@ -30,7 +30,6 @@ app.get('/convert', function(req, res) {
     var jsonData = JSON.parse(reqBody);
     res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
   }
-
 });
 
 var verifyJSON = function(data) {
