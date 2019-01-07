@@ -13,6 +13,7 @@
 
 var express = require('express');
 //var bodyParser = require('body-parser');
+var _ = require('underscore');
 var app = express();
 var port = 4000;
 
@@ -23,14 +24,22 @@ app.listen(port);
 
 app.get('/convert', function(req, res) {
   var reqBody = req.query.formData;
-  if (reqBody.charAt(reqBody.length-1) === ';') {
-    reqBody = reqBody.slice(0, reqBody.length-1);
+  if(verifyJSON(reqBody) === false) {
+    res.end(compiled({csvResult: 'THIS IS NOT A JSON FILE'}));
+  } else {
+    var jsonData = JSON.parse(reqBody);
+    res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
   }
-  var jsonData = JSON.parse(reqBody);
-  var csvResult = convertHeader(jsonData) + convertContent(jsonData);
-  console.log(csvResult);
-  res.end(result);
+
 });
+
+var verifyJSON = function(data) {
+  try {
+    JSON.parse(data);
+  } catch(e) {
+    return false;
+  }
+}
 
 var convertHeader = function(formData) {
   var header = '';
@@ -45,7 +54,6 @@ var convertHeader = function(formData) {
       header = header + cols[i] + '\n';
     }
   }
-  console.log('header: ' + header);
   return header;
 }
 
@@ -63,35 +71,28 @@ var convertContent = function(formData) {
     }
   }
   if (formData.children.length !== 0) {
-    console.log(formData.children);
     for (var i = 0; i < formData.children.length; i++) {
       csv += convertContent(formData.children[i]);
     }
   }
-  console.log('content: ' + csv);
   return csv;
 }
 
-var result = `
-<!DOCTYPE html>
-  <html>
-    <head>
-      <title>json csv converter</title>
-      <meta charset='utf-8'>
-    </head>
+var compiled = _.template(`
     <body style='text-align:center'>
-      <header>
-        <h1>JSON to CSV</h1>
-      </header>
-        <p>paste JSON file below and submit</p>
-        <form action='/convert'>
-          <textarea style='width:600px;height:300px' name='formData'></textarea>
-          <br/>
-          <input type='submit'>
-        </form>
+    <header>
+      <h1>JSON to CSV</h1>
+    </header>
+      <p>paste JSON file below and submit</p>
+      <form action='/convert'>
+        <textarea style='width:600px;height:300px' name='formData'></textarea>
         <br/>
-        <div id='result'> RESULT IS HERE!</div>
-      <script src='./app.js'></script>
+        <input type='submit'>
+      </form>
+      <br/>
+      <div id='result'>Result will display here...</div>
+      <br/>
+      <div style='width:600px'><%= csvResult %></div>
+    <script src='./app.js'></script>
     </body>
-</html>
-`
+  `);
