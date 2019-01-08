@@ -4,3 +4,103 @@ Beth Jr.,Johnson,San Mateo,Pacifica,Manager,2900000
 Smitty,Won,San Mateo,Redwood City,Sales Person,4800000
 Allen,Price,San Mateo,Burlingame,Sales Person,2500000
 Beth,Johnson,San Francisco,San Francisco,Broker/Sales Person,7500000
+
+
+{
+    "firstName": "Joshie", (0)(' ')
+    "lastName": "Wyattson",
+    "county": "San Mateo",
+    "city": "San Mateo",
+    "role": "Broker",
+    "sales": 1000000,
+    "children": [
+    {
+      "firstName": "Beth Jr.", (1)(0)
+      "lastName": "Johnson",
+      "county": "San Mateo",
+      "city": "Pacifica",
+      "role": "Manager",
+      "sales": 2900000,
+      "children": [
+        {
+          "firstName": "Smitty", (2)(1)
+          "lastName": "Won",
+          "county": "San Mateo",
+          "city": "Redwood City",
+          "role": "Sales Person",
+          "sales": 4800000,
+          "children": [
+            {
+            "firstName": "Smitty", (3)(2)
+            "lastName": "Won",
+            "county": "San Mateo",
+            "city": "Redwood City",
+            "role": "Sales Person",
+            "sales": 987654,
+            "children": []
+          }]
+        },
+        {
+          "firstName": "Allen", (4)(1)
+          "lastName": "Price",
+          "county": "San Mateo",
+          "city": "Burlingame",
+          "role": "Sales Person",
+          "sales": 2500000,
+          "children": [{
+            "firstName": "Smitty", (5)(4)
+            "lastName": "Won",
+            "county": "San Mateo",
+            "city": "Redwood City",
+            "role": "Sales Person",
+            "sales": 2525252525,
+            "children": []
+          }]
+        },
+        {
+          "firstName": "Allen", (6)(1)
+          "lastName": "Price",
+          "county": "San Mateo",
+          "city": "Burlingame",
+          "role": "Sales Person",
+          "sales": 2345678,
+          "children": []
+        }
+      ]
+    },
+    {
+      "firstName": "Beth", (7)(0)
+      "lastName": "Johnson",
+      "county": "San Francisco",
+      "city": "San Francisco",
+      "role": "Broker/Sales Person",
+      "sales": 7500000,
+      "children": [{
+        "firstName": "Allen", (8)(7)
+        "lastName": "Price",
+        "county": "San Mateo",
+        "city": "Burlingame",
+        "role": "Sales Person",
+        "sales": 2345678,
+        "children": []
+      }]
+    },
+    {
+      "firstName": "Beth", (9)(0)
+      "lastName": "Johnson",
+      "county": "San Francisco",
+      "city": "San Francisco",
+      "role": "Broker/Sales Person",
+      "sales": 7500000,
+      "children": [{
+        "firstName": "Allen", (10)(9)
+        "lastName": "Price",
+        "county": "San Mateo",
+        "city": "Burlingame",
+        "role": "Sales Person",
+        "sales": 2345678,
+        "children": []
+      }]
+    }
+  ]
+}

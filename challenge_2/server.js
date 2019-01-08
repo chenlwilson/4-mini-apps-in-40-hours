@@ -29,7 +29,7 @@ app.post('/convert', function(req, res) {
     //res.end(compiled({csvResult: 'Can not convert. \n Not a JSON file or does not comply with the data structure'}));
     res.end('Can not convert. \n Not a JSON file or does not comply with the data structure');
   } else {
-    var jsonData = JSON.parse(req.body);
+    var jsonData = addFields(JSON.parse(req.body), ' ');
     //res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
     lastData = '';
     lastData += convertHeader(jsonData);
@@ -52,7 +52,7 @@ var verifyJSON = function(data) {
 }
 
 var convertHeader = function(formData) {
-  var header = 'id,';
+  var header = '';
   var cols = Object.keys(formData).filter(function(col) {
     return col !== 'children';
   });
@@ -67,14 +67,26 @@ var convertHeader = function(formData) {
   return header;
 }
 
+var addFields = function(formData, parent) {
+  formData.id = uid;
+  formData.parent = parent;
+  uid++;
+
+  if (formData.children.length > 0) {
+    for (var i = 0; i < formData.children.length; i++) {
+      addFields(formData.children[i], formData.id);
+    }
+  }
+  console.log(formData);
+
+  return formData;
+}
+
 var convertContent = function(formData) {
   var csv = '';
   var cols = Object.keys(formData).filter(function(col) {
     return col !== 'children';
   });
-
-  csv = csv + uid + ',';
-  uid++;
 
   for (var i = 0; i < cols.length; i++) {
     if (i !== cols.length - 1) {
@@ -83,7 +95,7 @@ var convertContent = function(formData) {
       csv = csv + formData[cols[i]] + '\n';
     }
   }
-  if (formData.children.length !== 0) {
+  if (formData.children.length > 0) {
     for (var i = 0; i < formData.children.length; i++) {
       csv += convertContent(formData.children[i]);
     }
