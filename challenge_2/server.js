@@ -23,6 +23,7 @@ app.listen(port);
 
 var lastData = '';
 var uid = 0;
+var fileHeader = [];
 
 app.post('/convert', function(req, res) {
   var data = req.body.split('%');
@@ -38,6 +39,7 @@ app.post('/convert', function(req, res) {
     lastData += convertHeader(jsonData);
     lastData += convertContent(jsonData);
     uid = 0;
+    fileHeader = new Array();
     res.end(lastData);
   }
 });
@@ -54,23 +56,8 @@ var verifyJSON = function(data) {
   }
 }
 
-var convertHeader = function(data) {
-  var header = '';
-  var cols = Object.keys(data).filter(function(col) {
-    return col !== 'children';
-  });
-
-  for (var i = 0; i < cols.length; i++) {
-    if (i !== cols.length - 1) {
-      header = header + cols[i] + ',';
-    } else {
-      header = header + cols[i] + '\n';
-    }
-  }
-  return header;
-}
-
 var addFields = function(data, parent, keyword) {
+  //mark blacklist records by id/parent
   if (keyword) {
     for (var key in data) {
       if (typeof data[key] === 'string' && data[key].includes(keyword)) {
@@ -81,6 +68,7 @@ var addFields = function(data, parent, keyword) {
     }
   }
 
+  //add consec id/parent to the whitelist records
   data.id = uid;
   data.parent = parent;
   uid++;
@@ -90,28 +78,51 @@ var addFields = function(data, parent, keyword) {
       addFields(data.children[i], data.id, keyword);
     }
   }
-
   return data;
+}
+
+var collectHeader = function(data) {
+  for (var key in data) {
+    if (key !== 'children' && fileHeader.indexOf(key) === -1) {
+      fileHeader.push(key);
+    }
+  }
+
+  if (data.children.length > 0) {
+    for (var i = 0; i < data.children.length; i++) {
+      collectHeader(data.children[i]);
+    }
+  }
+}
+
+var convertHeader = function(data) {
+  collectHeader(data);
+  var headerString = fileHeader.join().concat('\n');
+  return headerString;
 }
 
 var convertContent = function(data) {
   var csv = '';
 
+  //do not convert blacklist records
   if (data.id === 'blacklist') {
     return csv;
   }
 
-  var cols = Object.keys(data).filter(function(col) {
-    return col !== 'children';
-  });
-
-  for (var i = 0; i < cols.length; i++) {
-    if (i !== cols.length - 1) {
-      csv = csv + data[cols[i]] + ',';
+  for (var i = 0; i < fileHeader.length; i++) {
+    if (i === fileHeader.length - 1) {
+      if (typeof data[fileHeader[i]] === 'undefined') {
+        csv = csv + ' ' + '\n';
+      } else {
+        csv = csv + data[fileHeader[i]] + '\n';
+      }
+    } else if (typeof data[fileHeader[i]] === 'undefined') {
+      csv = csv + ' ' + ',';
     } else {
-      csv = csv + data[cols[i]] + '\n';
+      csv = csv + data[fileHeader[i]] + ',';
     }
   }
+
   if (data.children.length > 0) {
     for (var i = 0; i < data.children.length; i++) {
       csv += convertContent(data.children[i]);
