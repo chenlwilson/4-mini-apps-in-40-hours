@@ -21,13 +21,12 @@
           "sales": 4800000,
           "children": [
             {
-            "firstName": "Smitty32",
+            "firstName": "Smitty32 missing children",
             "lastName": "Won",
             "county": "San Mateo",
             "city": "Redwood City",
             "role": "Sales Person",
-            "sales": 987654,
-            "children": []
+            "sales": 987654
           }]
         },
         {

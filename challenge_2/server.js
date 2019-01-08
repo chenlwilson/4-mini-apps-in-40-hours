@@ -68,6 +68,11 @@ var addFields = function(data, parent, keyword) {
     }
   }
 
+  //add empty children array if missing children
+  if (!data.children) {
+    data.children = new Array();
+  }
+
   //add consec id/parent to the whitelist records
   data.id = uid;
   data.parent = parent;
