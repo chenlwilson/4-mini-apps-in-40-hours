@@ -22,6 +22,7 @@ app.use(bodyParser.text());
 app.listen(port);
 
 var lastData = '';
+var uid = 0;
 
 app.post('/convert', function(req, res) {
   if(verifyJSON(req.body) === false) {
@@ -33,6 +34,7 @@ app.post('/convert', function(req, res) {
     lastData = '';
     lastData += convertHeader(jsonData);
     lastData += convertContent(jsonData);
+    uid = 0;
     res.end(lastData);
   }
 });
@@ -50,7 +52,7 @@ var verifyJSON = function(data) {
 }
 
 var convertHeader = function(formData) {
-  var header = '';
+  var header = 'id,';
   var cols = Object.keys(formData).filter(function(col) {
     return col !== 'children';
   });
@@ -70,6 +72,9 @@ var convertContent = function(formData) {
   var cols = Object.keys(formData).filter(function(col) {
     return col !== 'children';
   });
+
+  csv = csv + uid + ',';
+  uid++;
 
   for (var i = 0; i < cols.length; i++) {
     if (i !== cols.length - 1) {
