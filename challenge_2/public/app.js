@@ -31,24 +31,47 @@ var display = function(data) {
 var failMessage = function() {
   var result = document.getElementById('result');
   result.innerHTML = '';
-  result.append('Not a text file. Fail to send.');
+  result.append('Fail to send! :-(');
 }
 
 var sendFile = function(file) {
   console.log('hi');
-  $.ajax({
-    url: '/convert',
-    type: 'POST',
-    contentType: 'text/plain',
-    data: file
+
+  ///////////using ajax/////////
+  // $.ajax({
+  //   url: '/convert',
+  //   type: 'POST',
+  //   contentType: 'text/plain',
+  //   data: file
+  // })
+  //   .done(function(data) {
+  //     console.log('send file successful!');
+  //     display(data);
+  //   })
+  //   .fail(function() {
+  //     console.log('fail to send file!');
+  //     failMessage();
+  //   })
+
+  ////////using fetch///////////
+  return fetch('/convert', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      contentType: 'text/plain'
+    },
+    body: file
   })
-    .done(function(data) {
-      console.log('send file successful!');
-      display(data);
+    .then(function(data) {
+      return data.text();
     })
-    .fail(function() {
-      console.log('fail to send file!');
+    .catch(function(err) {
+      console.log('fail to send file! error: ' + err);
       failMessage();
+    })
+    .then(function(text) {
+      console.log('send file successful!');
+      display(text);
     })
 }
 
