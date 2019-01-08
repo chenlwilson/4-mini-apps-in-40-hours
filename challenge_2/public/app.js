@@ -1,19 +1,19 @@
 console.log('app.js loaded!');
 
-// var getFormData = function(e) {
-//   e.preventDefault();
-//   var formData = document.getElementById('text').value;
-//   sendFile(formData);
-// }
-
 var getFileData = function(e) {
   e.preventDefault();
-  var fileInput = document.getElementById('file');
-  var file = fileInput.files.item(0);
-  var reader = new FileReader();
-  reader.readAsText(file);
-  reader.onload = function() {
-    sendFile(reader.result);
+  var textArea = document.getElementById('text');
+  if (textArea.value) {
+    sendFile(textArea.value);
+    document.getElementById('form').reset();
+  } else {
+    var fileInput = document.getElementById('file');
+    var file = fileInput.files.item(0);
+    var reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function() {
+      sendFile(reader.result);
+    }
   }
 }
 
