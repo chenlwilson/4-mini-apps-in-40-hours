@@ -3,8 +3,13 @@ console.log('app.js loaded!');
 var getFileData = function(e) {
   e.preventDefault();
   var textArea = document.getElementById('text');
+  var keyword = document.getElementById('keyword');
+  var blacklist = '';
+  if (keyword.value) {
+    blacklist += keyword.value;
+  }
   if (textArea.value) {
-    sendFile(textArea.value);
+    sendFile(textArea.value + '%' + blacklist);
     document.getElementById('form').reset();
   } else {
     var fileInput = document.getElementById('file');
@@ -12,7 +17,7 @@ var getFileData = function(e) {
     var reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function() {
-      sendFile(reader.result);
+      sendFile(reader.result + '%' + blacklist);
     }
   }
 }

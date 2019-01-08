@@ -25,11 +25,14 @@ var lastData = '';
 var uid = 0;
 
 app.post('/convert', function(req, res) {
-  if(verifyJSON(req.body) === false) {
+  var data = req.body.split('%');
+  var dataBody = data[0];
+  var keyword = data[1];
+  if(verifyJSON(dataBody) === false) {
     //res.end(compiled({csvResult: 'Can not convert. \n Not a JSON file or does not comply with the data structure'}));
     res.end('Can not convert. \n Not a JSON file or does not comply with the data structure');
   } else {
-    var jsonData = addFields(JSON.parse(req.body), ' ');
+    var jsonData = addFields(JSON.parse(dataBody), ' ', keyword);
     //res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
     lastData = '';
     lastData += convertHeader(jsonData);
@@ -51,9 +54,9 @@ var verifyJSON = function(data) {
   }
 }
 
-var convertHeader = function(formData) {
+var convertHeader = function(data) {
   var header = '';
-  var cols = Object.keys(formData).filter(function(col) {
+  var cols = Object.keys(data).filter(function(col) {
     return col !== 'children';
   });
 
@@ -67,37 +70,51 @@ var convertHeader = function(formData) {
   return header;
 }
 
-var addFields = function(formData, parent) {
-  formData.id = uid;
-  formData.parent = parent;
-  uid++;
-
-  if (formData.children.length > 0) {
-    for (var i = 0; i < formData.children.length; i++) {
-      addFields(formData.children[i], formData.id);
+var addFields = function(data, parent, keyword) {
+  if (keyword) {
+    for (var key in data) {
+      if (typeof data[key] === 'string' && data[key].includes(keyword)) {
+        data.id = 'blacklist';
+        data.parent = 'blacklist';
+        return data;
+      }
     }
   }
-  console.log(formData);
 
-  return formData;
+  data.id = uid;
+  data.parent = parent;
+  uid++;
+
+  if (data.children.length > 0) {
+    for (var i = 0; i < data.children.length; i++) {
+      addFields(data.children[i], data.id, keyword);
+    }
+  }
+
+  return data;
 }
 
-var convertContent = function(formData) {
+var convertContent = function(data) {
   var csv = '';
-  var cols = Object.keys(formData).filter(function(col) {
+
+  if (data.id === 'blacklist') {
+    return csv;
+  }
+
+  var cols = Object.keys(data).filter(function(col) {
     return col !== 'children';
   });
 
   for (var i = 0; i < cols.length; i++) {
     if (i !== cols.length - 1) {
-      csv = csv + formData[cols[i]] + ',';
+      csv = csv + data[cols[i]] + ',';
     } else {
-      csv = csv + formData[cols[i]] + '\n';
+      csv = csv + data[cols[i]] + '\n';
     }
   }
-  if (formData.children.length > 0) {
-    for (var i = 0; i < formData.children.length; i++) {
-      csv += convertContent(formData.children[i]);
+  if (data.children.length > 0) {
+    for (var i = 0; i < data.children.length; i++) {
+      csv += convertContent(data.children[i]);
     }
   }
   return csv;
