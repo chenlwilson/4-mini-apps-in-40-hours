@@ -21,16 +21,24 @@ app.use(express.static('public'));
 app.use(bodyParser.text());
 app.listen(port);
 
+var lastData = '';
+
 app.post('/convert', function(req, res) {
-  console.log(req.body);
   if(verifyJSON(req.body) === false) {
-    //res.end(compiled({csvResult: 'THIS IS NOT A JSON FILE'}));
-    res.end('THIS IS NOT A JSON FILE');
+    //res.end(compiled({csvResult: 'Can not convert. \n Not a JSON file or does not comply with the data structure'}));
+    res.end('Can not convert. \n Not a JSON file or does not comply with the data structure');
   } else {
     var jsonData = JSON.parse(req.body);
     //res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
-    res.end(convertHeader(jsonData) + convertContent(jsonData));
+    lastData = '';
+    lastData += convertHeader(jsonData);
+    lastData += convertContent(jsonData);
+    res.end(lastData);
   }
+});
+
+app.get('/convert', function(req, res) {
+  res.end(lastData);
 });
 
 var verifyJSON = function(data) {
