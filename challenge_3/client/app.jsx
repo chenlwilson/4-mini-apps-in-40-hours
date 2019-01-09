@@ -4,24 +4,61 @@ class App extends React.Component {
 
     this.showF1 = this.showF1.bind(this);
     this.state = {
-      name: ''
+      step: 'Home'
     }
   }
 
   showF1() {
+    this.setState({
+      step: 'F1'
+    })
     console.log('hi');
   }
 
   render() {
+    const step = this.state.step;
+    let page;
+
+    if (step === 'Home') {
+      page = <Home showF1 = {this.showF1}/>
+    } else if (step === 'F1') {
+      page = <F1 />
+    }
     return (
-      <Checkout showF1 = {this.showF1}/>
+      <div>
+      {page}
+      </div>
     )
   }
 }
 
-var Checkout = (props) => (
+var Home = (props) => (
+  <div>
+    <fieldset>
+      <legend>Items</legend>
+      <ul>
+      <li>Manolo Blahnik, Carolyn, 70mm, Navy, Size 36</li>
+      <li>Manolo Blahnik, Taylor, 90mm, Black, Size 36</li>
+      <li>Manolo Blahnik, BB, 105mm, Pink, Size 36</li>
+      </ul>
+    </fieldset>
+    <br/>
   <button onClick={() => { props.showF1() }}>checkout</button>
+  </div>
 );
+
+var F1 = () => (
+  <div>
+    <fieldset>
+      <legend>Create Account</legend>
+      <label>Name: <br />
+        <input type='text' name='username' />
+      </label><br />
+    </fieldset>
+    <br/>
+  <button>next</button>
+  </div>
+)
 
 ReactDOM.render(
   <App />,
