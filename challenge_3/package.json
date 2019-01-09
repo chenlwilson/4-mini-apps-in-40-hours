@@ -9,7 +9,7 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "build": "node_modules/.bin/babel client --out-dir public --preset @babel/preset-react --source-maps inline",
+    "build": "node_modules/.bin/babel client --watch --out-dir public --preset @babel/preset-react --source-maps inline",
     "start": "nodemon --ignore node_modules server.js"
   },
   "dependencies": {
