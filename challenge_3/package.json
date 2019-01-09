@@ -1,0 +1,26 @@
+{
+  "name": "multi-step-checkout",
+  "version": "1.0.0",
+  "description": "a multi step checkout process",
+  "author": "Chen",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "scripts": {
+    "build": "node_modules/.bin/babel client --out-dir public --preset @babel/preset-react --source-maps inline",
+    "start": "nodemon --ignore node_modules server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.13.4",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.0.0-0",
+    "@babel/preset-react": "^7.0.0"
+  }
+}
