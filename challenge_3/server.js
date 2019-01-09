@@ -5,5 +5,8 @@ var port = 8080;
 app.listen(port);
 app.use(express.static('public'));
 
+app.post('/checkout', (req, res) => {
+
+});
 
 
