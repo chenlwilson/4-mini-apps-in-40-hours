@@ -1,3 +1,11 @@
+//////////////////////GRANDCHILD COMPONENTS////////////////////
+var Label = (props) => (
+    <div>
+    <label>{ props.label }: { props.info[props.label] }
+    </label><br />
+    </div>
+);
+
 /////////////////////CHILD COMPONENTS//////////////////////////
 var Home = (props) => (
   <div>
@@ -87,29 +95,42 @@ var F3 = (props) => (
 
 var Sum = (props) => (
   <div>
-    <fieldset>
+  <fieldset>
       <legend>Summary</legend>
-      <label>Name: { props.info.username }
-      </label><br />
-      <label>Email: { props.info.email }
-      </label><br />
-      <label>Shipping Address: { props.info.address1 }, { props.info.address2 }, { props.info.city }, { props.info.state } { props.info.shipzip }
-      </label><br />
-      <label>Phone: { props.info.phone }
-      </label><br />
-      <label>Credit Card Number: { props.info.cc }
-      </label><br />
-      <label>Expiration Data: { props.info.exp }
-      </label><br />
-      <label>CVV: { props.info.cvv }
-      </label><br />
-      <label>Billing Zip Code: { props.info.billzip }
-      </label><br />
-    </fieldset>
-    <br/>
+      { Object.keys(props.info).filter(fieldName => fieldName !== 'password').map((fieldName) =>
+        <Label label={fieldName} key = {fieldName} info={props.info} />
+      )}
+  </fieldset>
+  <br/>
   <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
   </div>
-);
+)
+
+// var Sum = (props) => (
+//   <div>
+//     <fieldset>
+//       <legend>Summary</legend>
+//       <label>Name: { props.info.username }
+//       </label><br />
+//       <label>Email: { props.info.email }
+//       </label><br />
+//       <label>Shipping Address: { props.info.address1 }, { props.info.address2 }, { props.info.city }, { props.info.state } { props.info.shipzip }
+//       </label><br />
+//       <label>Phone: { props.info.phone }
+//       </label><br />
+//       <label>Credit Card Number: { props.info.cc }
+//       </label><br />
+//       <label>Expiration Data: { props.info.exp }
+//       </label><br />
+//       <label>CVV: { props.info.cvv }
+//       </label><br />
+//       <label>Billing Zip Code: { props.info.billzip }
+//       </label><br />
+//     </fieldset>
+//     <br/>
+//   <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
+//   </div>
+// );
 
 //////////////////////ROOT COMPONENT///////////////////////////
 class App extends React.Component {
@@ -150,7 +171,6 @@ class App extends React.Component {
   componentDidMount() {
     this.props.getId()
       .then((lastId) => {
-        console.log('componentDidMount lastId: ' + lastId);
         this.setState({
           id: parseInt(lastId)
         })

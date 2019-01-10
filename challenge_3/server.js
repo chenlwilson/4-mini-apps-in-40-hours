@@ -23,8 +23,6 @@ db.connect();
 app.post('/checkout', (req, res) => {
   var id = req.body.id;
   var info = req.body.info
-  console.log(id);
-  console.log(info);
 
   if (!info.address1) {
     model.cryptPW(info.password, (hash) => {
@@ -114,8 +112,7 @@ var model = {
       if (err) {
         console.log('cryptPW err: ' + err);
       } else {
-        console.log('cryptPW success: ');
-        console.log(hash);
+        console.log('cryptPW success: ' + hash);
         callback(hash);
       }
     })
