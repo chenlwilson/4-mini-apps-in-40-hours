@@ -27,4 +27,14 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
+connection.query('select * FROM purchase', (err, res) => {
+  if (err) {
+    console.log('error query checkout: ' + err);
+  } else {
+    console.log('the results are: ');
+    console.log(res[0]);
+  }
+});
+
+connection.end();
 
