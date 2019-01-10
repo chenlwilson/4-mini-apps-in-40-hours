@@ -31,7 +31,7 @@ app.post('/checkout', (req, res) => {
         res.send('success: created account in DB!')
       });
     })
-  } else if (!info.cc) {
+  } else if (!info['credit card number']) {
     model.addShipping(id, info, () => {
       res.send('success: created shipping data!')
     });
@@ -68,7 +68,7 @@ var model = {
 
   addShipping: (id, info, callback) => {
     var sqlStr = 'UPDATE purchase SET address1 = ?, address2 = ?, city = ?, state = ?, shipzip = ?, phone = ? WHERE ID = ?';
-    var sqlArgs = [info.address1, info.address2, info.city, info.state, info.shipzip, info.phone, id];
+    var sqlArgs = [info.address1, info.address2, info.city, info.state, info['shipping zip code'], info.phone, id];
 
     db.query(sqlStr, sqlArgs, (err, results) => {
       if (err) {
@@ -83,7 +83,7 @@ var model = {
 
   addBilling: (id, info, callback) => {
     var sqlStr = 'UPDATE purchase SET cc = ?, exp = ?, cvv = ?, billzip = ? WHERE ID = ?';
-    var sqlArgs = [info.cc, info.exp, info.cvv, info.billzip, id];
+    var sqlArgs = [info['credit card number'], info['expiration date'], info.cvv, info['billing zip code'], id];
 
     db.query(sqlStr, sqlArgs, (err, results) => {
       if (err) {

@@ -35,7 +35,9 @@ var F1 = (props) => (
     <form>
     <fieldset>
       <legend>Create Account</legend>
-      { Object.keys(props.info).map((fieldName) =>
+      { Object.keys(props.info)
+        .slice(0, 3)
+        .map((fieldName) =>
         <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
       )}
     </fieldset>
@@ -50,7 +52,9 @@ var F2 = (props) => (
     <form>
     <fieldset>
       <legend>Shipping Address</legend>
-      { Object.keys(props.info).map((fieldName) =>
+      { Object.keys(props.info)
+        .slice(3, 9)
+        .map((fieldName) =>
         <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
       )}
     </fieldset>
@@ -65,7 +69,9 @@ var F3 = (props) => (
     <form>
     <fieldset>
       <legend>Payment</legend>
-      { Object.keys(props.info).map((fieldName) =>
+      { Object.keys(props.info)
+        .slice(9, 13)
+        .map((fieldName) =>
         <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
       )}
     </fieldset>
@@ -87,103 +93,6 @@ var Sum = (props) => (
   <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
   </div>
 )
-
-// var F1 = (props) => (
-//   <div>
-//     <form>
-//     <fieldset>
-//       <legend>Create Account</legend>
-//       <label>Name: <br />
-//         <input type='text' name='username' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>Email: <br />
-//         <input type='text' name='email' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>Password: <br />
-//         <input type='text' name='password' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//     </fieldset>
-//     <br/>
-//   <button onClick={() => { props.showF2() }}>next</button>
-//   </form>
-//   </div>
-// )
-
-// var F2 = (props) => (
-//   <div>
-//     <fieldset>
-//       <legend>Shipping Address</legend>
-//       <label>Address Line 1: <br />
-//         <input type='text' name='address1' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>Address Line 2: <br />
-//         <input type='text' name='address2' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>City: <br />
-//         <input type='text' name='city' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>State: <br />
-//         <input type='text' name='state' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>Zip Code: <br />
-//         <input type='text' name='shipzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>Phone: <br />
-//         <input type='text' name='phone' placeholder='eg.4151234567' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//     </fieldset>
-//     <br/>
-//   <button onClick={() => { props.showF3() }}>next</button>
-//   </div>
-// )
-
-// var F3 = (props) => (
-//   <div>
-//     <fieldset>
-//       <legend>Payment</legend>
-//       <label>Credit Card Number: <br />
-//         <input type='text' name='cc' placeholder='eg.4143100012345678' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>Expiration Data: <br />
-//         <input type='text' name='exp' placeholder='eg.01/21' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>CVV: <br />
-//         <input type='text' name='cvv' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//       <label>Billing Zip Code: <br />
-//         <input type='text' name='billzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-//       </label><br />
-//     </fieldset>
-//     <br/>
-//   <button onClick={() => { props.showSum() }}>next</button>
-//   </div>
-// )
-
-// var Sum = (props) => (
-//   <div>
-//     <fieldset>
-//       <legend>Summary</legend>
-//       <label>Name: { props.info.username }
-//       </label><br />
-//       <label>Email: { props.info.email }
-//       </label><br />
-//       <label>Shipping Address: { props.info.address1 }, { props.info.address2 }, { props.info.city }, { props.info.state } { props.info.shipzip }
-//       </label><br />
-//       <label>Phone: { props.info.phone }
-//       </label><br />
-//       <label>Credit Card Number: { props.info.cc }
-//       </label><br />
-//       <label>Expiration Data: { props.info.exp }
-//       </label><br />
-//       <label>CVV: { props.info.cvv }
-//       </label><br />
-//       <label>Billing Zip Code: { props.info.billzip }
-//       </label><br />
-//     </fieldset>
-//     <br/>
-//   <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
-//   </div>
-// );
 
 //////////////////////ROOT COMPONENT///////////////////////////
 class App extends React.Component {
@@ -208,12 +117,12 @@ class App extends React.Component {
         address2: '',
         city: '',
         state: '',
-        shipzip: '',
+        'shipping zip code' : '',
         phone: '',
-        cc: '',
-        exp: '',
+        'credit card number': '',
+        'expiration date': '',
         cvv: '',
-        billzip: ''
+        'billing zip code': ''
       }
     }
 
@@ -252,12 +161,12 @@ class App extends React.Component {
         address2: '',
         city: '',
         state: '',
-        shipzip: '',
+        'shipping zip code' : '',
         phone: '',
-        cc: '',
-        exp: '',
+        'credit card number': '',
+        'expiration date': '',
         cvv: '',
-        billzip: ''
+        'billing zip code': ''
       }
     })
   }
