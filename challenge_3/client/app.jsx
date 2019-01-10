@@ -1,5 +1,13 @@
 //////////////////////GRANDCHILD COMPONENTS////////////////////
-var Label = (props) => (
+var InfoLabel = (props) => (
+  <div>
+    <label>{props.label}:  <br />
+      <input type='text' name={props.label} onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+      </label><br />
+  </div>
+)
+
+var SumLabel = (props) => (
     <div>
     <label>{ props.label }: { props.info[props.label] }
     </label><br />
@@ -27,15 +35,9 @@ var F1 = (props) => (
     <form>
     <fieldset>
       <legend>Create Account</legend>
-      <label>Name: <br />
-        <input type='text' name='username' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>Email: <br />
-        <input type='text' name='email' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>Password: <br />
-        <input type='text' name='password' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
+      { Object.keys(props.info).map((fieldName) =>
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
+      )}
     </fieldset>
     <br/>
   <button onClick={() => { props.showF2() }}>next</button>
@@ -45,51 +47,31 @@ var F1 = (props) => (
 
 var F2 = (props) => (
   <div>
+    <form>
     <fieldset>
       <legend>Shipping Address</legend>
-      <label>Address Line 1: <br />
-        <input type='text' name='address1' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>Address Line 2: <br />
-        <input type='text' name='address2' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>City: <br />
-        <input type='text' name='city' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>State: <br />
-        <input type='text' name='state' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>Zip Code: <br />
-        <input type='text' name='shipzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>Phone: <br />
-        <input type='text' name='phone' placeholder='eg.4151234567' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
+      { Object.keys(props.info).map((fieldName) =>
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
+      )}
     </fieldset>
     <br/>
   <button onClick={() => { props.showF3() }}>next</button>
+  </form>
   </div>
 )
 
 var F3 = (props) => (
   <div>
+    <form>
     <fieldset>
       <legend>Payment</legend>
-      <label>Credit Card Number: <br />
-        <input type='text' name='cc' placeholder='eg.4143100012345678' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>Expiration Data: <br />
-        <input type='text' name='exp' placeholder='eg.01/21' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>CVV: <br />
-        <input type='text' name='cvv' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-      <label>Billing Zip Code: <br />
-        <input type='text' name='billzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
+      { Object.keys(props.info).map((fieldName) =>
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
+      )}
     </fieldset>
     <br/>
   <button onClick={() => { props.showSum() }}>next</button>
+  </form>
   </div>
 )
 
@@ -98,13 +80,84 @@ var Sum = (props) => (
   <fieldset>
       <legend>Summary</legend>
       { Object.keys(props.info).filter(fieldName => fieldName !== 'password').map((fieldName) =>
-        <Label label={fieldName} key = {fieldName} info={props.info} />
+        <SumLabel label={fieldName} key = {fieldName} info={props.info} />
       )}
   </fieldset>
   <br/>
   <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
   </div>
 )
+
+// var F1 = (props) => (
+//   <div>
+//     <form>
+//     <fieldset>
+//       <legend>Create Account</legend>
+//       <label>Name: <br />
+//         <input type='text' name='username' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>Email: <br />
+//         <input type='text' name='email' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>Password: <br />
+//         <input type='text' name='password' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//     </fieldset>
+//     <br/>
+//   <button onClick={() => { props.showF2() }}>next</button>
+//   </form>
+//   </div>
+// )
+
+// var F2 = (props) => (
+//   <div>
+//     <fieldset>
+//       <legend>Shipping Address</legend>
+//       <label>Address Line 1: <br />
+//         <input type='text' name='address1' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>Address Line 2: <br />
+//         <input type='text' name='address2' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>City: <br />
+//         <input type='text' name='city' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>State: <br />
+//         <input type='text' name='state' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>Zip Code: <br />
+//         <input type='text' name='shipzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>Phone: <br />
+//         <input type='text' name='phone' placeholder='eg.4151234567' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//     </fieldset>
+//     <br/>
+//   <button onClick={() => { props.showF3() }}>next</button>
+//   </div>
+// )
+
+// var F3 = (props) => (
+//   <div>
+//     <fieldset>
+//       <legend>Payment</legend>
+//       <label>Credit Card Number: <br />
+//         <input type='text' name='cc' placeholder='eg.4143100012345678' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>Expiration Data: <br />
+//         <input type='text' name='exp' placeholder='eg.01/21' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>CVV: <br />
+//         <input type='text' name='cvv' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//       <label>Billing Zip Code: <br />
+//         <input type='text' name='billzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+//       </label><br />
+//     </fieldset>
+//     <br/>
+//   <button onClick={() => { props.showSum() }}>next</button>
+//   </div>
+// )
 
 // var Sum = (props) => (
 //   <div>
@@ -256,15 +309,15 @@ class App extends React.Component {
         console.log(this.state)
         break;
       case 'F1':
-        page = <F1 showF2 = {this.showF2} getInfo = {this.getInfo} />
+        page = <F1 showF2 = {this.showF2} getInfo = {this.getInfo} info= {this.state.info} />
         console.log(this.state)
         break;
       case 'F2':
-        page = <F2 showF3 = {this.showF3} getInfo = {this.getInfo} />
+        page = <F2 showF3 = {this.showF3} getInfo = {this.getInfo} info= {this.state.info} />
         console.log(this.state)
         break;
       case 'F3':
-        page = <F3 showSum = {this.showSum} getInfo = {this.getInfo} />
+        page = <F3 showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
         console.log(this.state)
         break;
       case 'Sum':
