@@ -8,10 +8,23 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 
 app.post('/checkout', (req, res) => {
-  console.log(req.body.id);
-  // var reqBody = JSON.parse(req.body);
-  // console.log(reqBody);
+  var id = req.body.id;
+  var info = req.body.info
+  console.log(id);
+  console.log(info);
+
   res.send('received data!')
 });
+
+/////////////////////////DATABASE///////////////////////////
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'checkout'
+})
+
+connection.connect();
 
 

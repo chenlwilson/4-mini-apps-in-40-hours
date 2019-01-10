@@ -55,7 +55,7 @@ var F2 = (props) => (
         <input type='text' name='shipzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Phone: <br />
-        <input type='text' name='phone' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+        <input type='text' name='phone' placeholder='eg.4151234567' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
     </fieldset>
     <br/>
@@ -68,10 +68,10 @@ var F3 = (props) => (
     <fieldset>
       <legend>Payment</legend>
       <label>Credit Card Number: <br />
-        <input type='text' name='cc' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+        <input type='text' name='cc' placeholder='eg.4143100012345678' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Expiration Data: <br />
-        <input type='text' name='exp' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+        <input type='text' name='exp' placeholder='eg.01/21' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>CVV: <br />
         <input type='text' name='cvv' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
@@ -156,7 +156,22 @@ class App extends React.Component {
   showF1() {
     this.setState({
       step: 'F1',
-      id: this.state.id + 1
+      id: this.state.id + 1,
+      info: {
+        username: '',
+        email: '',
+        password: '',
+        address1: '',
+        address2: '',
+        city: '',
+        state: '',
+        shipzip: '',
+        phone: '',
+        cc: '',
+        exp: '',
+        cvv: '',
+        billzip: ''
+      }
     })
   }
 
