@@ -26,29 +26,45 @@ app.post('/checkout', (req, res) => {
   console.log(id);
   console.log(info);
 
-  //model.postData(id, info);
-  model.getData();
+  model.postData(id, info, () => {
+    res.sendStatus(200);
+    res.send('received data!')
+  });
+});
 
-  res.status(200).send('received data!')
+app.get('/checkout', (req, res) => {
+  model.getLastId((lastId) => {
+    res.send(lastId);
+  })
 });
 
 //////////////////////MODEL/////////////////////////////////////
 var model = {
-  // postData: (id, info) => {
-
-  // },
+  postData: (id, info, callback) => {
+    var sqlStr = 'INSERT INTO purchase (id, username, email, pw) VALUES (?, ?, ?, ?)';
+    var sqlArgs = [id, info.username, info.email, info.password];
+    db.query(sqlStr, sqlArgs, (err, results) => {
+      if (err) {
+        console.log('error insert data into purchase table: ' + err);
+      } else {
+        console.log('post data results: ');
+        console.log(results);
+        callback();
+      }
+    });
+  },
 
   // updateData: (id, info) => {
 
   // },
 
-  getData: () => {
-    db.query('select * FROM purchase', (err, res) => {
+  getLastId: (callback) => {
+    db.query('SELECT * FROM purchase', (err, results) => {
       if (err) {
-        console.log('error query checkout: ' + err);
+        console.log('error query purchase table: ' + err);
       } else {
-        console.log('the results are: ');
-        console.log(res);
+        console.log('last ID is: ' + results[results.length-1].ID);
+        callback(results[results.length-1].ID.toString());
       }
     });
   }

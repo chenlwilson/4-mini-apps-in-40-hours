@@ -145,6 +145,19 @@ class App extends React.Component {
 
   }
 
+  //call db to get the last purchase record id and increase by 1
+  //so that app does not lose the id count after page reload
+  componentDidMount() {
+    this.props.getId()
+      .then((lastId) => {
+        console.log('componentDidMount lastId: ' + lastId);
+        this.setState({
+          id: parseInt(lastId) + 1
+        })
+      })
+  }
+
+  //keep track of all info on state
   getInfo(id, value) {
     var info = this.state.info
     info[id] = value;
@@ -154,6 +167,7 @@ class App extends React.Component {
   }
 
   showF1() {
+    //reset all info
     this.setState({
       step: 'F1',
       id: this.state.id + 1,
@@ -215,6 +229,7 @@ class App extends React.Component {
     const step = this.state.step;
     let page;
 
+    //conditional rendering child components depending on checkout step
     switch(step) {
       case 'Home':
         page = <Home showF1 = {this.showF1} />
@@ -247,6 +262,8 @@ class App extends React.Component {
 }
 
 // ////////////////////////CLIENT/////////////////////////////
+//using fetch to handle API calls
+//client post request
 var sendData = (data) => {
   console.log('sending data!');
   console.log(JSON.stringify(data));
@@ -264,10 +281,25 @@ var sendData = (data) => {
   )
 }
 
-window.sendData = sendData
+//client get request
+var getId = () => {
+  return fetch('/checkout', {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.text())
+    .catch(err => console.log('error: ' + err))
+}
+
+//pass lib functions to DOM rendering
+window.sendData = sendData;
+window.getId = getId;
 
 ////////////////////////DOM//////////////////////////////
 ReactDOM.render(
-  <App sendData = { window.sendData } />,
+  <App sendData = { window.sendData } getId = { window.getId } />,
   document.getElementById('app')
 );

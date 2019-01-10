@@ -3,7 +3,7 @@
 USE checkout;
 
 CREATE TABLE purchase (
-  ID integer NOT NULL,
+  ID integer NOT NULL AUTO_INCREMENT,
   username text NOT NULL,
   email text NOT NULL,
   pw text NOT NULL,
@@ -20,4 +20,4 @@ CREATE TABLE purchase (
   PRIMARY KEY (ID)
 )
 
-/* mysql -u root < server/schema.sql */
+/* mysql -u root < schema.sql */
