@@ -125,6 +125,7 @@ class App extends React.Component {
 
     this.state = {
       step: 'Home',
+      id: 0,
       info: {
         username: '',
         email: '',
@@ -154,7 +155,8 @@ class App extends React.Component {
 
   showF1() {
     this.setState({
-      step: 'F1'
+      step: 'F1',
+      id: this.state.id + 1
     })
   }
 
@@ -162,17 +164,29 @@ class App extends React.Component {
     this.setState({
       step: 'F2'
     })
+    this.props.sendData({
+      id: this.state.id,
+      info: this.state.info
+    })
   }
 
   showF3() {
     this.setState({
       step: 'F3'
     })
+    this.props.sendData({
+      id: this.state.id,
+      info: this.state.info
+    })
   }
 
   showSum() {
     this.setState({
       step: 'Sum'
+    })
+    this.props.sendData({
+      id: this.state.id,
+      info: this.state.info
     })
   }
 
@@ -217,25 +231,28 @@ class App extends React.Component {
   }
 }
 
-////////////////////////DOM//////////////////////////////
-ReactDOM.render(
-  <App />,
-  document.getElementById('app')
-);
-
-
 ////////////////////////CLIENT/////////////////////////////
 var sendData = (data) => {
+  console.log('sending data!');
+  console.log(JSON.stringify(data));
   return fetch('/checkout', {
     method: 'POST',
     mode: 'cors',
     headers: {
-      'Content-Type': 'text/plain'
+      'Content-Type': 'application/json'
     },
-    body: data
+    body: JSON.stringify(data)
   })
-    .then(response => response.text())
+    .then(response => response.json())
     .then(response => console.log('success: ' + response)
     .catch(err => console.log('error: ' + err))
   )
 }
+
+window.sendData = sendData
+
+////////////////////////DOM//////////////////////////////
+ReactDOM.render(
+  <App sendData = {window.sendData} />,
+  document.getElementById('app')
+);
