@@ -27,9 +27,12 @@ app.post('/checkout', (req, res) => {
   console.log(info);
 
   if (!info.address1) {
-    model.createAccount(id, info, () => {
-      res.send('success: created account in DB!')
-    });
+    model.cryptPW(info.password, (hash) => {
+      info.password = hash;
+      model.createAccount(id, info, () => {
+        res.send('success: created account in DB!')
+      });
+    })
   } else if (!info.cc) {
     model.addShipping(id, info, () => {
       res.send('success: created shipping data!')
@@ -48,6 +51,8 @@ app.get('/checkout', (req, res) => {
 });
 
 //////////////////////MODEL/////////////////////////////////////
+var bcrypt = require('bcrypt-nodejs')
+
 var model = {
   createAccount: (id, info, callback) => {
     var sqlStr = 'INSERT INTO purchase (ID, username, email, pw) VALUES (?, ?, ?, ?)';
@@ -102,6 +107,18 @@ var model = {
         callback(results[results.length-1].ID.toString());
       }
     });
+  },
+
+  cryptPW: (password, callback) => {
+    bcrypt.hash(password, null, null, (err, hash) => {
+      if (err) {
+        console.log('cryptPW err: ' + err);
+      } else {
+        console.log('cryptPW success: ');
+        console.log(hash);
+        callback(hash);
+      }
+    })
   }
 }
 
