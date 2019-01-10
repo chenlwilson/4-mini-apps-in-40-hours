@@ -16,20 +16,22 @@ var Home = (props) => (
 
 var F1 = (props) => (
   <div>
+    <form>
     <fieldset>
       <legend>Create Account</legend>
       <label>Name: <br />
-        <input type='text' name='username' />
+        <input type='text' name='username' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Email: <br />
-        <input type='text' name='email' />
+        <input type='text' name='email' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Password: <br />
-        <input type='text' name='password' />
+        <input type='text' name='password' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
     </fieldset>
     <br/>
   <button onClick={() => { props.showF2() }}>next</button>
+  </form>
   </div>
 )
 
@@ -38,22 +40,22 @@ var F2 = (props) => (
     <fieldset>
       <legend>Shipping Address</legend>
       <label>Address Line 1: <br />
-        <input type='text' name='address1' />
+        <input type='text' name='address1' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Address Line 2: <br />
-        <input type='text' name='address2' />
+        <input type='text' name='address2' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>City: <br />
-        <input type='text' name='city' />
+        <input type='text' name='city' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>State: <br />
-        <input type='text' name='state' />
+        <input type='text' name='state' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Zip Code: <br />
-        <input type='text' name='shipzip' />
+        <input type='text' name='shipzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Phone: <br />
-        <input type='text' name='phone' />
+        <input type='text' name='phone' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
     </fieldset>
     <br/>
@@ -66,16 +68,16 @@ var F3 = (props) => (
     <fieldset>
       <legend>Payment</legend>
       <label>Credit Card Number: <br />
-        <input type='text' name='cc' />
+        <input type='text' name='cc' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Expiration Data: <br />
-        <input type='text' name='exp' />
+        <input type='text' name='exp' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>CVV: <br />
-        <input type='text' name='cvv' />
+        <input type='text' name='cvv' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
       <label>Billing Zip Code: <br />
-        <input type='text' name='billzip' />
+        <input type='text' name='billzip' onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
     </fieldset>
     <br/>
@@ -87,25 +89,25 @@ var Sum = (props) => (
   <div>
     <fieldset>
       <legend>Summary</legend>
-      <label>Name: <span></span>
+      <label>Name: { props.info.username }
       </label><br />
-      <label>Email: <span></span>
+      <label>Email: { props.info.email }
       </label><br />
-      <label>Shipping Address: <span></span>
+      <label>Shipping Address: { props.info.address1 }, { props.info.address2 }, { props.info.city }, { props.info.state } { props.info.shipzip }
       </label><br />
-      <label>Phone: <span></span>
+      <label>Phone: { props.info.phone }
       </label><br />
-      <label>Credit Card Number: <span></span>
+      <label>Credit Card Number: { props.info.cc }
       </label><br />
-      <label>Expiration Data: <span></span>
+      <label>Expiration Data: { props.info.exp }
       </label><br />
-      <label>CVV: <span></span>
+      <label>CVV: { props.info.cvv }
       </label><br />
-      <label>Billing Zip Code: <span></span>
+      <label>Billing Zip Code: { props.info.billzip }
       </label><br />
     </fieldset>
     <br/>
-  <button onClick={() => { props.showHome() }}>Purchase</button>
+  <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
   </div>
 );
 
@@ -114,6 +116,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    this.getInfo = this.getInfo.bind(this);
     this.showF1 = this.showF1.bind(this);
     this.showF2 = this.showF2.bind(this);
     this.showF3 = this.showF3.bind(this);
@@ -122,20 +125,16 @@ class App extends React.Component {
 
     this.state = {
       step: 'Home',
-      F1: {
-        name: '',
+      info: {
+        username: '',
         email: '',
-        password: ''
-      },
-      F2: {
+        password: '',
         address1: '',
         address2: '',
         city: '',
         state: '',
         shipzip: '',
-        phone: ''
-      },
-      F3: {
+        phone: '',
         cc: '',
         exp: '',
         cvv: '',
@@ -143,6 +142,14 @@ class App extends React.Component {
       }
     }
 
+  }
+
+  getInfo(id, value) {
+    var info = this.state.info
+    info[id] = value;
+    this.setState({
+      info: info
+    })
   }
 
   showF1() {
@@ -182,18 +189,23 @@ class App extends React.Component {
     switch(step) {
       case 'Home':
         page = <Home showF1 = {this.showF1} />
+        console.log(this.state)
         break;
       case 'F1':
-        page = <F1 showF2 = {this.showF2} />
+        page = <F1 showF2 = {this.showF2} getInfo = {this.getInfo} />
+        console.log(this.state)
         break;
       case 'F2':
-        page = <F2 showF3 = {this.showF3} />
+        page = <F2 showF3 = {this.showF3} getInfo = {this.getInfo} />
+        console.log(this.state)
         break;
       case 'F3':
-        page = <F3 showSum = {this.showSum} />
+        page = <F3 showSum = {this.showSum} getInfo = {this.getInfo} />
+        console.log(this.state)
         break;
       case 'Sum':
-        page = <Sum showHome = {this.showHome} />
+        page = <Sum showHome = {this.showHome} info= {this.state.info} />
+        console.log(this.state);
         break;
     }
 
