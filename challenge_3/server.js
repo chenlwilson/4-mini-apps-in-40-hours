@@ -1,3 +1,4 @@
+////////////////////////SERVER//////////////////////////////
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -7,34 +8,52 @@ app.listen(port);
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-app.post('/checkout', (req, res) => {
-  var id = req.body.id;
-  var info = req.body.info
-  console.log(id);
-  console.log(info);
-
-  res.send('received data!')
-});
-
 /////////////////////////DATABASE///////////////////////////
 var mysql = require('mysql');
-var connection = mysql.createConnection({
+var db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'checkout'
 })
 
-connection.connect();
+db.connect();
 
-connection.query('select * FROM purchase', (err, res) => {
-  if (err) {
-    console.log('error query checkout: ' + err);
-  } else {
-    console.log('the results are: ');
-    console.log(res[0]);
-  }
+//////////////////////CONTROLLER/////////////////////////////
+app.post('/checkout', (req, res) => {
+  var id = req.body.id;
+  var info = req.body.info
+  console.log(id);
+  console.log(info);
+
+  //model.postData(id, info);
+  model.getData();
+
+  res.status(200).send('received data!')
 });
 
-connection.end();
+//////////////////////MODEL/////////////////////////////////////
+var model = {
+  // postData: (id, info) => {
+
+  // },
+
+  // updateData: (id, info) => {
+
+  // },
+
+  getData: () => {
+    db.query('select * FROM purchase', (err, res) => {
+      if (err) {
+        console.log('error query checkout: ' + err);
+      } else {
+        console.log('the results are: ');
+        console.log(res);
+      }
+    });
+  }
+}
+
+
+//connection.end();
 
