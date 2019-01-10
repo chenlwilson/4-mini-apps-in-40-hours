@@ -231,7 +231,7 @@ class App extends React.Component {
   }
 }
 
-////////////////////////CLIENT/////////////////////////////
+// ////////////////////////CLIENT/////////////////////////////
 var sendData = (data) => {
   console.log('sending data!');
   console.log(JSON.stringify(data));
@@ -243,9 +243,9 @@ var sendData = (data) => {
     },
     body: JSON.stringify(data)
   })
-    .then(response => response.json())
-    .then(response => console.log('success: ' + response)
+    .then(response => response.text())
     .catch(err => console.log('error: ' + err))
+    .then(response => console.log('success: ' + response)
   )
 }
 
@@ -253,6 +253,6 @@ window.sendData = sendData
 
 ////////////////////////DOM//////////////////////////////
 ReactDOM.render(
-  <App sendData = {window.sendData} />,
+  <App sendData = { window.sendData } />,
   document.getElementById('app')
 );
