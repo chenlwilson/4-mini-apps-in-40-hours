@@ -11,12 +11,12 @@ CREATE TABLE purchase (
   address2 text,
   city text,
   state text,
-  shipzip integer,
-  phone integer,
-  cc integer,
-  exp integer,
-  cvv integer,
-  billzip integer,
+  shipzip text,
+  phone text,
+  cc text,
+  exp text,
+  cvv text,
+  billzip text,
   PRIMARY KEY (ID)
 )
 

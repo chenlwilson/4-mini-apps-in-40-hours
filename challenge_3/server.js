@@ -26,10 +26,19 @@ app.post('/checkout', (req, res) => {
   console.log(id);
   console.log(info);
 
-  model.postData(id, info, () => {
-    res.sendStatus(200);
-    res.send('received data!')
-  });
+  if (!info.address1) {
+    model.createAccount(id, info, () => {
+      res.send('success: created account in DB!')
+    });
+  } else if (!info.cc) {
+    model.addShipping(id, info, () => {
+      res.send('success: created shipping data!')
+    });
+  } else {
+    model.addBilling(id, info, () => {
+      res.send('success: created billing data!')
+    });
+  }
 });
 
 app.get('/checkout', (req, res) => {
@@ -40,8 +49,8 @@ app.get('/checkout', (req, res) => {
 
 //////////////////////MODEL/////////////////////////////////////
 var model = {
-  postData: (id, info, callback) => {
-    var sqlStr = 'INSERT INTO purchase (id, username, email, pw) VALUES (?, ?, ?, ?)';
+  createAccount: (id, info, callback) => {
+    var sqlStr = 'INSERT INTO purchase (ID, username, email, pw) VALUES (?, ?, ?, ?)';
     var sqlArgs = [id, info.username, info.email, info.password];
     db.query(sqlStr, sqlArgs, (err, results) => {
       if (err) {
@@ -54,9 +63,35 @@ var model = {
     });
   },
 
-  // updateData: (id, info) => {
+  addShipping: (id, info, callback) => {
+    var sqlStr = 'UPDATE purchase SET address1 = ?, address2 = ?, city = ?, state = ?, shipzip = ?, phone = ? WHERE ID = ?';
+    var sqlArgs = [info.address1, info.address2, info.city, info.state, info.shipzip, info.phone, id];
 
-  // },
+    db.query(sqlStr, sqlArgs, (err, results) => {
+      if (err) {
+        console.log('error adding shipping data: ' + err);
+      } else {
+        console.log('added shipping data results: ');
+        console.log(results);
+        callback()
+      }
+    })
+  },
+
+  addBilling: (id, info, callback) => {
+    var sqlStr = 'UPDATE purchase SET cc = ?, exp = ?, cvv = ?, billzip = ? WHERE ID = ?';
+    var sqlArgs = [info.cc, info.exp, info.cvv, info.billzip, id];
+
+    db.query(sqlStr, sqlArgs, (err, results) => {
+      if (err) {
+        console.log('error adding billing data: ' + err);
+      } else {
+        console.log('added billing data results: ');
+        console.log(results);
+        callback()
+      }
+    })
+  },
 
   getLastId: (callback) => {
     db.query('SELECT * FROM purchase', (err, results) => {
@@ -69,7 +104,6 @@ var model = {
     });
   }
 }
-
 
 //connection.end();
 

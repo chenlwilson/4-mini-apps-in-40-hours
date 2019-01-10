@@ -152,7 +152,7 @@ class App extends React.Component {
       .then((lastId) => {
         console.log('componentDidMount lastId: ' + lastId);
         this.setState({
-          id: parseInt(lastId) + 1
+          id: parseInt(lastId)
         })
       })
   }
