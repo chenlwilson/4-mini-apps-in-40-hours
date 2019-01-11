@@ -43,8 +43,10 @@ var F1 = (props) => (
     </fieldset>
     <br/>
   <button onClick={(e) => { props.showHome(e) }}>Back</button>
-  <button onClick={(e) => { props.showF2(e) }}>Next</button>
+  <button onClick={(e) => { props.validateF1(e) }}>Next</button>
   </form>
+    <br/><br/>
+    <div>{ props.err }</div>
   </div>
 )
 
@@ -61,8 +63,10 @@ var F2 = (props) => (
     </fieldset>
     <br/>
   <button onClick={(e) => { props.showF1(e) }}>Back</button>
-  <button onClick={(e) => { props.showF3(e) }}>Next</button>
+  <button onClick={(e) => { props.validateF2(e) }}>Next</button>
   </form>
+    <br/><br/>
+    <div>{ props.err }</div>
   </div>
 )
 
@@ -79,8 +83,10 @@ var F3 = (props) => (
     </fieldset>
     <br/>
   <button onClick={(e) => { props.showF2(e) }}>Back</button>
-  <button onClick={(e) => { props.showSum(e) }}>Next</button>
+  <button onClick={(e) => { props.validateF3(e) }}>Next</button>
   </form>
+    <br/><br/>
+    <div>{ props.err }</div>
   </div>
 )
 
@@ -134,9 +140,13 @@ class App extends React.Component {
     this.showSumEdit = this.showSumEdit.bind(this);
     this.showThankYou = this.showThankYou.bind(this);
     this.showHome = this.showHome.bind(this);
+    this.validateF1 = this.validateF1.bind(this);
+    this.validateF2 = this.validateF2.bind(this);
+    this.validateF3 = this.validateF3.bind(this);
 
     this.state = {
       step: 'Home',
+      err: '',
       id: 0,
       info: {
         username: '',
@@ -221,6 +231,7 @@ class App extends React.Component {
     this.setState({
       id: this.state.id+1,
       step: 'ThankYou',
+      err: '',
       info: {
         username: '',
         email: '',
@@ -246,6 +257,61 @@ class App extends React.Component {
     })
   }
 
+  validateF1(e) {
+    const info = this.state.info
+
+    this.setState({
+      err: ''
+    })
+    console.log('reset err state')
+
+    if (!info.username) {
+      this.setState({
+        err: this.state.err += 'Missing Username! '
+      })
+    }
+
+
+    if (!info.email) {
+      this.setState({
+        err: this.state.err += 'Missing Email! '
+      })
+    }
+    if (!info.password) {
+      this.setState({
+        err: this.state.err += 'Missing Password! '
+      })
+    }
+    if (info.username.length < 6) {
+      this.setState({
+        err: this.state.err += 'Username Is Too Short! '
+      })
+    }
+    if (!info.email.includes('@')) {
+      this.setState({
+        err: this.state.err += 'Invalid Email! '
+      })
+    }
+    if (info.password.length < 6) {
+      this.setState({
+        err: this.state.err += 'Password Is Too Short! '
+      })
+    }
+    if (this.state.err === '') {
+      this.showF2(e);
+    } else {
+      this.showF1(e);
+    }
+  }
+
+  validateF2(e) {
+    this.showF3(e);
+  }
+
+  validateF3(e) {
+    this.showSum(e);
+  }
+
   render() {
     const step = this.state.step;
     let page;
@@ -257,19 +323,19 @@ class App extends React.Component {
         console.log(this.state)
         break;
       case 'F1':
-        page = <F1 showF2 = {this.showF2} getInfo = {this.getInfo} info= {this.state.info} showHome = {this.showHome} />
+        page = <F1 validateF1 = {this.validateF1} err = {this.state.err} getInfo = {this.getInfo} info = {this.state.info} showHome = {this.showHome} />
         console.log(this.state)
         break;
       case 'F2':
-        page = <F2 showF3 = {this.showF3} getInfo = {this.getInfo} info= {this.state.info} showF1 = {this.showF1}/>
+        page = <F2 validateF2 = {this.validateF2} err = {this.state.err} getInfo = {this.getInfo} info = {this.state.info} showF1 = {this.showF1}/>
         console.log(this.state)
         break;
       case 'F3':
-        page = <F3 showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} showF2 = {this.showF2} />
+        page = <F3 validateF3 = {this.validateF3} err = {this.state.err} getInfo = {this.getInfo} info = {this.state.info} showF2 = {this.showF2} />
         console.log(this.state)
         break;
       case 'Sum':
-        page = <Sum showThankYou = {this.showThankYou} info= {this.state.info} showSumEdit = {this.showSumEdit} />
+        page = <Sum showThankYou = {this.showThankYou} info = {this.state.info} showSumEdit = {this.showSumEdit} />
         console.log(this.state);
         break;
       case 'SumEdit':
