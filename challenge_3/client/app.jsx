@@ -199,18 +199,22 @@ class App extends React.Component {
 
   showF1(e) {
     e.preventDefault();
-    this.props.myStorage.setItem('step', this.state.step);
-    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
+
     this.setState({
       step: 'F1'
     })
+
+    console.log('line 205')
+    console.log(this.state.step);
+
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
   }
 
   showF2(e) {
     var info = this.state.info;
     e.preventDefault();
-    this.props.myStorage.setItem('step', this.state.step);
-    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
+
     if (!info.username) {
       this.setState({
         err: 'Missing Username!'
@@ -240,14 +244,15 @@ class App extends React.Component {
         step: 'F2',
         err: ''
       })
+      this.props.myStorage.setItem('step', this.state.step);
+      this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     }
   }
 
   showF3(e) {
     var info = this.state.info;
     e.preventDefault();
-    this.props.myStorage.setItem('step', this.state.step);
-    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
+
     if (!info.address1) {
       this.setState({
         err: 'Missing Address!'
@@ -281,15 +286,14 @@ class App extends React.Component {
         step: 'F3',
         err: ''
       })
+      this.props.myStorage.setItem('step', this.state.step);
+      this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     }
   }
 
   showSum(e) {
     var info = this.state.info
     e.preventDefault();
-
-    this.props.myStorage.setItem('step', this.state.step);
-    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
 
     if (!info.username) {
       this.setState({
@@ -380,23 +384,27 @@ class App extends React.Component {
         step: 'Sum',
         err: ''
       })
+      this.props.myStorage.setItem('step', this.state.step);
+      this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     }
   }
 
   showSumEdit(e) {
-    this.props.myStorage.setItem('step', this.state.step);
-    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     e.preventDefault();
+
     this.setState({
       step: 'SumEdit'
     })
+
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
   }
 
   showThankYou(e) {
     e.preventDefault();
+
     this.props.sendData({
       id: this.state.id,
-      step: this.state.step,
       info: this.state.info
     })
     this.setState({
@@ -418,15 +426,21 @@ class App extends React.Component {
         'billing zip code': ''
       }
     })
+
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
+
   }
 
   showHome(e) {
     e.preventDefault();
-    this.props.myStorage.setItem('step', this.state.step);
-    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
+
     this.setState({
       step: 'Home'
     })
+
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
   }
 
   render() {

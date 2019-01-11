@@ -4,7 +4,6 @@ USE checkout;
 
 CREATE TABLE purchase (
   ID integer NOT NULL AUTO_INCREMENT,
-  step text NOT NULL,
   username text NOT NULL,
   email text NOT NULL,
   pw text NOT NULL,
