@@ -118,6 +118,8 @@ var SumEdit = (props) => (
   </fieldset>
   <br/>
   <button onClick={(e) => { props.showSum(e) }}>Confirm</button>
+    <br/><br/>
+    <div>{ props.err }</div>
   </div>
 )
 
@@ -143,6 +145,7 @@ class App extends React.Component {
 
     this.state = {
       step: 'Home',
+      err: '',
       id: 0,
       info: {
         'username': '',
@@ -191,44 +194,171 @@ class App extends React.Component {
   }
 
   showF2(e) {
+    var info = this.state.info;
     e.preventDefault();
-    if (this.state.info.username
-      && this.state.info.email
-      && this.state.info.password) {
-        this.setState({
-          step: 'F2'
-        })
-      }
+    if (!info.username) {
+      this.setState({
+        err: 'Missing Username!'
+      })
+    } else if (!info.email) {
+      this.setState({
+        err: 'Missing Email!'
+      })
+    } else if (!info.password) {
+      this.setState({
+        err: 'Missing Password!'
+      })
+    } else if (info.username.length < 5) {
+      this.setState({
+        err: 'Username should be 5 characters or longer.'
+      })
+    } else if (!info.email.includes('@')) {
+      this.setState({
+        err: 'Invalid Email Address!'
+      })
+    } else if (info.password.length < 6) {
+      this.setState({
+        err: 'Password should be 6 characters or longer.'
+      })
+    } else {
+      this.setState({
+        step: 'F2',
+        err: ''
+      })
+    }
   }
 
   showF3(e) {
+    var info = this.state.info;
     e.preventDefault();
-    if (this.state.info.address1
-      && this.state.info.city
-      && this.state.info.state
-      && this.state.info['shipping zip code']
-      && this.state.info.phone) {
-        this.setState({
-          step: 'F3'
-        })
-      }
+    if (!info.address1) {
+      this.setState({
+        err: 'Missing Address!'
+      })
+    } else if (!info.city) {
+      this.setState({
+        err: 'Missing City Information!'
+      })
+    } else if (!info.state) {
+      this.setState({
+        err: 'Missing State Information!'
+      })
+    } else if (!info['shipping zip code']) {
+      this.setState({
+        err: 'Missing Shipping Zip Code!'
+      })
+    } else if (!info.phone) {
+      this.setState({
+        err: 'Missing Phone Number!'
+      })
+    } else if (info['shipping zip code'].length !== 5) {
+      this.setState({
+        err: 'Shipping Zip Code should be 5 digits.'
+      })
+    } else if (info.phone.length !== 10) {
+      this.setState({
+        err: 'Phone Number should be 10 Digits, Numbers Only.'
+      })
+    } else {
+      this.setState({
+        step: 'F3',
+        err: ''
+      })
+    }
   }
 
   showSum(e) {
     var info = this.state.info
-
-    var fields = Object.keys(this.state.info).filter((field) => {
-      return field !== 'address2';
-    });
-
-    var isNotEmpty = fields.reduce((res, field) => {
-      return info[field] && res;
-    }, true);
-
     e.preventDefault();
-    if (isNotEmpty) {
+
+    if (!info.username) {
       this.setState({
-        step: 'Sum'
+        err: 'Missing Username!'
+      })
+    } else if (!info.email) {
+      this.setState({
+        err: 'Missing Email!'
+      })
+    } else if (!info.password) {
+      this.setState({
+        err: 'Missing Password!'
+      })
+    } else if (info.username.length < 5) {
+      this.setState({
+        err: 'Username should be 5 characters or longer.'
+      })
+    } else if (!info.email.includes('@')) {
+      this.setState({
+        err: 'Invalid Email Address!'
+      })
+    } else if (info.password.length < 6) {
+      this.setState({
+        err: 'Password should be 6 characters or longer.'
+      })
+    } else if (!info.address1) {
+      this.setState({
+        err: 'Missing Address!'
+      })
+    } else if (!info.city) {
+      this.setState({
+        err: 'Missing City Information!'
+      })
+    } else if (!info.state) {
+      this.setState({
+        err: 'Missing State Information!'
+      })
+    } else if (!info['shipping zip code']) {
+      this.setState({
+        err: 'Missing Shipping Zip Code!'
+      })
+    } else if (!info.phone) {
+      this.setState({
+        err: 'Missing Phone Number!'
+      })
+    } else if (info['shipping zip code'].length !== 5) {
+      this.setState({
+        err: 'Shipping Zip Code should be 5 digits.'
+      })
+    } else if (info.phone.length !== 10) {
+      this.setState({
+        err: 'Phone Number should be 10 Digits, Numbers Only.'
+      })
+    } else if (!info['credit card number']) {
+      this.setState({
+        err: 'Missing Credit Card Number!'
+      })
+    } else if (!info['expiration date']) {
+      this.setState({
+        err: 'Missing Expiration Date!'
+      })
+    } else if (!info.cvv) {
+      this.setState({
+        err: 'Missing CVV!'
+      })
+    } else if (!info['billing zip code']) {
+      this.setState({
+        err: 'Missing Billing Zip Code!'
+      })
+    } else if (info['credit card number'].length < 15 || info['credit card number'].length > 16) {
+      this.setState({
+        err: 'Credit Card Number should be 15 or 16 Digits'
+      })
+    } else if (info['expiration date'].length !== 4) {
+      this.setState({
+        err: 'Expiration Data should be 4 digits, e.g. 0621'
+      })
+    } else if (info.cvv.length !== 3) {
+      this.setState({
+        err: 'CVV should be 3 digits'
+      })
+    } else if (info['billing zip code'].length !== 5) {
+      this.setState({
+        err: 'Billing Zip Code should be 5 digits'
+      })
+    } else {
+      this.setState({
+        step: 'Sum',
+        err: ''
       })
     }
   }
@@ -324,15 +454,15 @@ class App extends React.Component {
         console.log(this.state)
         break;
       case 'F1':
-        page = <F1 showF2 = {this.showF2} getInfo = {this.getInfo} info = {this.state.info} showHome = {this.showHome} />
+        page = <F1 err = {this.state.err} showF2 = {this.showF2} getInfo = {this.getInfo} info = {this.state.info} showHome = {this.showHome} />
         console.log(this.state)
         break;
       case 'F2':
-        page = <F2 showF3 = {this.showF3} getInfo = {this.getInfo} info = {this.state.info} showF1 = {this.showF1}/>
+        page = <F2 err = {this.state.err} showF3 = {this.showF3} getInfo = {this.getInfo} info = {this.state.info} showF1 = {this.showF1}/>
         console.log(this.state)
         break;
       case 'F3':
-        page = <F3 showSum = {this.showSum} getInfo = {this.getInfo} info = {this.state.info} showF2 = {this.showF2} />
+        page = <F3 err = {this.state.err} showSum = {this.showSum} getInfo = {this.getInfo} info = {this.state.info} showF2 = {this.showF2} />
         console.log(this.state)
         break;
       case 'Sum':
@@ -340,7 +470,7 @@ class App extends React.Component {
         console.log(this.state);
         break;
       case 'SumEdit':
-        page = <SumEdit showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
+        page = <SumEdit err = {this.state.err} showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
         console.log(this.state);
         break;
       case 'ThankYou':
