@@ -204,10 +204,7 @@ class App extends React.Component {
       step: 'F1'
     })
 
-    console.log('line 205')
-    console.log(this.state.step);
-
-    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('step', 'F1');
     this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
   }
 
@@ -244,7 +241,7 @@ class App extends React.Component {
         step: 'F2',
         err: ''
       })
-      this.props.myStorage.setItem('step', this.state.step);
+      this.props.myStorage.setItem('step', 'F2');
       this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     }
   }
@@ -286,7 +283,7 @@ class App extends React.Component {
         step: 'F3',
         err: ''
       })
-      this.props.myStorage.setItem('step', this.state.step);
+      this.props.myStorage.setItem('step', 'F3');
       this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     }
   }
@@ -384,7 +381,7 @@ class App extends React.Component {
         step: 'Sum',
         err: ''
       })
-      this.props.myStorage.setItem('step', this.state.step);
+      this.props.myStorage.setItem('step', 'Sum');
       this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     }
   }
@@ -396,12 +393,28 @@ class App extends React.Component {
       step: 'SumEdit'
     })
 
-    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('step', 'SumEdit');
     this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
   }
 
   showThankYou(e) {
     e.preventDefault();
+
+    var infoDefault = {
+      'username': '',
+      'email': '',
+      'password': '',
+      'address1': '',
+      'address2': '',
+      'city': '',
+      'state': '',
+      'shipping zip code' : '',
+      'phone': '',
+      'credit card number': '',
+      'expiration date': '',
+      'cvv': '',
+      'billing zip code': ''
+    }
 
     this.props.sendData({
       id: this.state.id,
@@ -410,25 +423,14 @@ class App extends React.Component {
     this.setState({
       id: this.state.id+1,
       step: 'ThankYou',
-      info: {
-        'username': '',
-        'email': '',
-        'password': '',
-        'address1': '',
-        'address2': '',
-        'city': '',
-        'state': '',
-        'shipping zip code' : '',
-        'phone': '',
-        'credit card number': '',
-        'expiration date': '',
-        'cvv': '',
-        'billing zip code': ''
-      }
+      info: infoDefault
     })
 
-    this.props.myStorage.setItem('step', this.state.step);
-    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
+    console.log('infoDefault line 428')
+    console.log(infoDefault)
+
+    this.props.myStorage.setItem('step', 'Home');
+    this.props.myStorage.setItem('info', JSON.stringify(infoDefault));
 
   }
 
@@ -439,7 +441,7 @@ class App extends React.Component {
       step: 'Home'
     })
 
-    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('step', 'Home');
     this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
   }
 
