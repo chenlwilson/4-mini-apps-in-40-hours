@@ -169,10 +169,21 @@ class App extends React.Component {
   //call db to get the last purchase record id and increase by 1
   //so that app does not lose the id count after page reload
   componentDidMount() {
+    var storageInfo = JSON.parse(this.props.myStorage.info);
+    var info = this.state.info
+    for (var key in storageInfo) {
+      info[key] = storageInfo[key]
+    }
+
+    this.setState({
+      info: info,
+      step: this.props.myStorage.step
+    })
+
     this.props.getId()
       .then((lastId) => {
         this.setState({
-          id: parseInt(lastId)+1
+          id: parseInt(lastId)+1,
         })
       })
   }
@@ -188,6 +199,8 @@ class App extends React.Component {
 
   showF1(e) {
     e.preventDefault();
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     this.setState({
       step: 'F1'
     })
@@ -196,6 +209,8 @@ class App extends React.Component {
   showF2(e) {
     var info = this.state.info;
     e.preventDefault();
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     if (!info.username) {
       this.setState({
         err: 'Missing Username!'
@@ -231,6 +246,8 @@ class App extends React.Component {
   showF3(e) {
     var info = this.state.info;
     e.preventDefault();
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     if (!info.address1) {
       this.setState({
         err: 'Missing Address!'
@@ -270,6 +287,9 @@ class App extends React.Component {
   showSum(e) {
     var info = this.state.info
     e.preventDefault();
+
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
 
     if (!info.username) {
       this.setState({
@@ -364,6 +384,8 @@ class App extends React.Component {
   }
 
   showSumEdit(e) {
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     e.preventDefault();
     this.setState({
       step: 'SumEdit'
@@ -374,6 +396,7 @@ class App extends React.Component {
     e.preventDefault();
     this.props.sendData({
       id: this.state.id,
+      step: this.state.step,
       info: this.state.info
     })
     this.setState({
@@ -399,48 +422,11 @@ class App extends React.Component {
 
   showHome(e) {
     e.preventDefault();
+    this.props.myStorage.setItem('step', this.state.step);
+    this.props.myStorage.setItem('info', JSON.stringify(this.state.info));
     this.setState({
       step: 'Home'
     })
-  }
-
-  validateF1(e) {
-    const info = this.state.info
-
-    console.log('reset err state')
-
-    if (!info.username) {
-      this.setState({
-        err: this.state.err += 'Missing Username! '
-      })
-    } else if (!info.email) {
-      this.setState({
-        err: this.state.err += 'Missing Email! '
-      })
-    } else if (!info.password) {
-      this.setState({
-        err: this.state.err += 'Missing Password! '
-      })
-    } else if (info.username.length < 6) {
-      this.setState({
-        err: this.state.err += 'Username Is Too Short! '
-      })
-    } else if (!info.email.includes('@')) {
-      this.setState({
-        err: this.state.err += 'Invalid Email! '
-      })
-    } else if (info.password.length < 6) {
-      this.setState({
-        err: this.state.err += 'Password Is Too Short! '
-      })
-    }
-
-    if (this.state.err) {
-      this.showF1(e);
-    } else {
-      this.showF2(e);
-    }
-
   }
 
   render() {
@@ -452,30 +438,37 @@ class App extends React.Component {
       case 'Home':
         page = <Home showF1 = {this.showF1} />
         console.log(this.state)
+        console.log(this.props.myStorage);
         break;
       case 'F1':
         page = <F1 err = {this.state.err} showF2 = {this.showF2} getInfo = {this.getInfo} info = {this.state.info} showHome = {this.showHome} />
         console.log(this.state)
+        console.log(this.props.myStorage);
         break;
       case 'F2':
         page = <F2 err = {this.state.err} showF3 = {this.showF3} getInfo = {this.getInfo} info = {this.state.info} showF1 = {this.showF1}/>
         console.log(this.state)
+        console.log(this.props.myStorage);
         break;
       case 'F3':
         page = <F3 err = {this.state.err} showSum = {this.showSum} getInfo = {this.getInfo} info = {this.state.info} showF2 = {this.showF2} />
         console.log(this.state)
+        console.log(this.props.myStorage);
         break;
       case 'Sum':
         page = <Sum showThankYou = {this.showThankYou} info = {this.state.info} showSumEdit = {this.showSumEdit} />
         console.log(this.state);
+        console.log(this.props.myStorage);
         break;
       case 'SumEdit':
         page = <SumEdit err = {this.state.err} showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
         console.log(this.state);
+        console.log(this.props.myStorage);
         break;
       case 'ThankYou':
         page = <ThankYou showHome = {this.showHome} />
         console.log(this.state);
+        console.log(this.props.myStorage);
         break;
     }
 
@@ -523,9 +516,10 @@ var getId = () => {
 //pass lib functions to DOM rendering
 window.sendData = sendData;
 window.getId = getId;
+//local storage to store current step
 
 ////////////////////////DOM//////////////////////////////
 ReactDOM.render(
-  <App sendData = { window.sendData } getId = { window.getId } />,
+  <App sendData = { window.sendData } getId = { window.getId } myStorage = { window.localStorage }/>,
   document.getElementById('app')
 );

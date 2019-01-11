@@ -23,10 +23,11 @@ db.connect();
 app.post('/checkout', (req, res) => {
   var id = req.body.id;
   var info = req.body.info
+  var step = req.body.step
 
   model.cryptPW(info.password, (hash) => {
     info.password = hash;
-    model.createEntry(id, info, () => {
+    model.createEntry(id, info, step, () => {
       res.send('success: created account in DB!')
     });
   })
@@ -59,9 +60,11 @@ app.get('/checkout', (req, res) => {
 var bcrypt = require('bcrypt-nodejs')
 
 var model = {
-  createEntry: (id, info, callback) => {
-    var sqlStr = 'INSERT INTO purchase (ID, username, email, pw, address1, address2, city, state, shipzip, phone, cc, exp, cvv, billzip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    var sqlArgs = [id, info.username, info.email, info.password, info.address1, info.address2, info.city, info.state, info['shipping zip code'], info.phone, info['credit card number'], info['expiration date'], info.cvv, info['billing zip code']];
+  createEntry: (id, info, step, callback) => {
+    console.log('inside createEntry function: ')
+    console.log(id, info, step);
+    var sqlStr = 'INSERT INTO purchase (ID, step, username, email, pw, address1, address2, city, state, shipzip, phone, cc, exp, cvv, billzip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    var sqlArgs = [id, step, info.username, info.email, info.password, info.address1, info.address2, info.city, info.state, info['shipping zip code'], info.phone, info['credit card number'], info['expiration date'], info.cvv, info['billing zip code']];
     db.query(sqlStr, sqlArgs, (err, results) => {
       if (err) {
         console.log('error insert data into purchase table: ' + err);
