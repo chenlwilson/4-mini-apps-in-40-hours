@@ -96,7 +96,7 @@ var Sum = (props) => (
   </fieldset>
   <br/>
   <button onClick={(e) => { props.showSumEdit(e) }}>Edit Info</button>
-  <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
+  <button onClick={(e) => { props.showThankYou(e) }}>Purchase</button>
   </div>
 )
 
@@ -114,6 +114,13 @@ var SumEdit = (props) => (
   <button onClick={(e) => { props.showSum(e) }}>Confirm</button>
   </div>
 )
+
+var ThankYou = (props) => (
+  <div>
+    <h1>Thank You For Your Purchase!</h1>
+    <button onClick={(e) => { props.showHome(e) }}>Continue To Shop</button>
+    </div>
+)
 //////////////////////ROOT COMPONENT///////////////////////////
 class App extends React.Component {
   constructor(props) {
@@ -125,6 +132,7 @@ class App extends React.Component {
     this.showF3 = this.showF3.bind(this);
     this.showSum = this.showSum.bind(this);
     this.showSumEdit = this.showSumEdit.bind(this);
+    this.showThankYou = this.showThankYou.bind(this);
     this.showHome = this.showHome.bind(this);
 
     this.state = {
@@ -204,34 +212,38 @@ class App extends React.Component {
     })
   }
 
-  showHome(e) {
+  showThankYou(e) {
     e.preventDefault();
     this.props.sendData({
       id: this.state.id,
       info: this.state.info
     })
-    this.props.getId()
-      .then((lastId) => {
-        this.setState({
-          id: parseInt(lastId)+1,
-          step: 'Home',
-          info: {
-            username: '',
-            email: '',
-            password: '',
-            address1: '',
-            address2: '',
-            city: '',
-            state: '',
-            'shipping zip code' : '',
-            phone: '',
-            'credit card number': '',
-            'expiration date': '',
-            cvv: '',
-            'billing zip code': ''
-          }
-        })
-      })
+    this.setState({
+      id: this.state.id+1,
+      step: 'ThankYou',
+      info: {
+        username: '',
+        email: '',
+        password: '',
+        address1: '',
+        address2: '',
+        city: '',
+        state: '',
+        'shipping zip code' : '',
+        phone: '',
+        'credit card number': '',
+        'expiration date': '',
+        cvv: '',
+        'billing zip code': ''
+      }
+    })
+  }
+
+  showHome(e) {
+    e.preventDefault();
+    this.setState({
+      step: 'Home'
+    })
   }
 
   render() {
@@ -257,11 +269,15 @@ class App extends React.Component {
         console.log(this.state)
         break;
       case 'Sum':
-        page = <Sum showHome = {this.showHome} info= {this.state.info} showSumEdit = {this.showSumEdit} />
+        page = <Sum showThankYou = {this.showThankYou} info= {this.state.info} showSumEdit = {this.showSumEdit} />
         console.log(this.state);
         break;
       case 'SumEdit':
         page = <SumEdit showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
+        console.log(this.state);
+        break;
+      case 'ThankYou':
+        page = <ThankYou showHome = {this.showHome} />
         console.log(this.state);
         break;
     }
