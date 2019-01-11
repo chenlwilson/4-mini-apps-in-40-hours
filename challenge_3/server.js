@@ -73,49 +73,49 @@ var model = {
     });
   },
 
-  createAccount: (id, info, callback) => {
-    var sqlStr = 'INSERT INTO purchase (ID, username, email, pw) VALUES (?, ?, ?, ?)';
-    var sqlArgs = [id, info.username, info.email, info.password];
-    db.query(sqlStr, sqlArgs, (err, results) => {
-      if (err) {
-        console.log('error insert data into purchase table: ' + err);
-      } else {
-        console.log('post data results: ');
-        console.log(results);
-        callback();
-      }
-    });
-  },
+  // createAccount: (id, info, callback) => {
+  //   var sqlStr = 'INSERT INTO purchase (ID, username, email, pw) VALUES (?, ?, ?, ?)';
+  //   var sqlArgs = [id, info.username, info.email, info.password];
+  //   db.query(sqlStr, sqlArgs, (err, results) => {
+  //     if (err) {
+  //       console.log('error insert data into purchase table: ' + err);
+  //     } else {
+  //       console.log('post data results: ');
+  //       console.log(results);
+  //       callback();
+  //     }
+  //   });
+  // },
 
-  addShipping: (id, info, callback) => {
-    var sqlStr = 'UPDATE purchase SET address1 = ?, address2 = ?, city = ?, state = ?, shipzip = ?, phone = ? WHERE ID = ?';
-    var sqlArgs = [info.address1, info.address2, info.city, info.state, info['shipping zip code'], info.phone, id];
+  // addShipping: (id, info, callback) => {
+  //   var sqlStr = 'UPDATE purchase SET address1 = ?, address2 = ?, city = ?, state = ?, shipzip = ?, phone = ? WHERE ID = ?';
+  //   var sqlArgs = [info.address1, info.address2, info.city, info.state, info['shipping zip code'], info.phone, id];
 
-    db.query(sqlStr, sqlArgs, (err, results) => {
-      if (err) {
-        console.log('error adding shipping data: ' + err);
-      } else {
-        console.log('added shipping data results: ');
-        console.log(results);
-        callback()
-      }
-    })
-  },
+  //   db.query(sqlStr, sqlArgs, (err, results) => {
+  //     if (err) {
+  //       console.log('error adding shipping data: ' + err);
+  //     } else {
+  //       console.log('added shipping data results: ');
+  //       console.log(results);
+  //       callback()
+  //     }
+  //   })
+  // },
 
-  addBilling: (id, info, callback) => {
-    var sqlStr = 'UPDATE purchase SET cc = ?, exp = ?, cvv = ?, billzip = ? WHERE ID = ?';
-    var sqlArgs = [info['credit card number'], info['expiration date'], info.cvv, info['billing zip code'], id];
+  // addBilling: (id, info, callback) => {
+  //   var sqlStr = 'UPDATE purchase SET cc = ?, exp = ?, cvv = ?, billzip = ? WHERE ID = ?';
+  //   var sqlArgs = [info['credit card number'], info['expiration date'], info.cvv, info['billing zip code'], id];
 
-    db.query(sqlStr, sqlArgs, (err, results) => {
-      if (err) {
-        console.log('error adding billing data: ' + err);
-      } else {
-        console.log('added billing data results: ');
-        console.log(results);
-        callback()
-      }
-    })
-  },
+  //   db.query(sqlStr, sqlArgs, (err, results) => {
+  //     if (err) {
+  //       console.log('error adding billing data: ' + err);
+  //     } else {
+  //       console.log('added billing data results: ');
+  //       console.log(results);
+  //       callback()
+  //     }
+  //   })
+  // },
 
   getLastId: (callback) => {
     db.query('SELECT * FROM purchase', (err, results) => {

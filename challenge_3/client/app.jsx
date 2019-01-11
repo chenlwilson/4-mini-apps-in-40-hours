@@ -95,11 +95,25 @@ var Sum = (props) => (
       )}
   </fieldset>
   <br/>
-  <button>Edit Info</button>
+  <button onClick={(e) => { props.showSumEdit(e) }}>Edit Info</button>
   <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
   </div>
 )
 
+var SumEdit = (props) => (
+  <div>
+  <fieldset>
+      <legend>Summary</legend>
+      { Object.keys(props.info)
+        .filter(fieldName => fieldName !== 'password')
+        .map((fieldName) =>
+        <InfoLabel label={fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
+      )}
+  </fieldset>
+  <br/>
+  <button onClick={(e) => { props.showSum(e) }}>Confirm</button>
+  </div>
+)
 //////////////////////ROOT COMPONENT///////////////////////////
 class App extends React.Component {
   constructor(props) {
@@ -110,6 +124,7 @@ class App extends React.Component {
     this.showF2 = this.showF2.bind(this);
     this.showF3 = this.showF3.bind(this);
     this.showSum = this.showSum.bind(this);
+    this.showSumEdit = this.showSumEdit.bind(this);
     this.showHome = this.showHome.bind(this);
 
     this.state = {
@@ -182,6 +197,13 @@ class App extends React.Component {
     })
   }
 
+  showSumEdit(e) {
+    e.preventDefault();
+    this.setState({
+      step: 'SumEdit'
+    })
+  }
+
   showHome(e) {
     e.preventDefault();
     this.props.sendData({
@@ -235,7 +257,11 @@ class App extends React.Component {
         console.log(this.state)
         break;
       case 'Sum':
-        page = <Sum showHome = {this.showHome} info= {this.state.info} />
+        page = <Sum showHome = {this.showHome} info= {this.state.info} showSumEdit = {this.showSumEdit} />
+        console.log(this.state);
+        break;
+      case 'SumEdit':
+        page = <SumEdit showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
         console.log(this.state);
         break;
     }
