@@ -1,8 +1,8 @@
 //////////////////////GRANDCHILD COMPONENTS////////////////////
 var InfoLabel = (props) => (
   <div>
-    <label>{props.label}:  <br />
-      <input type='text' name={props.label} onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+    <label>{ props.label }:  <br />
+      <input type='text' name={ props.label } value={ props.info[props.label] } onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
       </label><br />
   </div>
 )
@@ -26,7 +26,7 @@ var Home = (props) => (
       </ul>
     </fieldset>
     <br/>
-  <button onClick={() => { props.showF1() }}>checkout</button>
+  <button onClick={ (e) => { props.showF1(e) } }>Checkout</button>
   </div>
 );
 
@@ -38,11 +38,12 @@ var F1 = (props) => (
       { Object.keys(props.info)
         .slice(0, 3)
         .map((fieldName) =>
-        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
       )}
     </fieldset>
     <br/>
-  <button onClick={() => { props.showF2() }}>next</button>
+  <button onClick={(e) => { props.showHome(e) }}>Back</button>
+  <button onClick={(e) => { props.showF2(e) }}>Next</button>
   </form>
   </div>
 )
@@ -55,11 +56,12 @@ var F2 = (props) => (
       { Object.keys(props.info)
         .slice(3, 9)
         .map((fieldName) =>
-        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
       )}
     </fieldset>
     <br/>
-  <button onClick={() => { props.showF3() }}>next</button>
+  <button onClick={(e) => { props.showF1(e) }}>Back</button>
+  <button onClick={(e) => { props.showF3(e) }}>Next</button>
   </form>
   </div>
 )
@@ -72,11 +74,12 @@ var F3 = (props) => (
       { Object.keys(props.info)
         .slice(9, 13)
         .map((fieldName) =>
-        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} />
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
       )}
     </fieldset>
     <br/>
-  <button onClick={() => { props.showSum() }}>next</button>
+  <button onClick={(e) => { props.showF2(e) }}>Back</button>
+  <button onClick={(e) => { props.showSum(e) }}>Next</button>
   </form>
   </div>
 )
@@ -85,11 +88,14 @@ var Sum = (props) => (
   <div>
   <fieldset>
       <legend>Summary</legend>
-      { Object.keys(props.info).filter(fieldName => fieldName !== 'password').map((fieldName) =>
+      { Object.keys(props.info)
+        .filter(fieldName => fieldName !== 'password')
+        .map((fieldName) =>
         <SumLabel label={fieldName} key = {fieldName} info={props.info} />
       )}
   </fieldset>
   <br/>
+  <button>Edit Info</button>
   <button onClick={(e) => { props.showHome(e) }}>Purchase</button>
   </div>
 )
@@ -134,7 +140,7 @@ class App extends React.Component {
     this.props.getId()
       .then((lastId) => {
         this.setState({
-          id: parseInt(lastId)
+          id: parseInt(lastId)+1
         })
       })
   }
@@ -148,63 +154,62 @@ class App extends React.Component {
     })
   }
 
-  showF1() {
-    //reset all info
+  showF1(e) {
+    e.preventDefault();
     this.setState({
-      step: 'F1',
-      id: this.state.id + 1,
-      info: {
-        username: '',
-        email: '',
-        password: '',
-        address1: '',
-        address2: '',
-        city: '',
-        state: '',
-        'shipping zip code' : '',
-        phone: '',
-        'credit card number': '',
-        'expiration date': '',
-        cvv: '',
-        'billing zip code': ''
-      }
+      step: 'F1'
     })
   }
 
-  showF2() {
+  showF2(e) {
+    e.preventDefault();
     this.setState({
       step: 'F2'
     })
-    this.props.sendData({
-      id: this.state.id,
-      info: this.state.info
-    })
   }
 
-  showF3() {
+  showF3(e) {
+    e.preventDefault();
     this.setState({
       step: 'F3'
     })
-    this.props.sendData({
-      id: this.state.id,
-      info: this.state.info
-    })
   }
 
-  showSum() {
+  showSum(e) {
+    e.preventDefault();
     this.setState({
       step: 'Sum'
     })
+  }
+
+  showHome(e) {
+    e.preventDefault();
     this.props.sendData({
       id: this.state.id,
       info: this.state.info
     })
-  }
-
-  showHome() {
-    this.setState({
-      step: 'Home'
-    })
+    this.props.getId()
+      .then((lastId) => {
+        this.setState({
+          id: parseInt(lastId)+1,
+          step: 'Home',
+          info: {
+            username: '',
+            email: '',
+            password: '',
+            address1: '',
+            address2: '',
+            city: '',
+            state: '',
+            'shipping zip code' : '',
+            phone: '',
+            'credit card number': '',
+            'expiration date': '',
+            cvv: '',
+            'billing zip code': ''
+          }
+        })
+      })
   }
 
   render() {
@@ -218,15 +223,15 @@ class App extends React.Component {
         console.log(this.state)
         break;
       case 'F1':
-        page = <F1 showF2 = {this.showF2} getInfo = {this.getInfo} info= {this.state.info} />
+        page = <F1 showF2 = {this.showF2} getInfo = {this.getInfo} info= {this.state.info} showHome = {this.showHome} />
         console.log(this.state)
         break;
       case 'F2':
-        page = <F2 showF3 = {this.showF3} getInfo = {this.getInfo} info= {this.state.info} />
+        page = <F2 showF3 = {this.showF3} getInfo = {this.getInfo} info= {this.state.info} showF1 = {this.showF1}/>
         console.log(this.state)
         break;
       case 'F3':
-        page = <F3 showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
+        page = <F3 showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} showF2 = {this.showF2} />
         console.log(this.state)
         break;
       case 'Sum':

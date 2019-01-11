@@ -24,22 +24,29 @@ app.post('/checkout', (req, res) => {
   var id = req.body.id;
   var info = req.body.info
 
-  if (!info.address1) {
-    model.cryptPW(info.password, (hash) => {
-      info.password = hash;
-      model.createAccount(id, info, () => {
-        res.send('success: created account in DB!')
-      });
-    })
-  } else if (!info['credit card number']) {
-    model.addShipping(id, info, () => {
-      res.send('success: created shipping data!')
+  model.cryptPW(info.password, (hash) => {
+    info.password = hash;
+    model.createEntry(id, info, () => {
+      res.send('success: created account in DB!')
     });
-  } else {
-    model.addBilling(id, info, () => {
-      res.send('success: created billing data!')
-    });
-  }
+  })
+
+  // if (!info.address1) {
+  //   model.cryptPW(info.password, (hash) => {
+  //     info.password = hash;
+  //     model.createAccount(id, info, () => {
+  //       res.send('success: created account in DB!')
+  //     });
+  //   })
+  // } else if (!info['credit card number']) {
+  //   model.addShipping(id, info, () => {
+  //     res.send('success: created shipping data!')
+  //   });
+  // } else {
+  //   model.addBilling(id, info, () => {
+  //     res.send('success: created billing data!')
+  //   });
+  // }
 });
 
 app.get('/checkout', (req, res) => {
@@ -52,6 +59,20 @@ app.get('/checkout', (req, res) => {
 var bcrypt = require('bcrypt-nodejs')
 
 var model = {
+  createEntry: (id, info, callback) => {
+    var sqlStr = 'INSERT INTO purchase (ID, username, email, pw, address1, address2, city, state, shipzip, phone, cc, exp, cvv, billzip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    var sqlArgs = [id, info.username, info.email, info.password, info.address1, info.address2, info.city, info.state, info['shipping zip code'], info.phone, info['credit card number'], info['expiration date'], info.cvv, info['billing zip code']];
+    db.query(sqlStr, sqlArgs, (err, results) => {
+      if (err) {
+        console.log('error insert data into purchase table: ' + err);
+      } else {
+        console.log('post data results: ');
+        console.log(results);
+        callback();
+      }
+    });
+  },
+
   createAccount: (id, info, callback) => {
     var sqlStr = 'INSERT INTO purchase (ID, username, email, pw) VALUES (?, ?, ?, ?)';
     var sqlArgs = [id, info.username, info.email, info.password];
