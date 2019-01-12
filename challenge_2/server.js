@@ -99,7 +99,7 @@ var collectHeader = function(data) {
     }
   }
 
-  if (data.children.length > 0) {
+  if (data.children && data.children.length > 0) {
     for (var i = 0; i < data.children.length; i++) {
       collectHeader(data.children[i]);
     }
