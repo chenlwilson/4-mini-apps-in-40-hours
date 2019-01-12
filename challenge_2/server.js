@@ -12,28 +12,32 @@
 //property called `children`.
 
 var express = require('express');
-var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
+var multer = require('multer');
 var _ = require('underscore');
 var app = express();
 var port = 4000;
 
 app.use(express.static('public'));
-app.use(bodyParser.text());
+//app.use(bodyParser.text());
 app.listen(port);
 
+var upload = multer();
 var lastData = '';
 var uid = 0;
 var fileHeader = [];
 
-app.post('/convert', function(req, res) {
-  var data = req.body.split('%');
-  var dataBody = data[0];
-  var keyword = data[1];
-  if(verifyJSON(dataBody) === false) {
+app.post('/convert', upload.single('fileData'), function(req, res) {
+  console.log(req.file.buffer.toString());
+  var file = req.file.buffer.toString();
+  var textArea = req.body.textArea;
+  var keyword = req.body.keyword;
+
+  if(verifyJSON(file) === false) {
     //res.end(compiled({csvResult: 'Can not convert. \n Not a JSON file or does not comply with the data structure'}));
     res.end('Can not convert. \n Not a JSON file or does not comply with the data structure');
   } else {
-    var jsonData = addFields(JSON.parse(dataBody), ' ', keyword);
+    var jsonData = addFields(JSON.parse(file), ' ', keyword);
     //res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
     lastData = '';
     lastData += convertHeader(jsonData);

@@ -8,16 +8,17 @@
     <header>
       <h1>JSON to CSV</h1>
     </header>
-      <p>paste JSON file below and submit</p>
+      <p>paste your file in JSON format below and submit</p>
       <form id='form' method='post'>
-        <textarea id='text' style='width:600px;height:200px' name='formData'></textarea>
+        <textarea id='text' style='width:600px;height:200px' name='text'></textarea>
         <br/>
         <br/>
-        <input id='file' type='file' name='fileData'>
+        <span>upload your JSON file (.txt only):</span>
+        <input id='fileData' type='file' name='fileData'>
         <br/>
         <br/>
         <p>I do not want this in the result (case sensitive): </p>
-        <input id='keyword' type=text style='width:600px'>
+        <input id='keyword' type=text name='keyword' style='width:600px'>
         <br/>
         <br/>
         <input type='submit'>

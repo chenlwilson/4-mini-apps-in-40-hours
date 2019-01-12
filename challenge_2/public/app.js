@@ -3,23 +3,15 @@ console.log('app.js loaded!');
 var getFileData = function(e) {
   e.preventDefault();
   var textArea = document.getElementById('text');
+  var fileData = document.getElementById('fileData').files[0];
   var keyword = document.getElementById('keyword');
-  var blacklist = '';
-  if (keyword.value) {
-    blacklist += keyword.value;
-  }
-  if (textArea.value) {
-    sendFile(textArea.value + '%' + blacklist);
-    document.getElementById('form').reset();
-  } else {
-    var fileInput = document.getElementById('file');
-    var file = fileInput.files.item(0);
-    var reader = new FileReader();
-    reader.readAsText(file);
-    reader.onload = function() {
-      sendFile(reader.result + '%' + blacklist);
-    }
-  }
+
+  var formData = new FormData();
+  formData.append('textArea', textArea);
+  formData.append('fileData', fileData);
+  formData.append('keyword', keyword);
+
+  sendFile(formData);
 }
 
 var display = function(data) {
@@ -31,11 +23,11 @@ var display = function(data) {
 var failMessage = function() {
   var result = document.getElementById('result');
   result.innerHTML = '';
-  result.append('Fail to send! :-(');
+  result.append('Fail to send file!');
 }
 
 var sendFile = function(file) {
-  console.log('hi');
+  console.log('sending file');
 
   ///////////using ajax/////////
   // $.ajax({
@@ -58,7 +50,7 @@ var sendFile = function(file) {
     method: 'POST',
     mode: 'cors',
     headers: {
-      contentType: 'text/plain'
+      contentType: 'multipart/form-data'
     },
     body: file
   })
