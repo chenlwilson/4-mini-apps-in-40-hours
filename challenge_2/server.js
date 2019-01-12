@@ -28,17 +28,19 @@ var uid = 0;
 var fileHeader = [];
 
 app.post('/convert', upload.single('fileData'), function(req, res) {
-  console.log(req.file.buffer.toString());
-  var file = req.file.buffer.toString();
-  var textArea = req.body.textArea;
+  var data = '';
   var keyword = req.body.keyword;
 
-  if(verifyJSON(file) === false) {
-    //res.end(compiled({csvResult: 'Can not convert. \n Not a JSON file or does not comply with the data structure'}));
+  if (req.file) {
+    data = req.file.buffer.toString();
+  } else {
+    data = req.body.textArea;
+  }
+
+  if(verifyJSON(data) === false) {
     res.end('Can not convert. \n Not a JSON file or does not comply with the data structure');
   } else {
-    var jsonData = addFields(JSON.parse(file), ' ', keyword);
-    //res.end(compiled({csvResult: convertHeader(jsonData) + convertContent(jsonData)}));
+    var jsonData = addFields(JSON.parse(data), ' ', keyword);
     lastData = '';
     lastData += convertHeader(jsonData);
     lastData += convertContent(jsonData);

@@ -2,9 +2,9 @@ console.log('app.js loaded!');
 
 var getFileData = function(e) {
   e.preventDefault();
-  var textArea = document.getElementById('text');
+  var textArea = document.getElementById('text').value;
   var fileData = document.getElementById('fileData').files[0];
-  var keyword = document.getElementById('keyword');
+  var keyword = document.getElementById('keyword').value;
 
   var formData = new FormData();
   formData.append('textArea', textArea);
@@ -68,6 +68,5 @@ var sendFile = function(file) {
 }
 
 var form = document.getElementById('form');
-//form.addEventListener('submit', getFormData);
 form.addEventListener('submit', getFileData);
 
