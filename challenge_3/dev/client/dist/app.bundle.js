@@ -33,35 +33,18 @@
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
 /******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
 /******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -79,22 +62,20 @@
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
-/******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./client/src/index.jsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ "./client/src/index.jsx":
+/******/ ([
+/* 0 */
+/* no static exports found */
+/* all exports used */
 /*!******************************!*\
   !*** ./client/src/index.jsx ***!
   \******************************/
-/*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("throw new Error(\"Module build failed (from ./node_modules/babel-loader/lib/index.js):\\nError: Requires Babel \\\"^7.0.0-0\\\", but was loaded with \\\"6.26.3\\\". If you are sure you have a compatible version of @babel/core, it is likely that something in your build process is loading the wrong version. Inspect the stack trace of this error to look for the first entry that doesn't mention \\\"@babel/core\\\" or \\\"babel-core\\\" to see what is calling Babel. (While processing preset: \\\"/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/@babel/preset-react/lib/index.js\\\")\\n    at throwVersionError (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/@babel/helper-plugin-utils/lib/index.js:65:11)\\n    at Object.assertVersion (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/@babel/helper-plugin-utils/lib/index.js:13:11)\\n    at _default (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/@babel/preset-react/lib/index.js:61:7)\\n    at /Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/@babel/helper-plugin-utils/lib/index.js:19:12\\n    at /Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/file/options/option-manager.js:317:46\\n    at Array.map (<anonymous>)\\n    at OptionManager.resolvePresets (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/file/options/option-manager.js:275:20)\\n    at OptionManager.mergePresets (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/file/options/option-manager.js:264:10)\\n    at OptionManager.mergeOptions (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/file/options/option-manager.js:249:14)\\n    at OptionManager.init (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/file/options/option-manager.js:368:12)\\n    at File.initOptions (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/file/index.js:212:65)\\n    at new File (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/file/index.js:135:24)\\n    at Pipeline.transform (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-core/lib/transformation/pipeline.js:46:16)\\n    at transpile (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-loader/lib/index.js:50:20)\\n    at Object.module.exports (/Users/Chen/hack_reactor/rpt11-mini-apps-1/challenge_3/dev/node_modules/babel-loader/lib/index.js:173:20)\");//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9jbGllbnQvc3JjL2luZGV4LmpzeC5qcyIsInNvdXJjZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./client/src/index.jsx\n");
+eval("throw new Error(\"Module build failed: SyntaxError: Unexpected token (624:1)\\n\\n\\u001b[0m \\u001b[90m 622 | \\u001b[39m    \\u001b[33m.\\u001b[39mthen(response \\u001b[33m=>\\u001b[39m response\\u001b[33m.\\u001b[39mtext())\\n \\u001b[90m 623 | \\u001b[39m    \\u001b[33m.\\u001b[39m\\u001b[36mcatch\\u001b[39m(err \\u001b[33m=>\\u001b[39m console\\u001b[33m.\\u001b[39mlog(\\u001b[32m'error: '\\u001b[39m \\u001b[33m+\\u001b[39m err))\\n\\u001b[31m\\u001b[1m>\\u001b[22m\\u001b[39m\\u001b[90m 624 | \\u001b[39m}\\n \\u001b[90m     | \\u001b[39m \\u001b[31m\\u001b[1m^\\u001b[22m\\u001b[39m\\u001b[0m\\n\");//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiMC5qcyIsInNvdXJjZXMiOltdLCJtYXBwaW5ncyI6IiIsInNvdXJjZVJvb3QiOiIifQ==");
 
 /***/ })
-
-/******/ });
+/******/ ]);
