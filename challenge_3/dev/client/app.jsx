@@ -839,39 +839,25 @@ class App extends React.Component {
     //conditional rendering child components depending on checkout step
     switch(step) {
       case 'Home':
-        page = <Home showF1 = {this.showF1} />
-        console.log(this.state)
-        console.log(this.props.myStorage);
+        page = <Home />
         break;
       case 'F1':
-        page = <F1 err = {this.state.err} showF2 = {this.showF2} getInfo = {this.getInfo} info = {this.state.info} showHome = {this.showHome} />
-        console.log(this.state)
-        console.log(this.props.myStorage);
+        page = <F1 />
         break;
       case 'F2':
-        page = <F2 err = {this.state.err} showF3 = {this.showF3} getInfo = {this.getInfo} info = {this.state.info} showF1 = {this.showF1}/>
-        console.log(this.state)
-        console.log(this.props.myStorage);
+        page = <F2 />
         break;
       case 'F3':
-        page = <F3 err = {this.state.err} showSum = {this.showSum} getInfo = {this.getInfo} info = {this.state.info} showF2 = {this.showF2} />
-        console.log(this.state)
-        console.log(this.props.myStorage);
+        page = <F3 />
         break;
       case 'Sum':
-        page = <Sum showThankYou = {this.showThankYou} info = {this.state.info} showSumEdit = {this.showSumEdit} />
-        console.log(this.state);
-        console.log(this.props.myStorage);
+        page = <Sum />
         break;
       case 'SumEdit':
-        page = <SumEdit err = {this.state.err} showSum = {this.showSum} getInfo = {this.getInfo} info= {this.state.info} />
-        console.log(this.state);
-        console.log(this.props.myStorage);
+        page = <SumEdit />
         break;
       case 'ThankYou':
-        page = <ThankYou showHome = {this.showHome} />
-        console.log(this.state);
-        console.log(this.props.myStorage);
+        page = <ThankYou />
         break;
     }
 
@@ -920,6 +906,5 @@ var getId = () => {
 ReactDOM.render(
   <Provider store = {store}>
     <App />
-  </Provider>,
-  document.getElementById('app')
-);
+  </Provider>, document.getElementById('app')
+  )

@@ -9,7 +9,7 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "build": "node_modules/.bin/babel client --watch --out-dir public --preset @babel/preset-react --source-maps inline",
+    "build": "webpack -d --watch",
     "start": "nodemon --ignore node_modules server.js"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
-    "webpack": "^4.28.4"
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   }
 }
