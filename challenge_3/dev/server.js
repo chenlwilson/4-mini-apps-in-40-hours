@@ -5,7 +5,7 @@ var app = express();
 var port = 8080;
 
 app.listen(port);
-app.use(express.static('public'));
+app.use(express.static('client'));
 app.use(bodyParser.json());
 
 /////////////////////////DATABASE///////////////////////////
