@@ -1,4 +1,4 @@
-import changeInfo from 'changeInfo.js';
+import changeInfo from './changeInfo.js';
 
 var getInfo = (id, value) => {
   return (dispatch, getState) => {

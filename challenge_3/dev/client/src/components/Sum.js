@@ -1,5 +1,5 @@
 import React from 'react';
-import SumLabel from 'SumLabel.js';
+import SumLabel from './SumLabel.js';
 
 var Sum = (props) => (
   <div>

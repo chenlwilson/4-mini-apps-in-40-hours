@@ -1,4 +1,4 @@
-import changeStep from 'changeStep.js';
+import changeStep from './changeStep.js';
 
 var showHome = (e) => {
   e.preventDetaul();

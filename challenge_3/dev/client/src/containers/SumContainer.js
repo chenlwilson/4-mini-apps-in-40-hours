@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import showSumEdit from './../actions/showSumEdit.js';
-import showThankYou from './../actions/showThankYou.js';
-import Sum from './../components/Sum.js';
+import showSumEdit from '../actions/showSumEdit.js';
+import showThankYou from '../actions/showThankYou.js';
+import Sum from '../components/Sum.js';
 
 const mapStateToPropsSum = (state) => {
   return {

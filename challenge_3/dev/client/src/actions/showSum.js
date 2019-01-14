@@ -1,5 +1,5 @@
-import changeErr from 'changeErr.js';
-import changeStep from 'changeStep.js';
+import changeErr from './changeErr.js';
+import changeStep from './changeStep.js';
 
 var showSum = (e) => {
   e.preventDetaul();

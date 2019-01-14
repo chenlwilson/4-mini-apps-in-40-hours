@@ -1,5 +1,5 @@
-import changeErr from 'changeErr.js';
-import changeStep from 'changeStep.js';
+import changeErr from './changeErr.js';
+import changeStep from './changeStep.js';
 
 var showF2 = (e) => {
   e.preventDetaul();

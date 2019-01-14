@@ -14,23 +14,25 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
   }
-
   //call db to get the last purchase record id and increase by 1
   //so that app does not lose the id count after page reload
-  componentDidMount() {
-    getId()
-      .then((lastId) => {
-        changeId(parseInt(lastId)+1);
-      })
-  }
+  // componentDidMount() {
+  //   getId()
+  //     .then((lastId) => {
+  //       changeId(parseInt(lastId)+1);
+  //     })
+  //}
 
   render() {
+    console.log('App.js line 27');
     const step = store.getState().step;
     let page;
 
     //conditional rendering child components depending on checkout step
     switch(step) {
       case 'Home':
+        console.log('state is :')
+        console.log(store.getState());
         page = <HomeContainer />
         break;
       case 'F1':

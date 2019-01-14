@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
-import showF2 from './../actions/showF2.js';
-import getInfo from './../actions/getInfo.js';
-import showF2 from './../actions/showF2.js';
-import F1 from './../components/F1.js';
+import showF2 from '../actions/showF2.js';
+import getInfo from '../actions/getInfo.js';
+import F1 from '../components/F1.js';
 
 const mapStateToPropsF1 = (state) => {
   return {

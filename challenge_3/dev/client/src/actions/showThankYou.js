@@ -1,6 +1,6 @@
-import changeInfo from 'changeInfo.js';
-import changeStep from 'changeStep.js';
-import changeId from 'changeId.js';
+import changeInfo from './changeInfo.js';
+import changeStep from './changeStep.js';
+import changeId from './changeId.js';
 import sendData from '../lib/sendData.js';
 
 var showThankYou = (e) => {

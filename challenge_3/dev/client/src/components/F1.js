@@ -1,5 +1,5 @@
 import React from 'react';
-import InfoLabel from 'InfoLabel.js';
+import InfoLabel from './InfoLabel.js';
 
 var F1 = (props) => (
   <div>
