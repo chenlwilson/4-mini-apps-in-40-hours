@@ -30,38 +30,24 @@ export default class App extends React.Component {
     //conditional rendering child components depending on checkout step
     switch(this.props.step) {
       case 'Home':
-        console.log('HOME, state is :')
-        console.log(store.getState());
         page = <HomeContainer />
         break;
       case 'F1':
-        console.log('F1, state is :')
-        console.log(store.getState());
         page = <F1Container />
         break;
       case 'F2':
-        console.log('F2, state is :')
-        console.log(store.getState());
         page = <F2Container />
         break;
       case 'F3':
-        console.log('F3, state is :')
-        console.log(store.getState());
         page = <F3Container />
         break;
       case 'Sum':
-        console.log('Sum, state is :')
-        console.log(store.getState());
         page = <SumContainer />
         break;
       case 'SumEdit':
-        console.log('SumEdit, state is :')
-        console.log(store.getState());
         page = <SumEditContainer />
         break;
       case 'ThankYou':
-        console.log('ThankYou, state is :')
-        console.log(store.getState());
         page = <ThankYouContainer />
         break;
     }

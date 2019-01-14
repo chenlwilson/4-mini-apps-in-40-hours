@@ -1,7 +1,8 @@
 import changeErr from './changeErr.js';
 import changeStep from './changeStep.js';
 
-var showF3 = () => {
+var showF3 = (e) => {
+  e.preventDefault();
   return (dispatch, getState) => {
     let info = getState().info;
     if (!info.address1) {
@@ -19,6 +20,7 @@ var showF3 = () => {
     } else if (info.phone.length !== 10) {
       dispatch(changeErr('Phone Number should be 10 Digits, Numbers Only.'))
     } else {
+      dispatch(changeErr(''))
       dispatch(changeStep('F3'))
     }
   }

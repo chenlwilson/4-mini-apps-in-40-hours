@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import getId from '../lib/getId.js';
 import changeId from '../actions/changeId.js';
 import App from '../components/App.js';
 

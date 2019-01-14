@@ -11,7 +11,7 @@ var Home = ({showF1}) => (
       </ul>
     </fieldset>
     <br/>
-  <button onClick={ () => { showF1() } }>Checkout</button>
+  <button onClick={ (e) => { showF1(e) } }>Checkout</button>
   </div>
 );
 

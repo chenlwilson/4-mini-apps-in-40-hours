@@ -1,7 +1,8 @@
 import changeErr from './changeErr.js';
 import changeStep from './changeStep.js';
 
-var showSum = () => {
+var showSum = (e) => {
+  e.preventDefault();
   return (dispatch, getState) => {
     let info = getState().info;
     if (!info.username) {
@@ -47,6 +48,7 @@ var showSum = () => {
     } else if (info['billing zip code'].length !== 5) {
       dispatch(changeErr('Billing Zip Code should be 5 digits'))
     } else {
+      dispatch(changeErr(''))
       dispatch(changeStep('Sum'))
     }
   }

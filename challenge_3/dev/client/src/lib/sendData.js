@@ -1,10 +1,6 @@
 //using fetch to handle API calls
 //client post request
-
 var sendData = (data) => {
-
-  console.log('sendData.js loaded!');
-  console.log(JSON.stringify(data));
 
   return fetch('/checkout', {
     method: 'POST',

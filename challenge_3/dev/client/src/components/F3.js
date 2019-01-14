@@ -13,8 +13,8 @@ var F3 = (props) => (
       )}
     </fieldset>
     <br/>
-  <button onClick={() => { props.showF2() }}>Back</button>
-  <button onClick={() => { props.showSum() }}>Next</button>
+  <button onClick={(e) => { props.showF2(e) }}>Back</button>
+  <button onClick={(e) => { props.showSum(e) }}>Next</button>
   </form>
     <br/><br/>
     <div>{ props.err }</div>

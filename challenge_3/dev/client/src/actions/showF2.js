@@ -1,7 +1,8 @@
 import changeErr from './changeErr.js';
 import changeStep from './changeStep.js';
 
-var showF2 = () => {
+var showF2 = (e) => {
+  e.preventDefault();
   return (dispatch, getState) => {
     let info = getState().info;
     if (!info.username) {
@@ -17,6 +18,7 @@ var showF2 = () => {
     } else if (info.password.length < 6) {
       dispatch(changeErr('Password should be 6 characters or longer.'))
     } else {
+      dispatch(changeErr(''))
       dispatch(changeStep('F2'))
     }
   }

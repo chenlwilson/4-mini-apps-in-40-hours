@@ -14,7 +14,7 @@ var F1 = (props) => (
         </fieldset>
         <br/>
         <button onClick={() => { props.showHome() }}>Back</button>
-        <button onClick={() => { props.showF2() }}>Next</button>
+        <button onClick={(e) => { props.showF2(e) }}>Next</button>
       </form>
       <br/><br/>
       <div>{ props.err }</div>

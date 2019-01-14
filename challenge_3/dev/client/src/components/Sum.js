@@ -1,5 +1,5 @@
 import React from 'react';
-import SumLabelContainer from '../containers/SumLabelContainer.js';
+import SumLabel from '../components/SumLabel.js';
 
 var Sum = (props) => (
   <div>
@@ -8,7 +8,7 @@ var Sum = (props) => (
       { Object.keys(props.info)
         .filter(fieldName => fieldName !== 'password')
         .map((fieldName) =>
-        <SumLabelContainer label={fieldName} key = {fieldName} />
+        <SumLabel label={fieldName} key = {fieldName} info={props.info} />
       )}
   </fieldset>
   <br/>

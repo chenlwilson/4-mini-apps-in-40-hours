@@ -1,8 +1,5 @@
 //client get request
-
 var getId = () => {
-
-  console.log('getId.js loaded!')
 
   return fetch('/checkout', {
     method: 'GET',

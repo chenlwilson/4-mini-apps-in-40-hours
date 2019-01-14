@@ -12,7 +12,7 @@ var SumEdit = (props) => (
       )}
   </fieldset>
   <br/>
-  <button onClick={() => { props.showSum() }}>Confirm</button>
+  <button onClick={(e) => { props.showSum(e) }}>Confirm</button>
     <br/><br/>
     <div>{ props.err }</div>
   </div>

@@ -4,8 +4,6 @@ import getInfo from '../actions/getInfo.js';
 import showF3 from '../actions/showF3.js';
 import F2 from '../components/F2.js';
 
-console.log('F2Container loaded!');
-
 const mapStateToProps = (state) => {
   return {
     err: state.err,
@@ -17,11 +15,11 @@ const mapDispatchToProps = (dispatch) => {
     getInfo: (id, value) => {
       dispatch(getInfo(id, value))
     },
-    showF1: () => {
-      dispatch(showF1())
+    showF1: (e) => {
+      dispatch(showF1(e))
     },
-    showF3: () => {
-      dispatch(showF3())
+    showF3: (e) => {
+      dispatch(showF3(e))
     }
   }
 }
