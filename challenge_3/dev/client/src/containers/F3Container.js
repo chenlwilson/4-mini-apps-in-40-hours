@@ -6,8 +6,8 @@ import F3 from '../components/F3.js';
 
 const mapStateToPropsF3 = (state) => {
   return {
-    err: state.changeErr,
-    info: state.changeInfo
+    err: state.err,
+    info: state.info
   }
 }
 const mapDispatchToPropsF3 = (dispatch) => {

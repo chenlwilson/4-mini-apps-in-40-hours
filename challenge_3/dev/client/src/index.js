@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import { Provider } from 'react-redux';
-import App from './components/App.js';
 import store from './store/store.js'
-//***************************DOM*******************************/
+import Main from './components/Main.js';
+
 console.log('index.js loaded')
 
 ReactDOM.render(
   <Provider store = {store} >
-    <App />
+    <Main />
   </Provider>,
   document.getElementById('app')
 )

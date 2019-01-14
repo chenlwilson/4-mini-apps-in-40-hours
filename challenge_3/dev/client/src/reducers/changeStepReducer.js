@@ -1,11 +1,11 @@
 import Redux from 'redux';
+import store from '../store/store.js'
 
 var changeStepReducer = (state = 'Home', action) => {
-  switch(action.type) {
-    case 'step':
-      return action.step
-    default:
-      return state
+  if (action.type === 'step') {
+    return action.step;
+  } else {
+    return state;
   }
 }
 

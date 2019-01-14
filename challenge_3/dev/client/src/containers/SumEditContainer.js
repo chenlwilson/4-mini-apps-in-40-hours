@@ -6,8 +6,8 @@ import SumEdit from '../components/SumEdit.js';
 
 const mapStateToPropsSumEdit = (state) => {
   return {
-    err: state.changeErr,
-    info: state.changeInfo
+    err: state.err,
+    info: state.info
   }
 }
 const mapDispatchToPropsSumEdit = (dispatch) => {

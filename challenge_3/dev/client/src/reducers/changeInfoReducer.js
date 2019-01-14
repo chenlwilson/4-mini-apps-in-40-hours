@@ -1,7 +1,7 @@
 import Redux from 'redux';
 
 var defaultInfo = {
-  'username': '',
+  'username': '12345',
   'email': '',
   'password': '',
   'address1': '',
@@ -17,11 +17,10 @@ var defaultInfo = {
 }
 
 var changeInfoReducer = (state = defaultInfo, action) => {
-  switch(action.type) {
-    case 'info':
-      return action.info
-    default:
-      return state
+  if (action.type === 'info') {
+    return action.info
+  } else {
+    return state;
   }
 }
 

@@ -1,11 +1,10 @@
 import Redux from 'redux';
 
 var changeErrReducer = (state = '', action) => {
-  switch(action.type) {
-    case 'err':
-      return action.err
-    default:
-      return state
+  if (action.type === 'err') {
+    return action.err
+  } else {
+    return state
   }
 }
 

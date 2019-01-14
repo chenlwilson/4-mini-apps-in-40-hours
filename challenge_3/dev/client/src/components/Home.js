@@ -1,6 +1,6 @@
 import React from 'react';
 
-var Home = (props) => (
+var Home = ({showF1}) => (
   <div>
     <fieldset>
       <legend>Items</legend>
@@ -11,8 +11,9 @@ var Home = (props) => (
       </ul>
     </fieldset>
     <br/>
-  <button onClick={ (e) => { props.showF1(e) } }>Checkout</button>
+  <button onClick={ (e) => { e.preventDefault(); showF1() } }>Checkout</button>
   </div>
 );
+
 
 export default Home;

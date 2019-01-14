@@ -1,14 +1,17 @@
 import { combineReducers } from 'redux';
-import changeStepReducer from './changeStepReducer.js';
-import changeErrReducer from './changeErrReducer.js';
-import changeIdReducer from './changeIdReducer.js';
-import changeInfoReducer from './changeInfoReducer.js';
+import step from './changeStepReducer.js';
+import err from './changeErrReducer.js';
+import id from './changeIdReducer.js';
+import info from './changeInfoReducer.js';
+
+console.log('rootReducer loaded');
+console.log(id);
 
 var rootReducer = combineReducers({
-  step: changeStepReducer,
-  err: changeErrReducer,
-  id: changeIdReducer,
-  info: changeInfoReducer
-})
+  step,
+  err,
+  id,
+  info
+});
 
 export default rootReducer;

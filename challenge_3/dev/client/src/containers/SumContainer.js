@@ -5,7 +5,7 @@ import Sum from '../components/Sum.js';
 
 const mapStateToPropsSum = (state) => {
   return {
-    info: state.changeInfo
+    info: state.info
   }
 }
 const mapDispatchToPropsSum = (dispatch) => {

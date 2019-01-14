@@ -4,10 +4,12 @@ import getInfo from '../actions/getInfo.js';
 import showF3 from '../actions/showF3.js';
 import F2 from '../components/F2.js';
 
+console.log('F2Container loaded!');
+
 const mapStateToPropsF2 = (state) => {
   return {
-    err: state.changeErr,
-    info: state.changeInfo
+    err: state.err,
+    info: state.info
   }
 }
 const mapDispatchToPropsF2 = (dispatch) => {

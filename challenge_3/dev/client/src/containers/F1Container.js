@@ -3,13 +3,15 @@ import showF2 from '../actions/showF2.js';
 import getInfo from '../actions/getInfo.js';
 import F1 from '../components/F1.js';
 
-const mapStateToPropsF1 = (state) => {
+console.log('F1Container loaded!');
+
+const mapStateToProps = (state) => {
   return {
-    err: state.changeErr,
-    info: state.changeInfo
+    err: state.err,
+    info: state.info
   }
 }
-const mapDispatchToPropsF1 = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getInfo: (id, value) => {
       dispatch(getInfo(id, value))
@@ -22,6 +24,6 @@ const mapDispatchToPropsF1 = (dispatch) => {
     }
   }
 }
-var F1Container = connect(mapStateToPropsF1, mapDispatchToPropsF1)(F1)
+var F1Container = connect(mapStateToProps, mapDispatchToProps)(F1)
 
 export default F1Container;
