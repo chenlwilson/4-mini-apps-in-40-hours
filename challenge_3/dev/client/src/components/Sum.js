@@ -12,8 +12,8 @@ var Sum = (props) => (
       )}
   </fieldset>
   <br/>
-  <button onClick={(e) => { props.showSumEdit(e) }}>Edit Info</button>
-  <button onClick={(e) => { props.showThankYou(e) }}>Purchase</button>
+  <button onClick={(e) => { e.preventDetaul(); props.showSumEdit() }}>Edit Info</button>
+  <button onClick={(e) => { e.preventDetaul(); props.showThankYou() }}>Purchase</button>
   </div>
 )
 

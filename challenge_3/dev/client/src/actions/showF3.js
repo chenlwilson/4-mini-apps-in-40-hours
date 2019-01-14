@@ -1,8 +1,7 @@
 import changeErr from './changeErr.js';
 import changeStep from './changeStep.js';
 
-var showF3 = (e) => {
-  e.preventDetaul();
+var showF3 = () => {
   return (dispatch, getState) => {
     let info = getState().info;
     if (!info.address1) {

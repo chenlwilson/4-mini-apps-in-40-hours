@@ -1,8 +1,7 @@
 import changeErr from './changeErr.js';
 import changeStep from './changeStep.js';
 
-var showSum = (e) => {
-  e.preventDetaul();
+var showSum = () => {
   return (dispatch, getState) => {
     let info = getState().info;
     if (!info.username) {

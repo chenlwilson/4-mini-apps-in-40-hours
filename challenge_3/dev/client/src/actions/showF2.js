@@ -1,8 +1,7 @@
 import changeErr from './changeErr.js';
 import changeStep from './changeStep.js';
 
-var showF2 = (e) => {
-  e.preventDetaul();
+var showF2 = () => {
   return (dispatch, getState) => {
     let info = getState().info;
     if (!info.username) {

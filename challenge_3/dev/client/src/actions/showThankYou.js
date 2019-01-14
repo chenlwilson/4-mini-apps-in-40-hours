@@ -3,8 +3,7 @@ import changeStep from './changeStep.js';
 import changeId from './changeId.js';
 import sendData from '../lib/sendData.js';
 
-var showThankYou = (e) => {
-  e.preventDetaul();
+var showThankYou = () => {
   var infoDefault = {
     'username': '',
     'email': '',

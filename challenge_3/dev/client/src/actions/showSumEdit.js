@@ -1,7 +1,6 @@
 import changeStep from './changeStep.js';
 
-var showSumEdit = (e) => {
-  e.preventDetaul();
+var showSumEdit = () => {
   return (dispatch) => {
     dispatch(changeStep('SumEdit'));
   }

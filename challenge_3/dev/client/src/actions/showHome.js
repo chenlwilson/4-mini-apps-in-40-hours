@@ -1,7 +1,6 @@
 import changeStep from './changeStep.js';
 
-var showHome = (e) => {
-  e.preventDefault();
+var showHome = () => {
   return (dispatch) => {
     dispatch(changeStep('Home'))
   }
