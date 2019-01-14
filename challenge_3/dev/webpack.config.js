@@ -1,5 +1,5 @@
 module.exports = {
-  entry: __dirname + '/client/src/index.jsx',
+  entry: __dirname + '/client/src/index.js',
   output: {
     filename: 'app.bundle.js',
     path: __dirname + '/client/dist'
@@ -12,10 +12,15 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['env', 'react', 'stage-0']
+            presets: ['@babel/preset-env', '@babel/preset-react']
           }
         }
       }
     ]
+  },
+  externals: {
+    'react/addons': true, // important!!
+    'react/lib/ReactContext': true,
+    'react/lib/ExecutionEnvironment': true
   }
 };

@@ -5,7 +5,7 @@ var app = express();
 var port = 8080;
 
 app.listen(port);
-app.use(express.static('client'));
+app.use(express.static('client/dist'));
 app.use(bodyParser.json());
 
 /////////////////////////DATABASE///////////////////////////
@@ -50,6 +50,7 @@ app.post('/checkout', (req, res) => {
 });
 
 app.get('/checkout', (req, res) => {
+  console.log('server.js line 53')
   model.getLastId((lastId) => {
     res.send(lastId);
   })

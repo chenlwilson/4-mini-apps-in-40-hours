@@ -1,4 +1,3 @@
-/***************************REDUX*******************************/
 import React from 'react';
 import ReactDOM from "react-dom";
 import Redux from 'redux';
@@ -6,6 +5,173 @@ import { connect } from 'react-redux';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import Provider from 'react-redux';
 import thunk from 'redux-thunk';
+
+//***************************CLIENT*******************************/
+//using fetch to handle API calls
+//client post request
+var sendData = (data) => {
+  console.log('sending data!');
+  console.log(JSON.stringify(data));
+  return fetch('/checkout', {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.text())
+    .catch(err => console.log('error: ' + err))
+    .then(response => console.log('success: ' + response)
+  )
+}
+
+//client get request
+var getId = () => {
+  return fetch('/checkout', {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.text())
+    .catch(err => console.log('error: ' + err))
+}
+
+/***************************REACT*******************************/
+
+//////////////////////GRANDCHILD COMPONENTS////////////////////
+var InfoLabel = (props) => (
+  <div>
+    <label>{ props.label }:  <br />
+      <input type='text' name={ props.label } value={ props.info[props.label] } onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
+      </label><br />
+  </div>
+)
+
+var SumLabel = (props) => (
+    <div>
+    <label>{ props.label }: { props.info[props.label] }
+    </label><br />
+    </div>
+);
+
+/////////////////////CHILD COMPONENTS//////////////////////////
+var Home = (props) => (
+  <div>
+    <fieldset>
+      <legend>Items</legend>
+      <ul>
+      <li>Manolo Blahnik, Carolyn, 70mm, Navy, Size 36</li>
+      <li>Manolo Blahnik, Taylor, 90mm, Black, Size 36</li>
+      <li>Manolo Blahnik, BB, 105mm, Pink, Size 36</li>
+      </ul>
+    </fieldset>
+    <br/>
+  <button onClick={ (e) => { props.showF1(e) } }>Checkout</button>
+  </div>
+);
+
+var F1 = (props) => (
+  <div>
+      <form>
+        <fieldset>
+          <legend>Create Account</legend>
+          { Object.keys(props.info)
+            .slice(0, 3)
+            .map((fieldName) =>
+            <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
+          )}
+        </fieldset>
+        <br/>
+        <button onClick={(e) => { props.showHome(e) }}>Back</button>
+        <button onClick={(e) => { props.showF2(e) }}>Next</button>
+      </form>
+      <br/><br/>
+      <div>{ props.err }</div>
+      </div>
+)
+
+var F2 = (props) => (
+  <div>
+    <form>
+    <fieldset>
+      <legend>Shipping Address</legend>
+      { Object.keys(props.info)
+        .slice(3, 9)
+        .map((fieldName) =>
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
+      )}
+    </fieldset>
+    <br/>
+  <button onClick={(e) => { props.showF1(e) }}>Back</button>
+  <button onClick={(e) => { props.showF3(e) }}>Next</button>
+  </form>
+    <br/><br/>
+    <div>{ props.err }</div>
+  </div>
+)
+
+var F3 = (props) => (
+  <div>
+    <form>
+    <fieldset>
+      <legend>Payment</legend>
+      { Object.keys(props.info)
+        .slice(9, 13)
+        .map((fieldName) =>
+        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
+      )}
+    </fieldset>
+    <br/>
+  <button onClick={(e) => { props.showF2(e) }}>Back</button>
+  <button onClick={(e) => { props.showSum(e) }}>Next</button>
+  </form>
+    <br/><br/>
+    <div>{ props.err }</div>
+  </div>
+)
+
+var Sum = (props) => (
+  <div>
+  <fieldset>
+      <legend>Summary</legend>
+      { Object.keys(props.info)
+        .filter(fieldName => fieldName !== 'password')
+        .map((fieldName) =>
+        <SumLabel label={fieldName} key = {fieldName} info={props.info} />
+      )}
+  </fieldset>
+  <br/>
+  <button onClick={(e) => { props.showSumEdit(e) }}>Edit Info</button>
+  <button onClick={(e) => { props.showThankYou(e) }}>Purchase</button>
+  </div>
+)
+
+var SumEdit = (props) => (
+  <div>
+  <fieldset>
+      <legend>Summary</legend>
+      { Object.keys(props.info)
+        .filter(fieldName => fieldName !== 'password')
+        .map((fieldName) =>
+        <InfoLabel label={fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
+      )}
+  </fieldset>
+  <br/>
+  <button onClick={(e) => { props.showSum(e) }}>Confirm</button>
+    <br/><br/>
+    <div>{ props.err }</div>
+  </div>
+)
+
+var ThankYou = (props) => (
+  <div>
+    <h1>Thank You For Your Purchase!</h1>
+    <button onClick={(e) => { props.showHome(e) }}>Continue To Shop</button>
+    </div>
+)
 
 ///////////////////////////ACTIONS/////////////////////////////
 var changeStep = (step) => {
@@ -36,6 +202,7 @@ var changeInfo = (info) => {
   }
 }
 
+///////////////////////////DISPATCH/////////////////////////////
 var getInfo = (id, value) => {
   return (dispatch, getState) => {
     let info = getState().info;
@@ -76,6 +243,7 @@ var showF2 = (e) => {
       dispatch(changeErr('Password should be 6 characters or longer.'))
     } else {
       dispatch(changeStep('F2'))
+    }
   }
 }
 
@@ -220,26 +388,28 @@ var changeIdReducer = (state = 0, action) => {
   }
 }
 
-var changeInfoReducer = (action) => {
+var defaultInfo = {
+  'username': '',
+  'email': '',
+  'password': '',
+  'address1': '',
+  'address2': '',
+  'city': '',
+  'state': '',
+  'shipping zip code' : '',
+  'phone': '',
+  'credit card number': '',
+  'expiration date': '',
+  'cvv': '',
+  'billing zip code': ''
+}
+
+var changeInfoReducer = (state = defaultInfo, action) => {
   switch(action.type) {
     case 'info':
       return action.info
     default:
-      return {
-        'username': '',
-        'email': '',
-        'password': '',
-        'address1': '',
-        'address2': '',
-        'city': '',
-        'state': '',
-        'shipping zip code' : '',
-        'phone': '',
-        'credit card number': '',
-        'expiration date': '',
-        'cvv': '',
-        'billing zip code': ''
-      }
+      return state
   }
 }
 
@@ -253,7 +423,7 @@ var rootReducer = combineReducers({
 
 //////////////////////////STORE/////////////////////////////////
 const store = createStore(
-  roodReducer,
+  rootReducer,
   applyMiddleware(thunk)
 )
 
@@ -383,139 +553,7 @@ const mapDispatchToPropsThankYou = (dispatch) => {
   }
 }
 var ThankYouContainer = connect(null, mapDispatchToPropsThankYou)(ThankYou)
-/***************************REACT*******************************/
 
-//////////////////////GRANDCHILD COMPONENTS////////////////////
-var InfoLabel = (props) => (
-  <div>
-    <label>{ props.label }:  <br />
-      <input type='text' name={ props.label } value={ props.info[props.label] } onChange={(e) => { props.getInfo(e.target.name, e.target.value) }} />
-      </label><br />
-  </div>
-)
-
-var SumLabel = (props) => (
-    <div>
-    <label>{ props.label }: { props.info[props.label] }
-    </label><br />
-    </div>
-);
-
-/////////////////////CHILD COMPONENTS//////////////////////////
-var Home = (props) => (
-  <div>
-    <fieldset>
-      <legend>Items</legend>
-      <ul>
-      <li>Manolo Blahnik, Carolyn, 70mm, Navy, Size 36</li>
-      <li>Manolo Blahnik, Taylor, 90mm, Black, Size 36</li>
-      <li>Manolo Blahnik, BB, 105mm, Pink, Size 36</li>
-      </ul>
-    </fieldset>
-    <br/>
-  <button onClick={ (e) => { props.showF1(e) } }>Checkout</button>
-  </div>
-);
-
-var F1 = (props) => (
-  <div>
-      <form>
-        <fieldset>
-          <legend>Create Account</legend>
-          { Object.keys(props.info)
-            .slice(0, 3)
-            .map((fieldName) =>
-            <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
-          )}
-        </fieldset>
-        <br/>
-        <button onClick={(e) => { props.showHome(e) }}>Back</button>
-        <button onClick={(e) => { props.showF2(e) }}>Next</button>
-      </form>
-      <br/><br/>
-      <div>{ props.err }</div>
-      </div>
-)
-
-var F2 = (props) => (
-  <div>
-    <form>
-    <fieldset>
-      <legend>Shipping Address</legend>
-      { Object.keys(props.info)
-        .slice(3, 9)
-        .map((fieldName) =>
-        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
-      )}
-    </fieldset>
-    <br/>
-  <button onClick={(e) => { props.showF1(e) }}>Back</button>
-  <button onClick={(e) => { props.showF3(e) }}>Next</button>
-  </form>
-    <br/><br/>
-    <div>{ props.err }</div>
-  </div>
-)
-
-var F3 = (props) => (
-  <div>
-    <form>
-    <fieldset>
-      <legend>Payment</legend>
-      { Object.keys(props.info)
-        .slice(9, 13)
-        .map((fieldName) =>
-        <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
-      )}
-    </fieldset>
-    <br/>
-  <button onClick={(e) => { props.showF2(e) }}>Back</button>
-  <button onClick={(e) => { props.showSum(e) }}>Next</button>
-  </form>
-    <br/><br/>
-    <div>{ props.err }</div>
-  </div>
-)
-
-var Sum = (props) => (
-  <div>
-  <fieldset>
-      <legend>Summary</legend>
-      { Object.keys(props.info)
-        .filter(fieldName => fieldName !== 'password')
-        .map((fieldName) =>
-        <SumLabel label={fieldName} key = {fieldName} info={props.info} />
-      )}
-  </fieldset>
-  <br/>
-  <button onClick={(e) => { props.showSumEdit(e) }}>Edit Info</button>
-  <button onClick={(e) => { props.showThankYou(e) }}>Purchase</button>
-  </div>
-)
-
-var SumEdit = (props) => (
-  <div>
-  <fieldset>
-      <legend>Summary</legend>
-      { Object.keys(props.info)
-        .filter(fieldName => fieldName !== 'password')
-        .map((fieldName) =>
-        <InfoLabel label={fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
-      )}
-  </fieldset>
-  <br/>
-  <button onClick={(e) => { props.showSum(e) }}>Confirm</button>
-    <br/><br/>
-    <div>{ props.err }</div>
-  </div>
-)
-
-var ThankYou = (props) => (
-  <div>
-    <h1>Thank You For Your Purchase!</h1>
-    <button onClick={(e) => { props.showHome(e) }}>Continue To Shop</button>
-    </div>
-)
 //////////////////////ROOT COMPONENT///////////////////////////
 class App extends React.Component {
   constructor(props) {
@@ -589,36 +627,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('app')
 )
-
-//***************************CLIENT*******************************/
-//using fetch to handle API calls
-//client post request
-var sendData = (data) => {
-  console.log('sending data!');
-  console.log(JSON.stringify(data));
-  return fetch('/checkout', {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  })
-    .then(response => response.text())
-    .catch(err => console.log('error: ' + err))
-    .then(response => console.log('success: ' + response)
-  )
-}
-
-//client get request
-var getId = () => {
-  return fetch('/checkout', {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-    .then(response => response.text())
-    .catch(err => console.log('error: ' + err))
-}
