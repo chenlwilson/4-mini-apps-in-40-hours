@@ -1,5 +1,5 @@
 import React from 'react';
-import InfoLabelContainer from '../containers/InfoLabelContainer.js';
+import InfoLabel from '../components/InfoLabel.js';
 
 var F1 = (props) => (
   <div>
@@ -9,12 +9,12 @@ var F1 = (props) => (
           { Object.keys(props.info)
             .slice(0, 3)
             .map((fieldName) =>
-            <InfoLabelContainer label = {fieldName} key = {fieldName} />
+            <InfoLabel label = {fieldName} key = {fieldName} getInfo = {props.getInfo} info={props.info} />
           )}
         </fieldset>
         <br/>
-        <button onClick={(e) => { e.preventDetaul(); props.showHome() }}>Back</button>
-        <button onClick={(e) => { e.preventDetaul(); props.showF2() }}>Next</button>
+        <button onClick={() => { props.showHome() }}>Back</button>
+        <button onClick={() => { props.showF2() }}>Next</button>
       </form>
       <br/><br/>
       <div>{ props.err }</div>

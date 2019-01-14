@@ -13,8 +13,8 @@ var F2 = (props) => (
       )}
     </fieldset>
     <br/>
-  <button onClick={(e) => { e.preventDetaul(); props.showF1() }}>Back</button>
-  <button onClick={(e) => { e.preventDetaul(); props.showF3() }}>Next</button>
+  <button onClick={() => { props.showF1() }}>Back</button>
+  <button onClick={() => { props.showF3() }}>Next</button>
   </form>
     <br/><br/>
     <div>{ props.err }</div>
