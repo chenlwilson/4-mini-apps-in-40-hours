@@ -3,12 +3,12 @@ import showSumEdit from '../actions/showSumEdit.js';
 import showThankYou from '../actions/showThankYou.js';
 import Sum from '../components/Sum.js';
 
-const mapStateToPropsSum = (state) => {
+const mapStateToProps = (state) => {
   return {
     info: state.info
   }
 }
-const mapDispatchToPropsSum = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     showSumEdit: (e) => {
       dispatch(showSumEdit(e))
@@ -18,6 +18,6 @@ const mapDispatchToPropsSum = (dispatch) => {
     }
   }
 }
-var SumContainer = connect(mapStateToPropsSum, mapDispatchToPropsSum)(Sum)
+var SumContainer = connect(mapStateToProps, mapDispatchToProps)(Sum)
 
 export default SumContainer;

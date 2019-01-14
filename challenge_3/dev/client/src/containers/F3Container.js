@@ -4,13 +4,13 @@ import getInfo from '../actions/getInfo.js';
 import showSum from '../actions/showSum.js';
 import F3 from '../components/F3.js';
 
-const mapStateToPropsF3 = (state) => {
+const mapStateToProps = (state) => {
   return {
     err: state.err,
     info: state.info
   }
 }
-const mapDispatchToPropsF3 = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getInfo: (id, value) => {
       dispatch(getInfo(id, value))
@@ -23,6 +23,6 @@ const mapDispatchToPropsF3 = (dispatch) => {
     }
   }
 }
-var F3Container = connect(mapStateToPropsF3, mapDispatchToPropsF3)(F3)
+var F3Container = connect(mapStateToProps, mapDispatchToProps)(F3)
 
 export default F3Container;

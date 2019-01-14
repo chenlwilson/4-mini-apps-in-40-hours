@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-//import getId from '../lib/getId.js';
+import getId from '../lib/getId.js';
+import changeId from '../actions/changeId.js';
 import App from '../components/App.js';
 
 const mapStateToProps = (state) => {
@@ -8,6 +9,14 @@ const mapStateToProps = (state) => {
   }
 }
 
-var AppContainer = connect(mapStateToProps)(App)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeId: (id) => {
+      dispatch(changeId(id));
+    }
+  }
+}
+
+var AppContainer = connect(mapStateToProps, mapDispatchToProps)(App)
 
 export default AppContainer;

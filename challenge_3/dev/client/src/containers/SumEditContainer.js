@@ -4,13 +4,13 @@ import getInfo from '../actions/getInfo.js';
 import showSum from '../actions/showSum.js';
 import SumEdit from '../components/SumEdit.js';
 
-const mapStateToPropsSumEdit = (state) => {
+const mapStateToProps = (state) => {
   return {
     err: state.err,
     info: state.info
   }
 }
-const mapDispatchToPropsSumEdit = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getInfo: (id, value) => {
       dispatch(getInfo(id, value))
@@ -23,6 +23,6 @@ const mapDispatchToPropsSumEdit = (dispatch) => {
     }
   }
 }
-var SumEditContainer = connect(mapStateToPropsSumEdit, mapDispatchToPropsSumEdit)(SumEdit)
+var SumEditContainer = connect(mapStateToProps, mapDispatchToProps)(SumEdit)
 
 export default SumEditContainer;

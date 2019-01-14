@@ -6,13 +6,13 @@ import F2 from '../components/F2.js';
 
 console.log('F2Container loaded!');
 
-const mapStateToPropsF2 = (state) => {
+const mapStateToProps = (state) => {
   return {
     err: state.err,
     info: state.info
   }
 }
-const mapDispatchToPropsF2 = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getInfo: (id, value) => {
       dispatch(getInfo(id, value))
@@ -25,6 +25,6 @@ const mapDispatchToPropsF2 = (dispatch) => {
     }
   }
 }
-var F2Container = connect(mapStateToPropsF2, mapDispatchToPropsF2)(F2)
+var F2Container = connect(mapStateToProps, mapDispatchToProps)(F2)
 
 export default F2Container;
