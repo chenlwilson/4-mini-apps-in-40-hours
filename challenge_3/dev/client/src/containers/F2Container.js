@@ -17,11 +17,11 @@ const mapDispatchToProps = (dispatch) => {
     getInfo: (id, value) => {
       dispatch(getInfo(id, value))
     },
-    showF1: (e) => {
-      dispatch(showF1(e))
+    showF1: () => {
+      dispatch(showF1())
     },
-    showF3: (e) => {
-      dispatch(showF3(e))
+    showF3: () => {
+      dispatch(showF3())
     }
   }
 }

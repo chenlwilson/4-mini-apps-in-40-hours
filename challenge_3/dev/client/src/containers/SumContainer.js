@@ -10,11 +10,11 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    showSumEdit: (e) => {
-      dispatch(showSumEdit(e))
+    showSumEdit: () => {
+      dispatch(showSumEdit())
     },
-    showThankYou: (e) => {
-      dispatch(showThankYou(e))
+    showThankYou: () => {
+      dispatch(showThankYou())
     }
   }
 }

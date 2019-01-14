@@ -1,7 +1,7 @@
 import Redux from 'redux';
 
 var defaultInfo = {
-  'username': '12345',
+  'username': '',
   'email': '',
   'password': '',
   'address1': '',

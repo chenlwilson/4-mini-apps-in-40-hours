@@ -4,8 +4,8 @@ import ThankYou from '../components/ThankYou.js';
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showHome: (e) => {
-      dispatch(showHome(e))
+    showHome: () => {
+      dispatch(showHome())
     }
   }
 }

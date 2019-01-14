@@ -15,11 +15,11 @@ const mapDispatchToProps = (dispatch) => {
     getInfo: (id, value) => {
       dispatch(getInfo(id, value))
     },
-    showF2: (e) => {
-      dispatch(showF2(e))
+    showF2: () => {
+      dispatch(showF2())
     },
-    showSum: (e) => {
-      dispatch(showSum(e))
+    showSum: () => {
+      dispatch(showSum())
     }
   }
 }
