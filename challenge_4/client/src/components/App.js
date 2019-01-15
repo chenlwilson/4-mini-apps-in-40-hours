@@ -13,12 +13,7 @@ class App extends React.Component {
     this.state = {
       message: 'Click On The Top Row To Play',
       currentPlayer: 'red',
-      countPlay: 0,
-      place: {
-        hor: [],
-        ver: [],
-        dia: [],
-      }
+      count: 0
     }
 
   }
@@ -44,13 +39,18 @@ class App extends React.Component {
   }
 
   play(e) {
-    if (e.target.className !== 'white') {
+    if (this.state.count === 42) {
+      console.log('checkGame')
       this.setState({
-        message: 'This Column Is Full  ¯\_(ツ)_/¯'
+        message: 'Long Game, but it\'s a tie ¯\_(ツ)_/¯'
+      })
+    } else if (e.target.className !== 'white') {
+      this.setState({
+        message: 'This Column Is Full...'
       })
     } else {
       this.setState({
-        countPlay: this.state.countPlay+1,
+        count: this.state.count+1,
         message: 'Click On The Top Row To Play'
       })
       this.dropPiece(e);
@@ -59,7 +59,6 @@ class App extends React.Component {
   }
 
   render () {
-
     return (
       <div>
         <GameOver gameOver={this.state.message}/>
