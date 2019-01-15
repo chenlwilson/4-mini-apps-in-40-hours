@@ -6,19 +6,21 @@ class App extends React.Component {
   constructor (props) {
     super(props);
 
-    this.toggleClass = this.toggleClass.bind(this);
+    this.dropPiece = this.dropPiece.bind(this);
     this.togglePlayer = this.togglePlayer.bind(this);
     this.play = this.play.bind(this);
 
     this.state = {
+      message: 'Play Game',
       currentPlayer: 'red',
-      message: 'Play Game'
+      place: {
+        hor: [],
+        ver: [],
+        dia: [],
+      },
+      drop: [0,0,0,0,0,0,0]
     }
 
-  }
-
-  toggleClass(e) {
-    e.target.className = this.state.currentPlayer
   }
 
   togglePlayer() {
@@ -27,8 +29,23 @@ class App extends React.Component {
     })
   }
 
+  dropPiece(e) {
+    //'61', '62', '63', ...
+    //row = '6', col = '1'
+    const col = e.target.id.split('')[1]
+
+    for (var i = 1; i <= 6; i++) {
+      let id = i+col;
+      if (document.getElementById(id).className === 'white') {
+        document.getElementById(id).className = this.state.currentPlayer;
+        break;
+      }
+    }
+
+  }
+
   play(e) {
-    this.toggleClass(e);
+    this.dropPiece(e);
     this.togglePlayer();
   }
 
@@ -37,7 +54,7 @@ class App extends React.Component {
     return (
       <div>
         <GameOver gameOver={this.state.message}/>
-        <Board play={this.play}/>
+        <Board play={this.play} />
       </div>
     )
   }
