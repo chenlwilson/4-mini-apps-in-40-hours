@@ -18,17 +18,41 @@ button {
   width: 150px;
 }
 table {
-  width: 210px;
+  width: 400px;
   margin: 20px;
   table-layout: fixed;
   margin: auto;
   }
 tr {
-  background-color:pink;
+  background-color: white;
   border-color: black;
-  height: 70px;
+  height: 50px;
   text-align: center;
   font-size: 25px;
+}
+.red {
+  height: 40px;
+  width: 40px;
+  background-color:red;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.black {
+  height: 40px;
+  width: 40px;
+  background-color:black;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.white {
+  height: 40px;
+  width: 40px;
+  background-color:white;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
 }
 #message {
   color:hotpink;
