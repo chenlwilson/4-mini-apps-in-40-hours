@@ -6,7 +6,9 @@ class App extends React.Component {
   constructor (props) {
     super(props);
 
-    this.toggleRed = this.toggleRed.bind(this);
+    this.toggleClass = this.toggleClass.bind(this);
+    this.togglePlayer = this.togglePlayer.bind(this);
+    this.play = this.play.bind(this);
 
     this.state = {
       currentPlayer: 'red',
@@ -15,8 +17,19 @@ class App extends React.Component {
 
   }
 
-  toggleRed(e) {
+  toggleClass(e) {
     e.target.className = this.state.currentPlayer
+  }
+
+  togglePlayer() {
+    this.setState({
+      currentPlayer: this.state.currentPlayer === 'red'? 'black' : 'red'
+    })
+  }
+
+  play(e) {
+    this.toggleClass(e);
+    this.togglePlayer();
   }
 
   render () {
@@ -24,7 +37,7 @@ class App extends React.Component {
     return (
       <div>
         <GameOver gameOver={this.state.message}/>
-        <Board toggleRed={this.toggleRed}/>
+        <Board play={this.play}/>
       </div>
     )
   }
