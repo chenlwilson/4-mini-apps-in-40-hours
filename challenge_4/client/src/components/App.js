@@ -1,4 +1,6 @@
 import React from 'react';
+import GameOver from './GameOver.js'
+import Board from './Board.js'
 
 class App extends React.Component {
   constructor (props) {
@@ -7,7 +9,8 @@ class App extends React.Component {
     this.toggleRed = this.toggleRed.bind(this);
 
     this.state = {
-      color: 'white'
+      color: 'white',
+      message: 'Play Game'
     }
 
   }
@@ -22,11 +25,12 @@ class App extends React.Component {
 
     return (
     <div>
+      <GameOver gameOver={this.state.message}/>
       <table id='board'>
       <tbody>
-      <tr>
-        <td onClick={ () => this.toggleRed() }><span className={this.state.color}></span></td>
-        <td>2</td>
+      <tr onClick={ () => this.toggleRed() }>
+        <td><span className={this.state.color}></span></td>
+        <td><span className={this.state.color}></span></td>
         <td>3</td>
         <td>4</td>
         <td>5</td>
