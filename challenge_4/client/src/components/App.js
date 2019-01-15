@@ -8,14 +8,20 @@ class App extends React.Component {
 
     this.dropPiece = this.dropPiece.bind(this);
     this.togglePlayer = this.togglePlayer.bind(this);
+    this.updatePlace = this.updatePlace.bind(this);
     this.play = this.play.bind(this);
 
     this.state = {
       message: 'Click On The Top Row To Play',
       currentPlayer: 'red',
-      count: 0
+      //number of plays
+      count: 0,
+      //horizonal, vertical, diagonal, counter diagonal
+      h: [0,0,0,0,0,0],
+      v: [0,0,0,0,0,0,0],
+      d: [0,0,0,0,0,0],
+      cd: [0,0,0,0,0,0,0]
     }
-
   }
 
   togglePlayer() {
@@ -27,15 +33,60 @@ class App extends React.Component {
   dropPiece(e) {
     //'61', '62', '63', ...
     //row = '6', col = '1'
-    const col = e.target.id.split('')[1]
+    const id = e.target.id
+    const col = id.split('')[1]
 
-    for (var i = 1; i <= 6; i++) {
-      let id = i+col;
-      if (document.getElementById(id).className === 'white') {
-        document.getElementById(id).className = this.state.currentPlayer;
+    for (let i = 1; i <= 6; i++) {
+      let cellId = i+col;
+      if (document.getElementById(cellId).className === 'white') {
+        document.getElementById(cellId).className = this.state.currentPlayer;
+        this.updatePlace(i, parseInt(col));
         break;
       }
     }
+  }
+
+  updatePlace(row, col) {
+    //cell = '21'
+    //row = '2', col = '1'
+    //red++, black--
+    const currentH = this.state.h
+    const currentV = this.state.v
+    const currentD = this.state.d
+    const currentCD = this.state.cd
+
+    if (this.state.currentPlayer === 'red') {
+      currentH[row-1]++;
+      currentV[col-1]++;
+      if (row+col-5 >=0 && row+col-5 < 6) {
+        currentD[row+col-5]++;
+      }
+      if (row-col+3 >=0 && row-col+3 < 7) {
+        currentCD[row-col+3]++;
+      }
+      this.setState({
+        h: currentH,
+        v: currentV,
+        d: currentD,
+        cd: currentCD
+      })
+    } else {
+      currentH[row-1]--;
+      currentV[col-1]--;
+      if (row+col-5 >=0 && row+col-5 < 6) {
+        currentD[row+col-5]--;
+      }
+      if (row-col+3 >=0 && row-col+3 < 7) {
+        currentCD[row-col+3]--;
+      }
+      this.setState({
+        h: currentH,
+        v: currentV,
+        d: currentD,
+        cd: currentCD
+      })
+    }
+
   }
 
   play(e) {
