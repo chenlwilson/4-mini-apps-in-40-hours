@@ -11,14 +11,14 @@ class App extends React.Component {
     this.play = this.play.bind(this);
 
     this.state = {
-      message: 'Play Game',
+      message: 'Click On The Top Row To Play',
       currentPlayer: 'red',
+      countPlay: 0,
       place: {
         hor: [],
         ver: [],
         dia: [],
-      },
-      drop: [0,0,0,0,0,0,0]
+      }
     }
 
   }
@@ -41,12 +41,21 @@ class App extends React.Component {
         break;
       }
     }
-
   }
 
   play(e) {
-    this.dropPiece(e);
-    this.togglePlayer();
+    if (e.target.className !== 'white') {
+      this.setState({
+        message: 'This Column Is Full  ¯\_(ツ)_/¯'
+      })
+    } else {
+      this.setState({
+        countPlay: this.state.countPlay+1,
+        message: 'Click On The Top Row To Play'
+      })
+      this.dropPiece(e);
+      this.togglePlayer();
+    }
   }
 
   render () {
