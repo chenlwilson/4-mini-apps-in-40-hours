@@ -6,8 +6,8 @@ var Board = (props) => (
   <div>
     <table id='board'>
       <tbody>
-        <TopRow key='1' play={props.play}/>
-        {[2,3,4,5,6].map((row) => <TableRow key={row.toString()} play={props.play}/>)}
+        <TopRow key='6' play={props.play}/>
+        {[5,4,3,2,1].map((row) => <TableRow key={row.toString()} row={row.toString()} />)}
       </tbody>
     </table>
   </div>
