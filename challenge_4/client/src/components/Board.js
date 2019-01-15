@@ -1,11 +1,13 @@
 import React from 'react';
-import TableRow from './TableRow.js'
+import TableRow from './TableRow.js';
+import TopRow from './TopRow.js';
 
 var Board = (props) => (
   <div>
-    <table id='board' onClick={ (e) => props.play(e) }>
+    <table id='board'>
       <tbody>
-        {[1,2,3,4,5,6].map((row) => <TableRow key={row} />)}
+        <TopRow key='1' play={props.play}/>
+        {[2,3,4,5,6].map((row) => <TableRow key={row.toString()} play={props.play}/>)}
       </tbody>
     </table>
   </div>

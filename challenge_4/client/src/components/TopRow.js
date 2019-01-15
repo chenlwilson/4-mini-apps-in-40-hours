@@ -1,10 +1,10 @@
 import React from 'react';
 import TableCell from './TableCell.js'
 
-var TableRow = (props) => (
-  <tr>
+var TopRow = (props) => (
+  <tr onClick={ (e) => props.play(e) }>
     {[1,2,3,4,5,6,7].map((col) => <TableCell key={col.toString()} />)}
   </tr>
 )
 
-export default TableRow;
+export default TopRow;
