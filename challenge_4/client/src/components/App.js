@@ -9,6 +9,7 @@ class App extends React.Component {
     this.dropPiece = this.dropPiece.bind(this);
     this.togglePlayer = this.togglePlayer.bind(this);
     this.updatePlace = this.updatePlace.bind(this);
+    this.checkGame = this.checkGame.bind(this);
     this.play = this.play.bind(this);
 
     this.state = {
@@ -70,7 +71,9 @@ class App extends React.Component {
         d: currentD,
         cd: currentCD
       })
-    } else {
+    }
+
+    if (this.state.currentPlayer === 'black') {
       currentH[row-1]--;
       currentV[col-1]--;
       if (row+col-5 >=0 && row+col-5 < 6) {
@@ -89,23 +92,50 @@ class App extends React.Component {
 
   }
 
+  checkGame() {
+    const currentCount = this.state.count
+    const currentH = this.state.h
+    const currentV = this.state.v
+    const currentD = this.state.d
+    const currentCD = this.state.cd
+    const currentPlayer = this.state.currentPlayer
+    let winNum = currentPlayer === 'red'? 4 : -4
+
+    if (currentH.indexOf(winNum) !== -1
+      || currentV.indexOf(winNum) !== -1
+      || currentD.indexOf(winNum) !== -1
+      || currentCD.indexOf(winNum) !== -1) {
+      this.setState({
+        message: currentPlayer + ' won!'
+      })
+    }
+  }
+
   play(e) {
-    if (this.state.count === 42) {
-      console.log('checkGame')
-      this.setState({
-        message: 'Long Game, but it\'s a tie ¯\_(ツ)_/¯'
-      })
-    } else if (e.target.className !== 'white') {
-      this.setState({
-        message: 'This Column Is Full...'
-      })
-    } else {
-      this.setState({
-        count: this.state.count+1,
-        message: 'Click On The Top Row To Play'
-      })
-      this.dropPiece(e);
-      this.togglePlayer();
+    const currentMessage = this.state.message
+    const currentCount = this.state.count
+
+    if (!currentMessage.includes('won')) {
+      if (e.target.className !== 'white') {
+        this.setState({
+          message: 'This Column Is Full...'
+        })
+      } else {
+        this.setState({
+          count: currentCount+1,
+          message: 'Click On The Top Row To Play'
+        })
+        this.dropPiece(e);
+        if (currentCount > 6) {
+          this.checkGame();
+        }
+        if (currentCount === 42) {
+          this.setState({
+            message: 'Long Game, but it\'s a tie ¯\_(ツ)_/¯'
+          })
+        }
+        this.togglePlayer();
+      }
     }
   }
 
