@@ -106,7 +106,11 @@ class App extends React.Component {
       || currentD.indexOf(winNum) !== -1
       || currentCD.indexOf(winNum) !== -1) {
       this.setState({
-        message: currentPlayer + ' won!'
+        message: 'Game Over! Long Game, but it\'s a tie ¯\_(ツ)_/¯'
+      })
+    } else if (currentCount === 42) {
+      this.setState({
+        message: 'Game Over! ' + currentPlayer + ' won!'
       })
     }
   }
@@ -115,7 +119,7 @@ class App extends React.Component {
     const currentMessage = this.state.message
     const currentCount = this.state.count
 
-    if (!currentMessage.includes('won')) {
+    if (!currentMessage.includes('Game Over')) {
       if (e.target.className !== 'white') {
         this.setState({
           message: 'This Column Is Full...'
@@ -127,12 +131,8 @@ class App extends React.Component {
         })
         this.dropPiece(e);
         if (currentCount > 6) {
+          console.log(this.state.count);
           this.checkGame();
-        }
-        if (currentCount === 42) {
-          this.setState({
-            message: 'Long Game, but it\'s a tie ¯\_(ツ)_/¯'
-          })
         }
         this.togglePlayer();
       }
