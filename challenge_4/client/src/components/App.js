@@ -16,7 +16,7 @@ class App extends React.Component {
       message: 'Click On The Top Row To Play',
       currentPlayer: 'red',
       //number of plays
-      count: 0,
+      count: 1,
       //horizonal, vertical, diagonal, counter diagonal
       h: [0,0,0,0,0,0],
       v: [0,0,0,0,0,0,0],
@@ -56,7 +56,7 @@ class App extends React.Component {
     const currentD = this.state.d
     const currentCD = this.state.cd
 
-    //if currentX is positive, then it's a red run
+    //if currentXYZ is positive, then it's a red run
     ////if currentPlayer is red, add up
     ////if currentPlayer is black, reset to -1 and start a black run
     //if currentX is negative, then it's a black run
@@ -142,7 +142,7 @@ class App extends React.Component {
       })
     } else if (currentCount === 42) {
       this.setState({
-        message: 'Game Over! Long Game, but it\'s a tie ¯\_(ツ)_/¯'
+        message: 'Game Over! Long Game, and it\'s a tie ¯\_(ツ)_/¯'
       })
     }
   }
@@ -162,6 +162,7 @@ class App extends React.Component {
           message: 'Click On The Top Row To Play'
         })
         this.dropPiece(e);
+        console.log(this.state.count);
         this.checkGame();
         // if (currentCount > 6) {
         //   console.log(this.state.count);
