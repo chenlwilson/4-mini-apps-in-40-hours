@@ -56,39 +56,71 @@ class App extends React.Component {
     const currentD = this.state.d
     const currentCD = this.state.cd
 
+    //if currentX is positive, then it's a red run
+    ////if currentPlayer is red, add up
+    ////if currentPlayer is black, reset to -1 and start a black run
+    //if currentX is negative, then it's a black run
+    ////vice versa above
     if (this.state.currentPlayer === 'red') {
-      currentH[row-1]++;
-      currentV[col-1]++;
+      if (currentH[row-1] >= 0) {
+        currentH[row-1]++;
+      } else {
+        currentH[row-1] = 1;
+      }
+      if (currentV[col-1] >= 0) {
+        currentV[col-1]++;
+      } else {
+        currentV[col-1] = 1;
+      }
       if (row+col-5 >=0 && row+col-5 < 6) {
-        currentD[row+col-5]++;
+        if (currentD[row+col-5] >= 0) {
+          currentD[row+col-5]++;
+        } else {
+          currentD[row+col-5] = 1;
+        }
       }
       if (row-col+3 >=0 && row-col+3 < 7) {
-        currentCD[row-col+3]++;
+        if (currentCD[row-col+3] >= 0) {
+          currentCD[row-col+3]++;
+        } else {
+          currentCD[row-col+3] = 1;
+        }
       }
-      this.setState({
-        h: currentH,
-        v: currentV,
-        d: currentD,
-        cd: currentCD
-      })
     }
 
     if (this.state.currentPlayer === 'black') {
-      currentH[row-1]--;
-      currentV[col-1]--;
+      if (currentH[row-1] <= 0) {
+        currentH[row-1]--;
+      } else {
+        currentH[row-1] = -1;
+      }
+      if (currentV[col-1] <= 0) {
+        currentV[col-1]--;
+      } else {
+        currentV[col-1] = -1;
+      }
       if (row+col-5 >=0 && row+col-5 < 6) {
-        currentD[row+col-5]--;
+        if (currentD[row+col-5] <= 0) {
+          currentD[row+col-5]--;
+        } else {
+          currentD[row+col-5] = -1;
+        }
       }
       if (row-col+3 >=0 && row-col+3 < 7) {
-        currentCD[row-col+3]--;
+        if (currentCD[row-col+3] <= 0) {
+          currentCD[row-col+3]--;
+        } else {
+          currentCD[row-col+3] = -1;
+        }
       }
-      this.setState({
-        h: currentH,
-        v: currentV,
-        d: currentD,
-        cd: currentCD
-      })
     }
+
+    this.setState({
+      h: currentH,
+      v: currentV,
+      d: currentD,
+      cd: currentCD
+    })
 
   }
 
@@ -106,11 +138,11 @@ class App extends React.Component {
       || currentD.indexOf(winNum) !== -1
       || currentCD.indexOf(winNum) !== -1) {
       this.setState({
-        message: 'Game Over! Long Game, but it\'s a tie ¯\_(ツ)_/¯'
+        message: 'Game Over! ' + currentPlayer + ' won!'
       })
     } else if (currentCount === 42) {
       this.setState({
-        message: 'Game Over! ' + currentPlayer + ' won!'
+        message: 'Game Over! Long Game, but it\'s a tie ¯\_(ツ)_/¯'
       })
     }
   }
@@ -130,10 +162,11 @@ class App extends React.Component {
           message: 'Click On The Top Row To Play'
         })
         this.dropPiece(e);
-        if (currentCount > 6) {
-          console.log(this.state.count);
-          this.checkGame();
-        }
+        this.checkGame();
+        // if (currentCount > 6) {
+        //   console.log(this.state.count);
+        //   this.checkGame();
+        // }
         this.togglePlayer();
       }
     }
