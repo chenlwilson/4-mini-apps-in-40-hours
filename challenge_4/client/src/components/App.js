@@ -176,6 +176,7 @@ class App extends React.Component {
   render () {
     return (
       <div>
+        <div className='test'></div>
         <GameOver gameOver={this.state.message}/>
         <Board play={this.play} />
       </div>
