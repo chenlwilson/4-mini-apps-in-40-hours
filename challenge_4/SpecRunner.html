@@ -2,13 +2,13 @@
   <head>
     <meta charset="utf-8">
     <title>Mocha Tests</title>
-    <link rel="stylesheet" href="node_modules/mocha/mocha.css" />
-    <script src="node_modules/jquery/dist/jquery.js"></script>
-    <script src="node_modules/react/dist/react-with-addons.js"></script>
-    <script src="node_modules/react-dom/dist/react-dom.js"></script>
-    <script src="node_modules/mocha/mocha.js"></script>
+    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+    <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
     <script src="node_modules/chai/chai.js"></script>
-    <!--<script src="node_modules/sinon/pkg/sinon-server-1.17.3.js"></script>-->
     <script src="node_modules/sinon/pkg/sinon.js"></script>
     <script>
       mocha.setup('bdd');
@@ -21,11 +21,9 @@
     <!-- include source files here... -->
     <script src="./client/dist/app.bundle.js"></script>
 
-    <!-- include spec files here... -->
-    <script src="./spec/AppSpec.js"></script>
-
   </head>
   <body>
     <div id="mocha"></div>
+    <script src="./client/dist/spec.bundle.js"></script>
   </body>
 </html>

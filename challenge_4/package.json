@@ -11,7 +11,7 @@
   "scripts": {
     "start": "nodemon --ignore node_modules server.js",
     "webpack": "webpack -d --watch",
-    "test": "mocha --reporter spec ./spec/Appspec.js"
+    "test": "mocha --reporter spec ./client/dist/spec.bundle.js"
   },
   "dependencies": {
     "babel-core": "^7.0.0-bridge.0",
@@ -28,6 +28,7 @@
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
     "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "expect": "^23.6.0",
     "jsdom": "^13.1.0",
     "mocha": "^5.2.0",

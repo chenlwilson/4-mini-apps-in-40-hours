@@ -1,7 +1,10 @@
 module.exports = {
-  entry: __dirname + '/client/src/index.jsx',
+  entry: {
+    './app': __dirname + '/client/src/index.jsx',
+    './spec': __dirname + '/client/spec/AppSpec.js'
+  },
   output: {
-    filename: 'app.bundle.js',
+    filename: '[name].bundle.js',
     path: __dirname + '/client/dist'
   },
   module: {
