@@ -61,16 +61,14 @@ describe('Connect-Four component testing', function() {
     expect(spy.calledOnce).to.equal(true);
   });
 
-  ////////////////////////Not Working//////////////////////////////////
+  ////////////////Event in Child Component That Updates State Is Not Working////////////////
   it('should update play count when top row is clicked', function() {
     expect(React.Component.isPrototypeOf(App)).to.be.true;
 
     var toprow = scryRenderedDOMComponentsWithTag(app, 'tr');
 
     Simulate.click(toprow[0])
-    //console.log(app)
     Simulate.click(toprow[0])
-    //console.log(app)
 
     var whiteCells = findRenderedDOMComponentWithClass(app, 'red')
 
