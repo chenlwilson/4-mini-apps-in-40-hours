@@ -1,5 +1,5 @@
 # mini-apps-1
-This is 2-week-4-app challenge that I completed as a student at [hackreactor](http://hackreactor.com).
+This is '4 apps in 40 hours' challenge that I completed as a student at [hackreactor](http://hackreactor.com).
 
 ### Challenge 1: Tic Tac Toe
   #### Client
