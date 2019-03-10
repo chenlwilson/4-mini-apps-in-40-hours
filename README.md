@@ -7,7 +7,7 @@ This is '4 apps in 40 hours' challenge that I completed as a student at [hackrea
   #### Server
     Express.js
   
-### Challenge 2: JSON CSV
+### Challenge 2: JSON CSV Converter
   #### Client
     HTML, plain Javascript
     Ajax (later refactored to use fetch)
